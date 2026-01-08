@@ -1,0 +1,175 @@
+<?php 
+/**
+ *
+ *  Webcartisan attending message
+ *
+ **/
+
+class Class_meta_attendee_form {
+
+    //private $meta_key = 'attendee_form_data_types';
+
+    public function __construct() {}
+    
+        public function webcu_attendee_form($post) {
+
+            wp_nonce_field('save_event_registration_meta', 'event_registration_meta_nonce');
+
+            $attendee_form = get_post_meta($post->ID, 'attendee_form_data_types', true);
+            if (!is_array($attendee_form)) {
+                $attendee_form = [];
+            }
+
+              /* === Attendee form Fields ====*/
+
+            $atten_fields = [
+                'firstname' => ['label' => 'First Name'],
+                'lastname'  => ['label' => 'Last Name'],
+                'email_address' => ['label' => 'Email Address'],
+                'phone_number'  => ['label' => 'Phone Number'],
+                'address'       => ['label' => 'Address'],
+                'designation'   => ['label' => 'Designation'],
+                'website'       => ['label' => 'Website'],
+                'vegetarian'    => ['label' => 'Vegetarian'],
+                'company_name'  => ['label' => 'Company Name'],
+                'gender'        => ['label' => 'Gender'],
+                'dob'           => ['label' => 'Date of Birth'],
+            ];
+            ?>
+
+         <div class="webcu_attendee_metabox">
+            <?php foreach ($atten_fields as $atten_fid => $atten_fdata):
+
+                $atten_saved = $attendee_form['fields'][$atten_fid] ?? [];
+                $enabled  = !empty($atten_saved['enabled']);
+                $required = !empty($atten_saved['required']);
+                $label    = $atten_saved['label'] ?? $atten_fdata['label'];
+            ?>
+
+            <div class="webcu_regi_field-row">
+
+                <!-- Enable -->
+                <label> 
+                <input type="checkbox" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][enabled]" value="1"
+                <?php checked($enabled, 1); ?> />
+
+                <?php echo esc_html($atten_fdata['label']); ?></label>
+
+                <!-- Label -->
+                <input type="text" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][label]" value="<?php echo esc_attr($label); ?>" />
+
+                <!-- Required -->
+                <label>
+                    <input type="checkbox" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][required]" value="1"
+                      <?php checked($required, 1); ?> />
+                    Required
+                </label>
+            </div>
+           <?php endforeach; ?>
+        </div>         
+
+                <!-- ==== Attendee dynamicly row add & Remove ===== -->
+             
+                <br>
+                <br>
+
+               <?php $saved_fields = get_post_meta($post->ID, 'ue_registration_fields', true); ?>
+
+                <table id="ue-fields-table" class="attendee-fields-table" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th><?php echo esc_html__('Field Label', 'mega-event-manager') ?></th>
+                            <th><?php echo esc_html__('Unique ID', 'mega-event-manager') ?> </th>
+                            <th><?php echo esc_html__('Field Type', 'mega-event-manager') ?> </th>
+                            <th><?php echo esc_html__('Required', 'mega-event-manager') ?></th>
+                            <th><?php echo esc_html__('Action', 'mega-event-manager') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($saved_fields)) : foreach ($saved_fields as $field) : ?>
+                            <tr>
+                                <td><input type="text" name="ue_field_label[]" value="<?php echo esc_attr($field['label']); ?>"></td>
+                                <td><input type="text" name="ue_field_id[]" value="<?php echo esc_attr($field['id']); ?>"></td>
+                                <td>
+                                    <select name="ue_field_type[]" class="ue-field-type">
+                                        <option value="text" <?php selected($field['type'], 'text'); ?>>Text</option>
+                                        <option value="email" <?php selected($field['type'], 'email'); ?>>Email</option>
+                                        <option value="number" <?php selected($field['type'], 'number'); ?>>Number</option>
+                                        <option value="select" <?php selected($field['type'], 'select'); ?>>Select</option>
+                                        <option value="checkbox" <?php selected($field['type'], 'checkbox'); ?>>Checkbox</option>
+                                        <option value="radio" <?php selected($field['type'], 'radio'); ?>>Radio</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input type="text"
+                                        name="ue_field_options[]"
+                                        class="ue-field-options"
+                                        value="<?php echo esc_attr($field['options'] ?? ''); ?>"
+                                        placeholder="Option1, Option2"
+                                        style="<?php echo in_array($field['type'], ['select','checkbox','radio']) ? '' : 'display:none;'; ?>">
+                                </td>
+                                <td>
+                                    <select name="ue_field_required[]">
+                                        <option value="no" <?php selected($field['required'], 'no'); ?>> <?php echo esc_html__('Not Required', 'mega-event-manager') ?></option>
+                                        <option value="yes" <?php selected($field['required'], 'yes'); ?>> <?php echo esc_html__('Required', 'mega-event-manager') ?></option>
+                                    </select>
+                                </td>
+                                <td><button type="button" id="custom_form_remove-row" class="button button-danger"> <span class="dashicons dashicons-no"></span> </button></td>
+                            </tr>
+                        <?php endforeach; endif; ?>
+                    </tbody>
+                </table>
+                    <button type="button" id="add-field-row" class="button button-primary" style="margin-top:10px;"> <?php echo esc_html__('+ Add New Field', 'mega-event-manager') ?> </button>
+         <?php
+        }
+
+    
+        public function webcu_save_attendee_form($post_id){
+            $data = ['fields' => []];
+                if (!empty($_POST['webcu_attendee_fields'])) {
+
+                    $fields = wp_unslash($_POST['webcu_attendee_fields']);
+
+                    foreach ($fields as $fid => $info) {
+                        $fid = sanitize_key($fid);
+                        $required = !empty($info['required']) ? 1 : 0;
+                        // Force required
+                        if (in_array($fid, ['gender', 'dob'], true)) {
+                            $required = 1;
+                        }
+                        
+                        $data['fields'][$fid] = [
+                            'label'    => sanitize_text_field($info['label'] ?? ''),
+                            'enabled'  => !empty($info['enabled']) ? 1 : 0,
+                            'required' => $required,
+                        ];
+                    }
+                }
+
+                update_post_meta($post_id, 'attendee_form_data_types', $data);
+    
+       
+                /*====== Dynamic row add & remove ===== */
+
+                if (isset($_POST['ue_field_label'])) {
+                    $fields = [];
+                    foreach ($_POST['ue_field_label'] as $index => $label) {     // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+ 
+                        if (!empty($label)) {
+                            $fields[] = [
+                                'label'    => sanitize_text_field(wp_unslash($label)),
+                                'id'       => isset($_POST['ue_field_id'][$index]) ? sanitize_text_field(wp_unslash($_POST['ue_field_id'][$index])) : '',
+                                'type'     => isset($_POST['ue_field_type'][$index]) ? sanitize_text_field(wp_unslash($_POST['ue_field_type'][$index])) : '',
+                                'required' => isset($_POST['ue_field_required'][$index]) ? sanitize_text_field(wp_unslash($_POST['ue_field_required'][$index])) : '',
+                                'options'  => sanitize_text_field($_POST['ue_field_options'][$index] ?? ''),
+                            ];
+                        }
+                    }
+                    update_post_meta($post_id, 'ue_registration_fields', $fields);
+                } else {
+                    delete_post_meta($post_id, 'ue_registration_fields');
+                }
+        }    
+
+}

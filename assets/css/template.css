@@ -1,0 +1,996 @@
+/*======== Organizer single page ======== */
+
+.webcu-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+.top-header {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.top_heading {
+    width: 100%;
+    padding: 10px 0px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.top_container {
+    display: flex;
+    margin-top: -34px;
+}
+
+.flexbox_one {
+    flex-grow: 1;
+}
+
+.org_logo {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+}
+
+.flexbox_two {
+    flex-grow: 6;
+    padding-left: 20px;
+}
+
+.flexbox_two .org_name {
+    font-size: 35px;
+    font-weight: 600;
+    float: left;
+    width: 100%;
+}
+
+.flexbox_two .org_desig {
+    font-size: 21px;
+    font-weight: 600;
+    float: left;
+    width: 100%;
+}
+
+.flexbox_three {
+    flex-grow: 5;
+    padding-top: 20px;
+}
+
+.flexbox_three .org_addr {
+    font-size: 15px;
+    font-weight: 600;
+    float: left;
+    width: 100%;
+}
+
+.flexbox_three .org_info {
+    font-size: 15px;
+    font-weight: 600;
+    float: left;
+    width: 100%;
+}
+
+.flexbox_three .org_info ul {
+    display: flex;
+    gap: 5px;
+    /* space between items */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    /* remove bullets */
+
+}
+
+.flexbox_three .org_info ul li {
+    display: flex;
+    align-items: center;
+
+}
+
+.flexbox_three .org_info ul li a {
+    font-size: 16px;
+}
+
+.top-header .h1 {
+    font-size: 40px;
+}
+
+.top-header .h3 {
+    font-size: 20px;
+}
+
+/* Wrapper */
+.webcu-wrapper {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: -40px;
+}
+
+/* Main Content */
+.webcu-content {
+    flex: 1 1 65%;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.webcu-title {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Meta Info (Responsive Grid) */
+.webcu-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.webcu-meta div {
+    font-size: 15px;
+    color: #555;
+}
+
+/* Featured Image */
+.webcu-thumbnail img {
+    width: 100%;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Content Body */
+.webcu-description {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* Sidebar */
+.webcu-sidebar {
+    flex: 1 1 30%;
+}
+
+.webcu-box {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.webcu-box h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+.webcu-social {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.webcu-social {
+    display: flex;
+    flex-wrap: wrap;
+    /* optional — keeps items from breaking */
+    gap: 8px 5px;
+    /* replaces margin */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.webcu-social li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #1a73e8;
+    transition: 0.2s;
+}
+
+.webcu-social li a:hover {
+    color: #0c4ea3;
+}
+
+/* ===========================
+        RESPONSIVE DESIGN
+   =========================== */
+
+/* Tablet View (below 900px) */
+@media (max-width: 900px) {
+
+    .top-header {
+        height: auto;
+    }
+
+
+    .top_container {
+        flex-direction: column;
+        /* STACK */
+        text-align: center;
+    }
+
+    .org_logo {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
+
+    .flexbox_two {
+        padding-left: 0;
+    }
+
+    .flexbox_two .org_name {
+        font-size: 40px;
+    }
+
+    .flexbox_two .org_desig {
+        font-size: 18px;
+    }
+
+    .flexbox_three {
+        width: 100%;
+    }
+
+    .flexbox_three .org_info ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+
+    .webcu-wrapper {
+        flex-direction: column;
+        gap: 0;
+        /* reduce gap */
+        margin-top: 0px;
+    }
+
+    .webcu-content,
+    .webcu-sidebar {
+        width: 100%;
+        flex: none;
+        /* remove old flex behavior */
+    }
+
+    .webcu-sidebar {
+        margin-top: 20px;
+    }
+
+    iframe {
+        width: 100% !important;
+    }
+
+
+
+}
+
+/* Mobile View (below 600px) */
+@media (max-width: 600px) {
+
+
+    .org_logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .flexbox_two .org_name {
+        font-size: 32px;
+    }
+
+    .flexbox_two .org_desig {
+        font-size: 16px;
+    }
+
+    .flexbox_three .org_addr,
+    .flexbox_three .org_info {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .flexbox_three .org_info ul li a {
+        font-size: 14px;
+    }
+
+    .webcu-content {
+        width: 100% !important;
+        padding: 20px !important;
+        box-sizing: border-box;
+    }
+
+    #player {
+        width: 100% !important;
+    }
+
+    iframe {
+        width: 100% !important;
+    }
+
+    .webcu-title {
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+    .webcu-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* stack vertically */
+        gap: 10px;
+    }
+
+    .webcu-box {
+        padding: 15px;
+    }
+
+    .webcu-box h3 {
+        font-size: 18px;
+    }
+
+    .webcu-description {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .webcu-sidebar {
+        width: 100% !important;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+
+}
+
+/* ========== event template ===========*/
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.top-container {
+    max-width: 1200px;
+    width: 100%;
+    clear: both;
+    padding: 20px;
+    height: 350px;
+}
+
+.top-container h1,
+h4 {
+    color: #080808;
+    text-align: center;
+}
+
+.layout-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    gap: 20px;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex: 3;
+    min-width: 900px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-content article {
+    margin-bottom: 2rem;
+}
+
+.main-content h2 {
+    color: #3498db;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.top_content {
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    padding: 30px 20px;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+}
+
+.top_content .box1 {
+    width: 10%;
+    /* background: #eee; */
+}
+
+.top_content .box2 {
+    width: 30%;
+    line-break: anywhere;
+}
+
+.top_content .box3 {
+    width: 30%;
+    /* background: #ccc; */
+}
+
+.faq {
+    margin-top: auto;
+    text-align: start;
+}
+
+.faq h3 {
+    margin-bottom: 20px;
+}
+
+.faq h4,
+p {
+    text-align: start;
+}
+
+.terms-condition {
+    margin-top: auto;
+    text-align: start;
+}
+
+.terms-condition h3 {
+    margin-bottom: 20px;
+}
+
+.terms-condition h4,
+p {
+    text-align: start;
+    margin-bottom: 0.75em !important;
+}
+
+.registration {
+    margin-top: auto;
+}
+
+/* --- Right Sidebar Column --- */
+.right-column {
+    flex: 1;
+    min-width: 280px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.right-column h3 {
+    color: #e74c3c;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.right-column ul {
+    list-style-type: none;
+}
+
+.right-column ul li {
+    margin-bottom: 10px;
+}
+
+.right-column ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.right-column ul li a:hover {
+    color: #3498db;
+}
+
+@media (max-width: 768px) {
+
+    .layout-container {
+        flex-direction: column;
+    }
+
+    .main-content,
+    .right-column {
+        flex: 1 1 100%;
+    }
+}
+
+/*======== Event add to cart features ======== */
+
+/* Header + Rows use same grid */
+.buy_ticket_container {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 14px;
+}
+
+/* Header row */
+.buy_ticket_container:first-child {
+    font-weight: 600;
+    background: #f7f7f7;
+    border-top: 1px solid #ddd;
+}
+
+/* Ticket rows */
+.ticket-row {
+    background: #fff;
+}
+
+/* Hover effect */
+.ticket-row:hover {
+    background: #fafafa;
+}
+
+.ticket-qty {
+    width: 80px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* Dropdown specific */
+.ticket-qty select {
+    width: 100%;
+}
+
+.ticket-row div:nth-child(3),
+.ticket-row div:nth-child(4) {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Total highlight */
+.ticket-total {
+    color: #2c7be5;
+}
+
+@media (max-width: 768px) {
+
+    .buy_ticket_container {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    /* Hide header on mobile */
+    .buy_ticket_container:first-child {
+        display: none;
+    }
+
+    .ticket-row {
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    .ticket-row div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .ticket-row div::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #555;
+    }
+}
+
+/* === Extra ticket Field ==== */
+
+
+.extra_service_wrapper {
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 24px;
+}
+
+.extra_row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+/* Header row */
+.extra_header {
+    background: #f7f7f7;
+    font-weight: 600;
+    color: #333;
+}
+
+.extra_item {
+    background: #fff;
+    transition: background 0.2s ease;
+}
+
+.extra_item:hover {
+    background: #fafafa;
+}
+
+.extra_qty {
+    width: 80px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.extra_qty:focus {
+    border-color: #2271b1;
+    outline: none;
+}
+
+.extra_item div:nth-child(3),
+.extra_item div:nth-child(4) {
+    font-weight: 600;
+    color: #444;
+}
+
+.extra_total {
+    color: #2c7be5;
+}
+
+.extra-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+
+    .extra_row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    /* Hide header on mobile */
+    .extra_header {
+        display: none;
+    }
+
+    .extra_item {
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    .extra_item div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .extra_item div::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #555;
+    }
+}
+
+.subtotal {
+    width: 88%;
+    float: left;
+    text-align: right;
+}
+
+#overall_total {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: right;
+    margin-top: 15px;
+    color: #e74c3c;
+}
+
+/* ======= Attendee Ticket form ======= */
+/* 
+.webcu-form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+}
+
+.webcu-form-field {
+    width: calc(50% - 8px);
+    display: flex;
+    flex-direction: column;
+}
+
+.webcu-form-field-requird {
+    color: red;
+    margin-left: 1px;
+}
+
+.webcu-form-field label {
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.webcu-form-field input,
+.webcu-form-field select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.webcu-form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.webcu-extra-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 24px;
+}
+
+.webcu-form-item input,
+.webcu-form-item select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.webcu-form-item {
+    display: flex;
+    flex-direction: column;
+} */
+
+.webcu-form-field.has-error input,
+.webcu-form-field.has-error select,
+.webcu-form-field.has-error textarea,
+.webcu-form-item.has-error input,
+.webcu-form-item.has-error select,
+.webcu-form-item.has-error textarea {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.1);
+}
+
+/* Error Message Styling */
+.webcu-error-message {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Error Message Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Required Field Indicator */
+.webcu-form-field-requird {
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+/* Focus State for Error Fields */
+.webcu-form-field.has-error input:focus,
+.webcu-form-field.has-error select:focus,
+.webcu-form-field.has-error textarea:focus,
+.webcu-form-item.has-error input:focus,
+.webcu-form-item.has-error select:focus,
+.webcu-form-item.has-error textarea:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Valid State (Optional - adds visual feedback for valid fields) */
+.webcu-form-field.is-valid input,
+.webcu-form-field.is-valid select,
+.webcu-form-field.is-valid textarea,
+.webcu-form-item.is-valid input,
+.webcu-form-item.is-valid select,
+.webcu-form-item.is-valid textarea {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+/* Form Field Spacing */
+.webcu-form-field,
+.webcu-form-item {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+/* Label Styling */
+.webcu-form-field label,
+.webcu-form-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Input Field Styling */
+.webcu-form-field input,
+.webcu-form-field select,
+.webcu-form-field textarea,
+.webcu-form-item input[type="text"],
+.webcu-form-item input[type="email"],
+.webcu-form-item input[type="number"],
+.webcu-form-item input[type="url"],
+.webcu-form-item select,
+.webcu-form-item textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Input Focus State */
+.webcu-form-field input:focus,
+.webcu-form-field select:focus,
+.webcu-form-field textarea:focus,
+.webcu-form-item input:focus,
+.webcu-form-item select:focus,
+.webcu-form-item textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.15);
+}
+
+/* Form Grid Layout */
+.webcu-form-grid,
+.webcu-extra-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 0.1rem;
+}
+
+/* Inline Radio/Checkbox Labels */
+.ue-inline {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.ue-inline input[type="radio"],
+.ue-inline input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Radio and Checkbox Error States */
+.webcu-form-item.has-error .ue-inline {
+    color: #dc3545;
+}
+
+/* Submit Button (Optional Enhancement) */
+.webcu-submit-button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.webcu-submit-button:hover {
+    background-color: #357abd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.webcu-submit-button:active {
+    transform: translateY(0);
+}
+
+.webcu-submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Loading State */
+.webcu-form-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Success Message */
+.webcu-success-message {
+    display: block;
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* General Error Message (for form-level errors) */
+.webcu-form-error {
+    display: block;
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .webcu-form-grid,
+    .webcu-extra-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .ue-inline {
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Accessibility - Screen Reader Only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* === form validation ==== */
+
+.webcu-form-field.error input,
+.webcu-form-field.error select {
+    border-color: red;
+}
+
+.required {
+    color: red;
+}

@@ -1,0 +1,332 @@
+/**
+ * Frontend Styles
+ *
+ * @package Ultimate_Events_Manager
+ */
+
+.uem-single-event {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.uem-event-featured-image {
+	margin-bottom: 30px;
+}
+
+.uem-event-featured-image img {
+	width: 100%;
+	height: auto;
+}
+
+.uem-event-details {
+	background: #f5f5f5;
+	padding: 20px;
+	margin: 20px 0;
+	border-radius: 5px;
+}
+
+.uem-event-details p {
+	margin: 10px 0;
+}
+
+.uem-event-registration {
+	margin-top: 40px;
+	padding: 30px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.uem-tickets-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 20px 0;
+}
+
+.uem-tickets-table th,
+.uem-tickets-table td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.uem-tickets-table th {
+	background: #f5f5f5;
+	font-weight: bold;
+}
+
+.uem-tickets-table tfoot {
+	font-weight: bold;
+}
+
+.uem-ticket-quantity {
+	padding: 5px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.uem-checkout-form {
+	margin-top: 30px;
+}
+
+.uem-simple-registration {
+	margin-top: 20px;
+}
+
+.uem-simple-registration form {
+	max-width: 800px;
+}
+
+.uem-simple-registration .uem-registration-details,
+.uem-simple-registration .uem-ticket-selection,
+.uem-simple-registration .uem-attendee-details {
+	margin: 20px 0;
+	padding: 20px;
+	background: #f9f9f9;
+	border-radius: 5px;
+}
+
+.uem-simple-registration p {
+	margin: 15px 0;
+}
+
+.uem-simple-registration label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.uem-simple-registration input[type="text"],
+.uem-simple-registration input[type="tel"],
+.uem-simple-registration input[type="email"],
+.uem-simple-registration textarea {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.uem-simple-registration .required {
+	color: #d63638;
+}
+
+.uem-simple-registration .uem-submit-registration {
+	background: #2271b1;
+	color: #fff;
+	padding: 12px 30px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.uem-simple-registration .uem-submit-registration:hover {
+	background: #135e96;
+}
+
+.uem-attendee-field {
+	margin: 15px 0;
+}
+
+.uem-attendee-field label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.uem-attendee-field input {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+/* Attendee Details Section in Order Review */
+.uem-attendee-details-section {
+	margin: 30px 0;
+	padding: 20px;
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.uem-attendee-details-section h3 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	color: #333;
+	border-bottom: 2px solid #2271b1;
+	padding-bottom: 10px;
+}
+
+.uem-attendee-fields-wrapper {
+	margin-top: 15px;
+}
+
+.uem-attendee-group {
+	margin-bottom: 15px;
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+}
+
+.uem-attendee-group:last-child {
+	margin-bottom: 0;
+}
+
+.uem-attendee-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	align-items: flex-end;
+}
+
+.uem-attendee-field-inline {
+	flex: 1;
+	min-width: 150px;
+	display: flex;
+	flex-direction: column;
+}
+
+.uem-attendee-field-inline label {
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #333;
+	font-size: 13px;
+}
+
+.uem-attendee-field-inline label .required {
+	color: #e74c3c;
+	margin-left: 3px;
+}
+
+.uem-attendee-field-inline label .optional {
+	color: #666;
+	font-weight: normal;
+	font-size: 0.85em;
+	margin-left: 5px;
+}
+
+.uem-attendee-input {
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 14px;
+	transition: border-color 0.3s;
+}
+
+.uem-attendee-input:focus {
+	outline: none;
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.uem-attendee-input:required:invalid {
+	border-color: #e74c3c;
+}
+
+/* Responsive: stack fields on small screens */
+@media (max-width: 768px) {
+	.uem-attendee-row {
+		flex-direction: column;
+	}
+	
+	.uem-attendee-field-inline {
+		min-width: 100%;
+	}
+}
+
+/* Thank You Page */
+.uem-thank-you-page {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 20px;
+}
+
+.uem-thank-you-content {
+	background: #fff;
+	padding: 40px;
+	border-radius: 5px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.uem-thank-you-content h1 {
+	color: #2271b1;
+	margin-bottom: 30px;
+}
+
+.uem-registration-summary {
+	margin-top: 30px;
+}
+
+.uem-registration-summary h2 {
+	border-bottom: 2px solid #2271b1;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.uem-registration-summary h3 {
+	margin-top: 25px;
+	margin-bottom: 15px;
+	color: #333;
+}
+
+.uem-event-info,
+.uem-registrant-info,
+.uem-tickets-info,
+.uem-attendees-info,
+.uem-order-info {
+	margin: 20px 0;
+	padding: 20px;
+	background: #f9f9f9;
+	border-radius: 5px;
+}
+
+.uem-tickets-table,
+.uem-attendees-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 15px 0;
+}
+
+.uem-tickets-table th,
+.uem-tickets-table td,
+.uem-attendees-table th,
+.uem-attendees-table td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.uem-tickets-table th,
+.uem-attendees-table th {
+	background: #fff;
+	font-weight: bold;
+}
+
+.uem-thank-you-message {
+	margin-top: 30px;
+	padding: 20px;
+	background: #e7f5e7;
+	border-left: 4px solid #46b450;
+	border-radius: 3px;
+	font-size: 18px;
+	text-align: center;
+}
+
+.uem-registration-date {
+	margin-top: 20px;
+	padding: 15px;
+	background: #f0f0f0;
+	border-radius: 3px;
+}
+
+/* Loading state */
+.uem-loading {
+	opacity: 0.6;
+	pointer-events: none;
+}
+

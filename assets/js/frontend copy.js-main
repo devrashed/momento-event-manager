@@ -1,0 +1,492 @@
+/**
+ * Frontend JavaScript
+ *
+ * @package Ultimate_Events_Manager
+ */
+
+(function ($) {
+	'use strict';
+
+	$(document).ready(function () {
+
+		// WooCommerce cart update
+		if (typeof uemData !== 'undefined' && uemData.isWooCommerce) {
+			handleWooCommerceCartUpdate();
+		}
+
+		// Simple registration form
+		if (typeof uemData !== 'undefined' && !uemData.isWooCommerce) {
+			handleSimpleRegistration();
+		}
+
+	});
+
+	/**
+	 * Handle WooCommerce cart updates
+	 */
+	function handleWooCommerceCartUpdate() {
+		// Update ticket totals immediately on change
+		$(document).on('input change', '.uem-ticket-quantity', function () {
+			var $input = $(this);
+			var quantity = parseInt($input.val()) || 0;
+			var ticketPrice = parseFloat($input.data('ticket-price')) || 0;
+			var ticketIndex = $input.data('ticket-index');
+			var $totalCell = $('.uem-ticket-total[data-ticket-index="' + ticketIndex + '"]');
+
+			// Update individual ticket total
+			var ticketTotal = ticketPrice * quantity;
+			if (typeof wc_price !== 'undefined') {
+				$totalCell.html(wc_price(ticketTotal));
+			} else {
+				$totalCell.html('$' + ticketTotal.toFixed(2));
+			}
+
+			// Update grand total
+			updateGrandTotal();
+		});
+
+		// Update cart via AJAX when quantity changes
+		$(document).on('change', '.uem-ticket-quantity', function () {
+			var $input = $(this);
+			var cartItemKey = $input.data('cart-item-key');
+			var quantity = parseInt($input.val()) || 0;
+			var ticketIndex = $input.data('ticket-index');
+			var eventId = $input.closest('.uem-woocommerce-registration').data('event-id') || '';
+
+			// Show loading state
+			$input.prop('disabled', true);
+			$('.uem-checkout-form').addClass('uem-loading');
+
+			// Update cart via AJAX
+			$.ajax({
+				url: uemData.ajaxUrl,
+				type: 'POST',
+				data: {
+					action: 'webcu_uem_update_cart',
+					nonce: uemData.nonce,
+					cart_item_key: cartItemKey || '',
+					quantity: quantity,
+					ticket_index: ticketIndex,
+					event_id: eventId
+				},
+				success: function (response) {
+					if (response.success) {
+						// Update cart item key if it was returned
+						if (response.data.cart_item_key && !cartItemKey) {
+							$input.data('cart-item-key', response.data.cart_item_key);
+						}
+
+						// Update fragments
+						if (response.data.fragments) {
+							$.each(response.data.fragments, function (selector, html) {
+								var $target = $(selector);
+								if ($target.length) {
+									if (selector === '#uem-attendee-details-section' && !html) {
+										// Remove section if empty
+										$target.remove();
+									} else {
+										// Use html() to replace content, preserving parent structure
+										$target.html(html);
+									}
+								} else if (selector === '#uem-attendee-details-section' && html) {
+									// Insert attendee section if it doesn't exist
+									var $orderReview = $('.woocommerce-checkout-review-order');
+									if ($orderReview.length) {
+										// Find the order review table and insert after it
+										var $orderTable = $orderReview.find('table.shop_table');
+										if ($orderTable.length) {
+											$(html).insertAfter($orderTable);
+										} else {
+											$orderReview.prepend(html);
+										}
+									}
+								}
+							});
+
+							// Trigger WooCommerce checkout update to reinitialize scripts
+							$('body').trigger('update_checkout');
+						}
+
+						// Update ticket totals from response
+						if (response.data.ticket_totals) {
+							$.each(response.data.ticket_totals, function (index, total) {
+								var $totalCell = $('.uem-ticket-total[data-ticket-index="' + index + '"]');
+								if (typeof wc_price !== 'undefined') {
+									$totalCell.html(wc_price(total));
+								} else {
+									$totalCell.html('$' + total.toFixed(2));
+								}
+							});
+						}
+
+						// Update grand total
+						if (response.data.grand_total !== undefined) {
+							var $grandTotal = $('.uem-grand-total');
+							if (typeof wc_price !== 'undefined') {
+								$grandTotal.html('<strong>' + wc_price(response.data.grand_total) + '</strong>');
+							} else {
+								$grandTotal.html('<strong>$' + response.data.grand_total.toFixed(2) + '</strong>');
+							}
+						}
+
+						// Update cart item keys for all inputs
+						if (response.data.cart_item_keys) {
+							$.each(response.data.cart_item_keys, function (index, key) {
+								$('.uem-ticket-quantity[data-ticket-index="' + index + '"]').data('cart-item-key', key);
+							});
+						}
+
+						// Trigger update checkout event
+						$('body').trigger('update_checkout');
+					}
+				},
+				error: function (xhr, status, error) {
+					var errorMessage = 'Failed to update cart. Please refresh the page.';
+					if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
+						errorMessage = xhr.responseJSON.data.message;
+					}
+					alert(errorMessage);
+					console.error('AJAX Error:', status, error, xhr.responseText);
+				},
+				complete: function () {
+					$input.prop('disabled', false);
+					$('.uem-checkout-form').removeClass('uem-loading');
+				}
+			});
+		});
+	}
+
+	/**
+	 * Update grand total
+	 */
+	function updateGrandTotal() {
+		var grandTotal = 0;
+		$('.uem-ticket-quantity').each(function () {
+			var quantity = parseInt($(this).val()) || 0;
+			var ticketPrice = parseFloat($(this).data('ticket-price')) || 0;
+			grandTotal += ticketPrice * quantity;
+		});
+
+		var $grandTotal = $('.uem-grand-total');
+		if (typeof wc_price !== 'undefined') {
+			$grandTotal.html('<strong>' + wc_price(grandTotal) + '</strong>');
+		} else {
+			$grandTotal.html('<strong>$' + grandTotal.toFixed(2) + '</strong>');
+		}
+	}
+
+	/**
+	 * Handle simple registration form
+	 */
+	function handleSimpleRegistration() {
+		// Update totals when quantity changes
+		$(document).on('change', '.uem-ticket-quantity', function () {
+			updateSimpleRegistrationTotals();
+			updateAttendeeFields();
+		});
+
+		// Form submission
+		$('#uem-registration-form').on('submit', function (e) {
+			var form = $(this);
+
+			// Validate
+			if (!validateSimpleRegistrationForm()) {
+				e.preventDefault();
+				return false;
+			}
+
+			// Submit via AJAX
+			e.preventDefault();
+
+			var formData = form.serialize();
+			formData += '&action=uem_submit_registration&nonce=' + uemData.nonce;
+
+			$.ajax({
+				url: uemData.ajaxUrl,
+				type: 'POST',
+				data: formData,
+				beforeSend: function () {
+					form.addClass('uem-loading');
+					$('.uem-submit-registration').prop('disabled', true).text('Submitting...');
+				},
+				success: function (response) {
+					if (response.success) {
+						window.location.href = response.data.redirect_url;
+					} else {
+						alert(response.data.message || 'Registration failed. Please try again.');
+						form.removeClass('uem-loading');
+						$('.uem-submit-registration').prop('disabled', false).text('Submit Registration');
+					}
+				},
+				error: function () {
+					alert('An error occurred. Please try again.');
+					form.removeClass('uem-loading');
+					$('.uem-submit-registration').prop('disabled', false).text('Submit Registration');
+				}
+			});
+		});
+	}
+
+	/**
+	 * Update simple registration totals
+	 */
+	function updateSimpleRegistrationTotals() {
+		var grandTotal = 0;
+
+		$('.uem-ticket-quantity').each(function () {
+			var $input = $(this);
+			var quantity = parseInt($input.val()) || 0;
+			var price = parseFloat($input.data('ticket-price')) || 0;
+			var ticketIndex = $input.data('ticket-index');
+			var total = quantity * price;
+
+			// Update ticket total
+			$('.uem-ticket-total[data-ticket-index="' + ticketIndex + '"]').text(formatPrice(total));
+
+			grandTotal += total;
+		});
+
+		// Update grand total
+		$('.uem-grand-total').html('<strong>' + formatPrice(grandTotal) + '</strong>');
+	}
+
+	/**
+	 * Update attendee fields based on total quantity
+	 */
+
+	/* function updateAttendeeFields_main() {
+		var totalQuantity = 0;
+
+		$('.uem-ticket-quantity_1').each(function () {
+			var quantity = parseInt($(this).val()) || 0;
+			totalQuantity += quantity;
+		});
+
+		var $attendeeDetails = $('#uem-attendee-details');
+		var $attendeeFields = $('#uem-attendee-fields');
+
+		if (totalQuantity > 0) {
+			$attendeeDetails.show();
+
+			// Generate attendee fields
+			var html = '';
+			for (var i = 1; i <= totalQuantity; i++) {
+				html += '<div class="uem-attendee-field-group">';
+				html += '<h4>Attendee ' + i + '</h4>';
+				html += '<p>';
+				html += '<label for="uem_attendee_name_' + i + '">Name <span class="required">*</span></label>';
+				html += '<input type="text" name="uem_attendee_name_' + i + '" id="uem_attendee_name_' + i + '" required>';
+				html += '</p>';
+				html += '<p>';
+				html += '<label for="uem_attendee_phone_' + i + '">Phone <span class="required">*</span></label>';
+				html += '<input type="tel" name="uem_attendee_phone_' + i + '" id="uem_attendee_phone_' + i + '" required>';
+				html += '</p>';
+				html += '<p>';
+				html += '<label for="uem_attendee_email_' + i + '">Email</label>';
+				html += '<input type="email" name="uem_attendee_email_' + i + '" id="uem_attendee_email_' + i + '">';
+				html += '</p>';
+				html += '</div>';
+			}
+
+			$attendeeFields.html(html);
+		} else {
+			$attendeeDetails.hide();
+			$attendeeFields.html('');
+		}
+	} */
+
+
+	function updateAttendeeFields() {
+		var totalQuantity = 0;
+
+		// Calculate total quantity from all ticket inputs
+		$('.uem-ticket-quantity').each(function () {
+			var quantity = parseInt($(this).val()) || 0;
+			totalQuantity += quantity;
+		});
+		var $attendeeDetails = $('#uem-attendee-details');
+		var $attendeeFields = $('#uem-attendee-fields');
+
+		if (totalQuantity > 0) {
+			$attendeeDetails.show();
+
+			// Get the field configuration (you may need to pass this via localized script)
+			// For now, I'll use the structure from your example
+			var fieldConfig = window.uemAttendeeFields || getDefaultFieldConfig();
+
+			// Generate attendee fields
+			var html = '';
+			
+			for (var i = 1; i <= totalQuantity; i++) {
+				html += '<div class="uem-attendee-field-group webcu-form-grid">';
+				html += '<h4>Attendee ' + i + '</h4>';
+
+				// Loop through each configured field
+				$.each(fieldConfig, function(fieldKey, field) {
+					
+					// Skip disabled fields
+					if (!field.enabled || field.enabled != 1) {
+						return true; // continue
+					}
+
+					var label = field.label || '';
+					var required = field.required == 1;
+					var fieldId = 'atte_' + fieldKey + '_' + i;
+					var fieldName = 'atte_' + fieldKey + '[' + i + ']';
+					
+					// Determine input type
+					var inputType = 'text';
+					switch(fieldKey) {
+						case 'email_address':
+							inputType = 'email';
+							break;
+						case 'phone_number':
+							inputType = 'tel';
+							break;
+						case 'dob':
+							inputType = 'date';
+							break;
+						case 'website':
+							inputType = 'url';
+							break;
+					}
+
+					html += '<div class="webcu-form-field">';
+					html += '<label for="' + fieldId + '">';
+					html += label;
+					if (required) {
+						html += ' <span class="required">*</span>';
+					}
+					html += '</label>';
+					html += '<input type="' + inputType + '" name="' + fieldName + '" id="' + fieldId + '"';
+					if (required) {
+						html += ' required';
+					}
+					html += '>';
+					html += '</div>';
+				});
+
+				html += '</div>'; // .uem-attendee-field-group
+			}
+
+			$attendeeFields.html(html);
+			
+			// Add hidden field to track total quantity
+			$('input[name="total_attendee_quantity"]').remove();
+			$('<input>').attr({
+				type: 'hidden',
+				name: 'total_attendee_quantity',
+				value: totalQuantity
+			}).appendTo($attendeeDetails);
+
+		} else {
+			$attendeeDetails.hide();
+			$attendeeFields.html('');
+		}
+	}
+
+	// Default field configuration (fallback)
+	function getDefaultFieldConfig() {
+		return {
+			'first_name': {
+				'label': 'First Name',
+				'enabled': 1,
+				'required': 1
+			},
+			'last_name': {
+				'label': 'Last Name',
+				'enabled': 1,
+				'required': 1
+			},
+			'email_address': {
+				'label': 'Email',
+				'enabled': 1,
+				'required': 0
+			},
+			'phone_number': {
+				'label': 'Phone',
+				'enabled': 1,
+				'required': 1
+			},
+			'dob': {
+				'label': 'Date of Birth',
+				'enabled': 0,
+				'required': 0
+			},
+			'website': {
+				'label': 'Website',
+				'enabled': 0,
+				'required': 0
+			}
+		};
+	}
+
+	// Initialize on document ready
+	jQuery(document).ready(function($) {
+		
+		// Trigger update on quantity change
+		$(document).on('change', '.uem-ticket-quantity', function () {
+			updateAttendeeFields();
+		});
+
+		// Trigger update on cart update (WooCommerce)
+		$(document.body).on('updated_cart_totals', function() {
+			updateAttendeeFields();
+		});
+
+		// Initial load
+		updateAttendeeFields();
+	});
+	
+
+
+
+	/**
+	 * Validate simple registration form
+	 */
+	function validateSimpleRegistrationForm() {
+		var isValid = true;
+
+		// Check if at least one ticket is selected
+		var hasTickets = false;
+		$('.uem-ticket-quantity').each(function () {
+			if (parseInt($(this).val()) > 0) {
+				hasTickets = true;
+				return false;
+			}
+		});
+
+		if (!hasTickets) {
+			alert('Please select at least one ticket.');
+			isValid = false;
+		}
+
+		// Validate required fields
+		if (!$('#uem_registration_name').val().trim()) {
+			alert('Please enter your name.');
+			$('#uem_registration_name').focus();
+			isValid = false;
+		}
+
+		if (!$('#uem_registration_phone').val().trim()) {
+			alert('Please enter your phone number.');
+			$('#uem_registration_phone').focus();
+			isValid = false;
+		}
+
+		return isValid;
+	}
+
+	/**
+	 * Format price
+	 */
+	function formatPrice(amount) {
+		// This is a simple formatter - WooCommerce has its own
+		if (typeof wc_price !== 'undefined') {
+			return wc_price(amount);
+		}
+		return '$' + amount.toFixed(2);
+	}
+
+})(jQuery);
+
