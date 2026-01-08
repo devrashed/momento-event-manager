@@ -67,6 +67,10 @@ class Class_meta_ticket_price{
                   <th><?php echo esc_html__('Quantity', 'ultimate-event-manager') ?></th>
                   <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Default Qty', 'ultimate-event-manager') ?></th>
                   <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Reserve Qty', 'ultimate-event-manager') ?></th>
+
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Date', 'ultimate-event-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Time', 'ultimate-event-manager') ?></th>
+
                   <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Date', 'ultimate-event-manager') ?></th>
                   <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Time', 'ultimate-event-manager') ?></th>
                   <th><?php echo esc_html__('Qty Box', 'ultimate-event-manager') ?></th>
@@ -81,8 +85,13 @@ class Class_meta_ticket_price{
                       <td><input type="text" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][desc]" value="<?php echo esc_attr($ticket['desc']); ?>" placeholder="Short description"></td>
                       <td><input type="number" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][price]" value="<?php echo esc_attr($ticket['price']); ?>"></td>
                       <td><input type="number" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][capacity]" value="<?php echo esc_attr($ticket['capacity']); ?>" placeholder="Ex:1"></td>
+
                       <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="number" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][default_qty]" value="<?php echo esc_attr(isset($ticket['default_qty']) ? $ticket['default_qty'] : ''); ?>" placeholder="Ex:1"></td>
                       <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="number" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][reserve_qty]" value="<?php echo esc_attr(isset($ticket['reserve_qty']) ? $ticket['reserve_qty'] : ''); ?>" placeholder="Ex:1"></td>
+
+                      <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="date" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][sale_start_date]" value="<?php echo esc_attr(isset($ticket['sale_start_date']) ? $ticket['sale_start_date'] : ''); ?>"></td>
+                      <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="time" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][sale_start_time]" value="<?php echo esc_attr(isset($ticket['sale_start_time']) ? $ticket['sale_start_time'] : ''); ?>"></td>
+
                       <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="date" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][sale_end_date]" value="<?php echo esc_attr(isset($ticket['sale_end_date']) ? $ticket['sale_end_date'] : ''); ?>"></td>
                       <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="time" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][sale_end_time]" value="<?php echo esc_attr(isset($ticket['sale_end_time']) ? $ticket['sale_end_time'] : ''); ?>"></td>
                       <td>
@@ -192,6 +201,8 @@ class Class_meta_ticket_price{
                     'capacity'     => intval($ticket['capacity']),
                     'default_qty'  => isset($ticket['default_qty']) ? intval($ticket['default_qty']) : '',
                     'reserve_qty'  => isset($ticket['reserve_qty']) ? intval($ticket['reserve_qty']) : '',
+                    'sale_start_date'=> isset($ticket['sale_start_date']) ? sanitize_text_field($ticket['sale_start_date']) : '',
+                    'sale_start_time'=> isset($ticket['sale_start_time']) ? sanitize_text_field($ticket['sale_start_time']) : '',
                     'sale_end_date'=> isset($ticket['sale_end_date']) ? sanitize_text_field($ticket['sale_end_date']) : '',
                     'sale_end_time'=> isset($ticket['sale_end_time']) ? sanitize_text_field($ticket['sale_end_time']) : '',
                     'qty_box'      => sanitize_text_field($ticket['qty_box']),

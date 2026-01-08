@@ -224,7 +224,8 @@ Class class_country_list {
 
         $countries = $this->webcu_get_country_list();
 
-        echo '<select name="webcu_ve_country" id="webcu_ve_country" class="form-control">';
+        echo '<div class="select-wrap">';
+        echo '<select name="webcu_ve_country" id="webcu_ve_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(
@@ -236,6 +237,7 @@ Class class_country_list {
         }
 
         echo '</select>';
+        echo '</div>';
     }
 
 
@@ -244,7 +246,8 @@ Class class_country_list {
 
         $countries = $this->webcu_get_country_list();
 
-        echo '<select name="webcu_orga_country" id="webcu_orga_country" class="form-control">';
+        echo '<div class="select-wrap">';
+        echo '<select name="webcu_orga_country" id="webcu_orga_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(
@@ -256,16 +259,15 @@ Class class_country_list {
         }
 
         echo '</select>';
+        echo '</div>';
     }
-
 
     // Sponser
     public function webcu_sponser_country_dropdown($selected_country = '') {
 
         $countries = $this->webcu_get_country_list();
-
-        echo '<select name="webcu_spon_country" id="webcu_spon_country" class="form-control">';
-
+        echo '<div class="select-wrap">';
+        echo '<select name="webcu_spon_country" id="webcu_spon_country" class="js-searchBox form-control">';
         foreach ($countries as $country) {
             printf(
                 '<option value="%s" %s>%s</option>',
@@ -274,8 +276,9 @@ Class class_country_list {
                 esc_html($country)
             );
         }
-
         echo '</select>';
+        echo '</div>';
+        
     }
     
     
@@ -284,7 +287,8 @@ Class class_country_list {
 
         $countries = $this->webcu_get_country_list();
 
-        echo '<select name="webcu_volun_country" id="webcu_volun_country" class="form-control">';
+        echo '<div class="select-wrap">';
+        echo '<select name="webcu_volun_country" id="webcu_volun_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(
@@ -296,6 +300,7 @@ Class class_country_list {
         }
 
         echo '</select>';
+        echo '</div>';
     }
 
 }

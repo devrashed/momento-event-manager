@@ -513,6 +513,9 @@ class UEM_Post_Types {
 		exit;
 	}
 
+
+
+
 	public static function download_attendee_csv____111() {
 
 		if ( ! ini_get( 'safe_mode' ) ) {
@@ -829,7 +832,7 @@ class UEM_Post_Types {
                 }
 
             } else {
-                echo '<em>No Dates</em>';
+                echo '<em>No Start Dates</em>';
             }
         }
 
@@ -861,16 +864,25 @@ class UEM_Post_Types {
                 }
 
 			} else {
-                echo '<em>No Dates</em>';
+                echo '<em>No End Dates</em>';
             }
         }
 
 		if ( $column == 'total_seat' ) {
 
 			$totalseat = get_post_meta($post_id, '_webcu_tk_tickets', true );
+			//print_r($totalseat);
+			/* $ticket = reset( $totalseat );
+			$quantity = $ticket['capacity'];
+			echo esc_html( $quantity ); */
+			
+			if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
+				$ticket   = reset( $totalseat );
+				$quantity = isset( $ticket['capacity'] ) ? $ticket['capacity'] : 0;
+			} else {
+				$quantity = 0;
+			}
 
-			$ticket = reset( $totalseat );
-			$quantity = $ticket['quantity'];
 			echo esc_html( $quantity );
 		} 
 		
@@ -879,7 +891,7 @@ class UEM_Post_Types {
 			$products = get_post_meta( $post_id, '_uem_wc_products', true );
 			
 			$total_sold = 0;
-			$total_order = 0;
+			$cancelled_orders = 0;
 		
 				if ( is_array( $products ) ) {
 					foreach ( $products as $product_id ) {
@@ -892,13 +904,33 @@ class UEM_Post_Types {
 					}
 				}
 
-			$total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
+			/* $total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
 			$net_sales = $total_sold - count($cancelled_orders);
-            echo esc_html( $net_sales ); 
+            echo esc_html( $net_sales ); */ 
+
+			/* $total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
+			$cancelled  = isset( $cancelled_orders ) ? (int) count( $cancelled_orders ) : 0;
+			$net_sales = $total_sold - $cancelled;
+			echo esc_html( $net_sales ); */
 			
+			$total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
+			$cancelled_count = 0;
+
+			if ( isset( $cancelled_orders ) ) {
+				if ( is_array( $cancelled_orders ) ) {
+					$cancelled_count = count( $cancelled_orders );
+				} else {
+					$cancelled_count = (int) $cancelled_orders;
+				}
+			}
+			$net_sales = max( 0, $total_sold - $cancelled_count );
+
+			echo esc_html( $net_sales );
+
 				
 		 } if($column == 'available_seat') {
 
+			$totalseat = 0;
 			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
 			$ticket    = is_array( $totalseat ) ? reset( $totalseat ) : [];
 			$quantity  = isset( $ticket['quantity'] ) ? absint( $ticket['quantity'] ) : 0;
@@ -918,9 +950,17 @@ class UEM_Post_Types {
 				}
 			}
 
-			$ticket = reset( $totalseat );
-			$quantity = $ticket['quantity'];
-			echo esc_html( $quantity - ($total_sold - count($cancelled_orders)));
+    		if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
+				$ticket   = reset( $totalseat );
+				$quantity = isset( $ticket['capacity'] ) ? (int) $ticket['capacity'] : 0;
+			} else {
+				$quantity = 0;
+			}
+
+			$cancelled_orders = is_array( $cancelled_orders ) ? $cancelled_orders : [];
+			$available_qty = max(0, $quantity - ( (int) $total_sold - (int) count( $cancelled_orders ) ) );
+
+			echo esc_html( $available_qty );
 
 		} 
 

@@ -154,9 +154,9 @@ class Class_meta_emails_section {
             </div>
 
             <div>
-            <button type="button" id="addNewEmail" class="webcu_re_add-new-email"><?php echo esc_html__('Add New Email', 'mega-event-manager') ?></button>
+                <button type="button" id="addNewEmail" class="webcu_re_add-new-email"><?php echo esc_html__('Add New Email', 'mega-events-manager') ?></button>
             </div>
-      <?php
+        <?php
     }
 
     public function webcu_save_emails_metabox_data($post_id) {
@@ -164,7 +164,7 @@ class Class_meta_emails_section {
         foreach ($_POST as $key => $val) {
             if (preg_match('/^timing_(\d+)$/', $key, $match)) {
                 $i = (int) $match[1];
- 
+                
                 $reminders[$i]['timing'] = isset($_POST['timing_' . $i]) ? sanitize_text_field(wp_unslash($_POST['timing_' . $i])) : '';
                 $reminders[$i]['timecount'] = isset($_POST['timecount_' . $i]) ? sanitize_text_field(wp_unslash($_POST['timecount_' . $i])) : '';
                 $reminders[$i]['subject'] = isset($_POST['subject_' . $i]) ? sanitize_text_field(wp_unslash($_POST['subject_' . $i])) : '';

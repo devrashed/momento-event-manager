@@ -60,8 +60,11 @@ class class_event_manager_widget{
         require_once plugin_dir_path(__FILE__) . 'class_upcoming_event_volunteer_widget.php';
         register_widget('class_upcoming_event_volunteer_widget');
 
-
+        require_once plugin_dir_path(__FILE__) . 'class_gmap_widget.php';
+        register_widget( 'webcu_gmap_Info_Widget' );
     }
-        
+       
+    
+
 
 }

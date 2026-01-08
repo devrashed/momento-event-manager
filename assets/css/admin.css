@@ -116,6 +116,10 @@
 	min-height: 200px;
 }
 
+.webcu_ve_country {
+	padding: 6px;
+}
+
 @media (max-width: 760px) {
 	.van-wrapper {
 		flex-direction: column;
@@ -130,6 +134,7 @@
 		order: 1;
 	}
 }
+
 
 /* === currency setting ==== */
 
@@ -428,6 +433,51 @@ input:checked+.webcu_slider:before {
 	margin-top: -3px;
 	float: left
 }
+
+/* === select2 ===*/
+
+.searchBoxElement {
+	background-color: white;
+	border: 1px solid #aaa;
+	position: absolute;
+	max-height: 150px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin: 0;
+	padding: 0;
+	line-height: 23px;
+	list-style: none;
+	z-index: 1;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.searchBoxElement span {
+	padding: 0 5px;
+}
+
+.searchBoxElement li {
+	background-color: white;
+	color: black;
+}
+
+.searchBoxElement li:hover {
+	background-color: #50a0ff;
+	color: white;
+}
+
+.searchBoxElement li.selected {
+	background-color: #50a0ff;
+	color: white;
+}
+
+.refineText {
+	padding: 8px 0 8px 0 !important;
+}
+
+
+
+
 
 /* ====== Ticket price ====== */
 

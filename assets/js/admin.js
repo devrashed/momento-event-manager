@@ -91,6 +91,31 @@ jQuery(document).ready(function ($) {
 
 });
 
+//select 2 and search 
+jQuery('.js-searchBox').searchBox({ elementWidth: '250' });
+
+
+/* === Google Map API key toggle ====*/
+
+document.addEventListener('DOMContentLoaded', function () {
+	const checkbox = document.getElementById('webcu_ve_googleMap');
+	const textField = document.getElementById('mapTextField');
+
+	// Show/hide on page load based on checkbox state
+	if (checkbox.checked) {
+		textField.style.display = 'block';
+	}
+
+	// Show/hide on click
+	checkbox.addEventListener('change', function () {
+		if (this.checked) {
+			textField.style.display = 'block';
+		} else {
+			textField.style.display = 'none';
+		}
+	});
+});
+
 
 // ==== ticket price ===
 
@@ -456,6 +481,8 @@ jQuery(function ($) {
 			'<td><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][capacity]\" value=\"0\"></td>' +
 			'<td class=\"webcu_tk_advanced\"><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][default_qty]\" placeholder=\"Ex:1\"></td>' +
 			'<td class=\"webcu_tk_advanced\"><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][reserve_qty]\" placeholder=\"Ex:1\"></td>' +
+			'<td class=\"webcu_tk_advanced\"><input type=\"date\" name=\"webcu_tk_tickets[' + timestamp + '][sale_start_date]\"></td>' +
+			'<td class=\"webcu_tk_advanced\"><input type=\"time\" name=\"webcu_tk_tickets[' + timestamp + '][sale_start_time]\"></td>' +
 			'<td class=\"webcu_tk_advanced\"><input type=\"date\" name=\"webcu_tk_tickets[' + timestamp + '][sale_end_date]\"></td>' +
 			'<td class=\"webcu_tk_advanced\"><input type=\"time\" name=\"webcu_tk_tickets[' + timestamp + '][sale_end_time]\"></td>' +
 			'<td><select name=\"webcu_tk_tickets[' + timestamp + '][qty_box]\"><option>Input Box</option><option>Dropdown</option><option>Hidden</option></select></td>' +
@@ -648,7 +675,6 @@ jQuery(function ($) {
 
 	// Add new email block
 	jQuery('#addNewEmail').on('click', function () {
-		console.log('Rashed');
 
 		counter++;
 		const newBox = `
@@ -775,12 +801,12 @@ jQuery(document).ready(function ($) {
 
 /* jQuery(function ($) {
 	jQuery('#registration_form_type').on('change', function () {
-
+	
 		jQuery('#global_form').hide();
 		if (jQuery(this).val() === 'custom_form') {
 			jQuery('#custom_form_wrapper').slideDown();
 			jQuery('#global_form').hide();
-
+	
 		} else if (jQuery(this).val() === 'global_form') {
 			jQuery('#custom_form_wrapper').slideUp();
 			jQuery('#global_form').show();
@@ -853,7 +879,7 @@ jQuery(document).ready(function ($) {
 /* jQuery(function ($) {
 	jQuery('#registration_form_type').on('change', function () {
 		console.log('change');
-
+	
 		if (jQuery(this).val() === 'custom_form') {
 			jQuery('#attendee_form_wrapper').slideDown();
 			jQuery('#attendee_global_form').hide();
@@ -865,7 +891,7 @@ jQuery(document).ready(function ($) {
 			jQuery('#attendee_global_form').hide();
 		}
 	});
-
+	
 	jQuery('#registration_form_type').trigger('change');
 }); */
 

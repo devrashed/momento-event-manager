@@ -215,6 +215,7 @@ class Class_meta_registration_form {
         ];
         
         /* ===== Save Predefined Fields ===== */
+
         if (!empty($_POST['webcu_regi_fields'])) {
             $regi_fields = wp_unslash($_POST['webcu_regi_fields']);
             
@@ -284,7 +285,6 @@ class Class_meta_registration_form {
                     'options'  => $options,
                 ];
             }
-            
             $regi_data['custom_fields'] = $custom_fields;
         }
         

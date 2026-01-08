@@ -24,6 +24,9 @@ define( 'UEM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UEM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'UEM_PLUGIN_FILE', __FILE__ );
 define( 'MEM_EVENT_ASSETS', UEM_PLUGIN_URL . '/assets' );
+
+
+
 /**
  * Main plugin class
  */
@@ -201,8 +204,14 @@ class Ultimate_Events_Manager {
 	public function webcu_enqueue_admin_assets( $hook ) {
 		$screen = get_current_screen();
 		//if ( $screen && in_array( $screen->post_type, array( 'uem_event', 'uem_organizer', 'uem_volunteer', 'uem_sponsor', 'uem_registration' ) ) ) {
+			wp_enqueue_script('jquery');
 			wp_enqueue_style( 'uem-admin', UEM_PLUGIN_URL . 'assets/css/admin.css', array(), UEM_VERSION );
-			wp_enqueue_script( 'uem-admin', UEM_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), UEM_VERSION, true );
+			wp_enqueue_script( 'search-select', UEM_PLUGIN_URL . 'assets/js/jquery-searchbox.js',  array('jquery'), time(), true);
+			
+			wp_enqueue_script( 'uem-admin', UEM_PLUGIN_URL . 'assets/js/admin.js',  array('jquery'), time(), true);
+			wp_localize_script('uem-admin', 'ajax_ob', array(
+			  'counter'  => $counter ? $counter : 1,
+			) );      
 		//}
 	}
 	

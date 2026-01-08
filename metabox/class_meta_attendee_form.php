@@ -69,8 +69,11 @@ class Class_meta_attendee_form {
         <!-- ==== Attendee dynamically row add & Remove ===== -->
         
         <br>
-        <br>
+        <h3><?php echo esc_html__('Custom Attendee Fields', 'mega-event-manager'); ?></h3>
+        <p class="description"><?php echo esc_html__('Add custom fields to your Attendee form', 'mega-event-manager'); ?></p>
 
+        <br>
+        
         <?php 
         // Get custom fields from the consolidated meta key
         $saved_custom_fields = $attendee_form['custom_fields'] ?? [];

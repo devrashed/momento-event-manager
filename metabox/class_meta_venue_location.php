@@ -99,6 +99,20 @@ class Class_meta_venue_location {
                         <?php checked(get_post_meta($post->ID, 'webcu_ve_googleMap', true), '1'); ?>>
                         <label for="webcu_ve_googleMap">Show Google Map</label>
                     </div>
+
+                     <br>
+                    <div class="two-col" id="mapTextField" style="display: none; margin-top: 10px;">
+                        <div class="form-group" >
+                           <label><?php echo esc_html__('Google Map API:', 'mega-event-manager') ?> 
+                            <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">
+                                <?php echo esc_html__( 'Get API key', 'mega-event-manager' ); ?>
+                            </a>
+                        </label>
+                          <input type="text" id="webcu_googleMap_Api" name="webcu_googleMap_Api" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_googleMap_Api', true)); ?>" placeholder="Enter Google MAP API">
+                        </div>
+                    </div>
+
+           
                 </div>       
             </div>  
     <?php
@@ -115,7 +129,7 @@ class Class_meta_venue_location {
             } 
             $webcu_vanue = [
                 'webcu_ve_location', 'webcu_ve_street', 'webcu_ve_city', 'webcu_ve_state',
-                'webcu_ve_postcocde', 'webcu_ve_country'
+                'webcu_ve_postcocde', 'webcu_ve_country', 'webcu_googleMap_Api'
             ];
 
             foreach ($webcu_vanue as $field) {
@@ -139,4 +153,3 @@ class Class_meta_venue_location {
 } /* end the class */
 
 
-?>
