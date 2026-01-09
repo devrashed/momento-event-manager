@@ -25,8 +25,6 @@ define( 'UEM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'UEM_PLUGIN_FILE', __FILE__ );
 define( 'MEM_EVENT_ASSETS', UEM_PLUGIN_URL . '/assets' );
 
-
-
 /**
  * Main plugin class
  */
@@ -222,14 +220,20 @@ class Ultimate_Events_Manager {
 	 * @return string
 	 */
 	public function webcu_load_event_template( $template ) {
-		if ( is_singular( 'mem_event' ) ) {
+		/* if ( is_singular( 'mem_event' ) ) {
 			$custom_template = UEM_PLUGIN_DIR . 'templates/single-mem_event.php';
 			if ( file_exists( $custom_template ) ) {
 				return $custom_template;
 			}
-		}
+		} */
 
-		//if ( $post->post_type == 'mem_sponsor' ) {
+		if ( is_singular( 'mem_event' ) ) {
+			$template = UEM_PLUGIN_DIR . 'templates/single-mem_event.php';
+			if ( file_exists( $template ) ) {
+				return $template;
+			}
+		}		
+
 		if ( is_singular( 'mem_sponsor' ) ) {		
         $template = plugin_dir_path( __FILE__ ) . 'templates/single-mem_sponsor.php';
 

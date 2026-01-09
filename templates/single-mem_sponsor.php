@@ -2,7 +2,6 @@
 
 
 <?php 
-
     $spontempla = get_option('webcu_sponser_template'); 
     if( "right" === $spontempla ){
 ?>
@@ -195,64 +194,7 @@
 
             <!-- Sidebar -->
             <aside class="webcu-sidebar">
-                <!-- <div class="eo-box">
-                    <h3><?php echo esc_html__('Organizer Details', 'ultimate-event-manager') ?></h3>
-                    <p><strong> <?php echo esc_html__('Name:', 'ultimate-event-manager') ?></strong> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_name', true )); ?>  </p>
-                    <p><strong> <?php echo esc_html__('Email:', 'ultimate-event-manager') ?></strong> <a href="mailto: <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_email', true )); ?>  "><?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_email', true )); ?></a> </p>
-                    <p><strong> <?php echo esc_html__('Phone:', 'ultimate-event-manager') ?> </strong> <a href="<?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_website', true )); ?>" target="_blank"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_website', true )); ?> </a></p>
-                </div>
-
-                <div class="eo-box">
-                    <h3><?php echo esc_html__('Social Links', 'ultimate-event-manager') ?></h3>
-                    <span class="org_info">  
-                        <ul class="eo-social">
-                            <?php $social_link = get_post_meta(get_the_ID(), 'webcu_spon_extras', true); ?> 
-                                <?php foreach ($social_link as $item): 
-                                
-                                    if('facebook'=== $item['spon_social_media'] ){
-                                    ?>    
-                                        <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-facebook"></i> </a><li>
-                                    <?php    
-                                    }elseif('linkedin'=== $item['spon_social_media'] ) {
-                                    ?>
-                                    <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-linkedin"></i> </a><li>   
-                                        
-                                    <?php    
-                                    }elseif('X'=== $item['spon_social_media'] ) {
-                                    ?> 
-
-                                    <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-x-twitter"></i> </a><li>   
-                                    
-                                    <?php    
-                                    }elseif('instagram'=== $item['spon_social_media'] ) {
-                                    ?> 
-
-                                    <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-instagram"></i> </a><li>   
-                                    
-                                    <?php    
-                                    }elseif('pinterest'=== $item['spon_social_media'] ) {
-                                    ?>
-
-                                    <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-pinterest"></i>  </a><li>   
-                                    
-                                    <?php    
-                                    }elseif('tiktok'=== $item['spon_social_media'] ) {
-                                    ?>
-
-                                    <li> <a href="<?php echo esc_url($item['url']); ?>" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a><li>   
-                                    
-                                    <?php } ?>
-
-                                <?php endforeach; ?>
-                        </ul>
-                    </span>  
-                </div>
-
-                <div class="eo-box">
-                    <h3>Upcoming Events</h3>
-                    <p>No upcoming events available.</p>
-                </div> -->
-            
+           
                 <?php
 
                 if ( is_singular('mem_sponsor') ) {

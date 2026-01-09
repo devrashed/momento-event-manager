@@ -70,7 +70,7 @@ class class_organizer_meta_box{
             
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Company Name', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Organizer Owner Name', 'mega-event-manager') ?></label>
                         <input type="text" id="webcu_orga_name" name="webcu_orga_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_name', true)); ?>"  placeholder="Please write your organization name">
                     </div>
 
@@ -102,11 +102,11 @@ class class_organizer_meta_box{
                     <div class="form-group">
                         <label> <?php echo esc_html__('Latitude:', 'mega-event-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
                         <?php esc_html_e( 'Click here for the latitude and longitude', 'mega-event-manager' ); ?> </a> </span> </label>
-                        <input type="number" id="webcu_orga_late" name="webcu_orga_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_late', true)); ?>" placeholder="Enter City">
+                        <input type="text" id="webcu_orga_late" name="webcu_orga_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_late', true)); ?>" placeholder="Latitude">
                     </div>
                     <div class="form-group">
                         <label><?php echo esc_html__('Longitude:', 'mega-event-manager') ?></label>
-                        <input type="number" id="webcu_orga_long" name="webcu_orga_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_long', true)); ?>" placeholder="Ex: NY">
+                        <input type="text" id="webcu_orga_long" name="webcu_orga_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_long', true)); ?>" placeholder="Longitude">
                     </div>
 
                 </div>    

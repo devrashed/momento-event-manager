@@ -31,34 +31,38 @@
 
                     <tr>
                         <td>
-                        <select name="webcu_event_orga_name" style="width:100%;">
+                            <select name="webcu_event_orga_name" style="width:100%;">
                                 <?php 
+
                                     $saved_value = get_post_meta($post->ID, 'webcu_event_orga_name', true);
+                                    print_r($saved_value);
                                     $organizers = get_posts([
-                                        'post_type'      => 'uem_organizer',
+                                        'post_type'      => 'mem_organizer',
                                         'posts_per_page' => -1,
                                         'orderby'        => 'title',
                                         'order'          => 'ASC'
                                     ]);
 
                                     foreach ($organizers as $org) {
-
-                                        $orga_name = get_post_meta($org->ID, 'webcu_orga_name', true);
-
-                                        if (!empty($orga_name)) {
-                                            echo '<option value="' . esc_attr($orga_name) . '" ' . selected($saved_value, $orga_name, false) . '>' . esc_html($orga_name) . '</option>';
-                                        }
-                                    }
+                                        $post_title = $org->post_title;
+                                        $post_id = $org->ID;
                                     ?>
-                        </select>
+                                    <option value="<?php echo esc_attr($post_id); ?>"
+                                        <?php selected($saved_value, $post_id); ?>>
+                                        <?php echo esc_html($post_title); ?>
+                                    </option>    
+                                <?php
+                                    }
+                                  ?>
+                            </select>
 
-                    </td>
+                        </td>
                         <td>
-                        <select name="webcu_event_sponsa_name" style="width:100%;">
+                        <select name="webcu_event_volunteer_name" style="width:100%;">
                                 <?php 
-                                $saved_value = get_post_meta($post->ID, 'webcu_event_sponsa_name', true);
+                                $saved_value = get_post_meta($post->ID, 'webcu_event_volunteer_name', true);
                                 $sponsa = get_posts([
-                                    'post_type'      => 'event_sponsers',
+                                    'post_type'      => 'mem_volunteer',
                                     'posts_per_page' => -1,
                                     'orderby'        => 'title',
                                     'order'          => 'ASC'
@@ -66,21 +70,28 @@
 
                                 foreach ($sponsa as $sponsar) {
 
-                                    $spons_name = get_post_meta($sponsar->ID, 'webcu_spon_name', true);
-                                    if (!empty($spons_name)) {
-                                        echo '<option value="' . esc_attr($spons_name) . '" ' . selected($saved_value, $spons_name, false) . '>' . esc_html($spons_name) . '</option>';
-                                    }
+                                   //$spons_name = get_post_meta($sponsar->ID, 'webcu_volun_name', true);
+                                    $post_title = $sponsar->post_title;
+                                    $post_id = $sponsar->ID;
+                                ?>
+
+                                <option value="<?php echo esc_attr($post_id); ?>"
+                                    <?php selected($saved_value, $post_id); ?>>
+                                    <?php echo esc_html($post_title); ?>
+                                </option>    
+
+                                <?php    
                                 }
                                 ?>
                         </select>                                         
                     </td>
                         <td> 
                             
-                        <select name="webcu_event_volunteer_name" style="width:100%;">
+                        <select name="webcu_event_sponsa_name" style="width:100%;">
                                 <?php 
-                                $saved_value = get_post_meta($post->ID, 'webcu_event_volunteer_name', true);
+                                $saved_value = get_post_meta($post->ID, 'webcu_event_sponsa_name', true);
                                 $volun = get_posts([
-                                    'post_type'      => 'event_volunteer',
+                                    'post_type'      => 'mem_sponsor',
                                     'posts_per_page' => -1,
                                     'orderby'        => 'title',
                                     'order'          => 'ASC'
@@ -88,16 +99,20 @@
 
                                 foreach ($volun as $voluns) {
 
-                                    $volun_name = get_post_meta($voluns->ID, 'webcu_volun_name', true);
-                                    if (!empty($volun_name)) {
-                                        echo '<option value="' . esc_attr($volun_name) . '" ' . selected($saved_value, $volun_name, false) . '>' . esc_html($volun_name) . '</option>';
-                                    }
+                                    //$volun_name = get_post_meta($voluns->ID, 'webcu_spon_name', true);
+                                    $post_title = $voluns->post_title;
+                                    $post_id = $voluns->ID;
+                                ?>
+                                <option value="<?php echo esc_attr($post_id); ?>"
+                                    <?php selected($saved_value, $post_id); ?>>
+                                    <?php echo esc_html($post_title); ?>
+                                </option>    
+                                <?php    
                                 }
                                 ?>
                         </select>     
                     
-                    
-                        </td>
+                          </td>
                     </tr>
                 </tbody>
             </table>
@@ -123,7 +138,6 @@
             }
 
         }
-
 
     }
       

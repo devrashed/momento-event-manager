@@ -58,7 +58,7 @@ class class_volunteer_custom_metabox{
                 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Volunteer Name', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Volunteer Owner Name', 'mega-event-manager') ?></label>
                         <input type="text" id="webcu_volun_name" name="webcu_volun_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_name', true)); ?>"  
                         placeholder="Volunteer Name">
                     </div>
@@ -166,7 +166,7 @@ class class_volunteer_custom_metabox{
                                     <td>
                                         <select name="webcu_volun_extras[<?php echo esc_attr($key); ?>][volun_social_media]">
                                             <?php
-                                            $options = ['facebook', 'linkedin', 'X', 'instagram', 'pinterest', 'tiktok'];
+                                            $options = ['facebook', 'linkedin', 'X', 'instagram', 'pinterest', 'youtube', 'tiktok'];
                                             foreach ($options as $option) {
                                                 echo '<option value="' . esc_attr($option) . '" ' . 
                                                     selected($extra['volun_social_media'], $option, false) . 

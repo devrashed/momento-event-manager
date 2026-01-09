@@ -72,13 +72,13 @@ class class_sponser_custom_metabox{
             
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Sponsor Name', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Sponsor Owner Name', 'mega-event-manager') ?></label>
                         <input type="text" id="webcu_spon_name" name="webcu_spon_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_spon_name', true)); ?>"  placeholder="Sponsor Name">
                     </div>
 
                     <div class="form-group">
                         <label><?php echo esc_html__('Designation:', 'mega-event-manager') ?> </label>
-                        <input type="text" id="webcu_spon_desig" name="webcu_spon_desig" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_spon_desig', true)); ?>" placeholder="Enter Street Address">
+                        <input type="text" id="webcu_spon_desig" name="webcu_spon_desig" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_spon_desig', true)); ?>" placeholder="Designation">
                     </div>
                 </div>
 
@@ -104,11 +104,11 @@ class class_sponser_custom_metabox{
                     <div class="form-group">
                         <label> <?php echo esc_html__('Latitude:', 'mega-event-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
                         <?php esc_html_e( 'Click here for the latitude and longitude', 'mega-event-manager' ); ?> </a> </span> </label> 
-                        <input type="number" id="webcu_sponser_late" name="webcu_sponser_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_sponser_late', true)); ?>" placeholder="Enter City">
+                        <input type="text" id="webcu_sponser_late" name="webcu_sponser_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_sponser_late', true)); ?>" placeholder="Latitude">
                     </div>
                     <div class="form-group">
                         <label><?php echo esc_html__('Longitude:', 'mega-event-manager') ?></label>
-                        <input type="number" id="webcu_sponser_long" name="webcu_sponser_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_sponser_long', true)); ?>" placeholder="Ex: NY">
+                        <input type="text" id="webcu_sponser_long" name="webcu_sponser_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_sponser_long', true)); ?>" placeholder="Longitude">
                     </div>
                 </div>    
 

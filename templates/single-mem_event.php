@@ -25,14 +25,13 @@ while ( have_posts() ) :
 	}
 
 	//$saved_data = get_post_meta($post->ID, 'attendee_form_data_types', true);
-
 	/* echo "<pre>";
 	var_dump($saved_data);
 	echo "</pre>";  */
 	
-	$organizers = get_post_meta( $event_id, '_uem_organizers', true );
+	/* $organizers = get_post_meta( $event_id, 'webcu_event_orga_name', true );
 	$volunteers = get_post_meta( $event_id, '_uem_volunteers', true );
-	$sponsors = get_post_meta( $event_id, '_uem_sponsors', true );
+	$sponsors = get_post_meta( $event_id, '_uem_sponsors', true ); */
 	
 	$event_date = get_post_meta( $event_id, '_uem_event_date', true );
 	$event_time = get_post_meta( $event_id, '_uem_event_time', true );
@@ -87,49 +86,101 @@ while ( have_posts() ) :
 					<?php the_content(); ?>
 				</div>
 				
-				<?php if ( ! empty( $organizers ) && is_array( $organizers ) ) : ?>
-					<div class="uem-event-organizers">
-						<h3><?php echo esc_html__( 'Organizers', 'ultimate-events-manager' ); ?></h3>
-						<ul>
-							<?php foreach ( $organizers as $organizer_id ) : 
-								$organizer = get_post( $organizer_id );
-								if ( $organizer ) : ?>
-									<li><?php echo esc_html( $organizer->post_title ); ?></li>
-								<?php endif;
-							endforeach; ?>
-						</ul>
-					</div>
+				<!-- organizer -->
+
+				<?php
+				    $saved_value = get_post_meta( $post->ID, 'webcu_event_orga_name', true );
+					if ( ! empty( $saved_value ) ) :
+
+						$post_id    = (int) $saved_value;
+						$post_title = get_the_title( $post_id );
+						$post_link  = get_permalink( $post_id );
+						$thumb      = get_the_post_thumbnail( $post_id, 'thumbnail' );
+				?>
+				<div class="uem-event-organizers">
+					<h3><?php esc_html_e( 'Organizer', 'ultimate-events-manager' ); ?></h3>
+
+					<ul>
+						<li>
+							<a href="<?php echo esc_url( $post_link ); ?>" target="_blank">
+								<?php
+								if ( $thumb ) {
+									echo $thumb;
+								} else {
+									echo '<img src="' . esc_url( wc_placeholder_img_src() ) . '" alt="">';
+								}
+								?>
+								<span><?php echo esc_html( $post_title ); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
 				<?php endif; ?>
-				
-				<?php if ( ! empty( $volunteers ) && is_array( $volunteers ) ) : ?>
-					<div class="uem-event-volunteers">
+
+				<!-- Volunteer -->
+
+				<?php 
+					$saved_value = get_post_meta( $post->ID, 'webcu_event_volunteer_name', true );
+					if ( ! empty( $saved_value ) ) :
+					$post_id    = (int) $saved_value;
+					$post_title = get_the_title( $post_id );
+					$post_link  = get_permalink( $post_id );
+					$thumb      = get_the_post_thumbnail( $post_id, 'thumbnail' );	
+				?>
+
+				<div class="uem-event-volunteers">
 						<h3><?php echo esc_html__( 'Volunteers', 'ultimate-events-manager' ); ?></h3>
-						<ul>
-							<?php foreach ( $volunteers as $volunteer_id ) : 
-								$volunteer = get_post( $volunteer_id );
-								if ( $volunteer ) : ?>
-									<li><?php echo esc_html( $volunteer->post_title ); ?></li>
-								<?php endif;
-							endforeach; ?>
-						</ul>
-					</div>
+				    <ul>
+						<li>
+							<a href="<?php echo esc_url( $post_link ); ?>"  target="_blank">
+								<?php
+								if ( $thumb ) {
+									echo $thumb;
+								} else {
+									echo '<img src="' . esc_url( wc_placeholder_img_src() ) . '" alt="">';
+								}
+								?>
+								<span><?php echo esc_html( $post_title ); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
 				<?php endif; ?>
 				
-				<?php if ( ! empty( $sponsors ) && is_array( $sponsors ) ) : ?>
-					<div class="uem-event-sponsors">
-						<h3><?php echo esc_html__( 'Sponsors', 'ultimate-events-manager' ); ?></h3>
-						<ul>
-							<?php foreach ( $sponsors as $sponsor_id ) : 
-								$sponsor = get_post( $sponsor_id );
-								if ( $sponsor ) : ?>
-									<li><?php echo esc_html( $sponsor->post_title ); ?></li>
-								<?php endif;
-							endforeach; ?>
-						</ul>
-					</div>
+				<!-- Sponsor -->
+				
+				<?php 
+					$saved_value = get_post_meta( $post->ID, 'webcu_event_sponsa_name', true );
+					if ( ! empty( $saved_value ) ) :
+					$post_id    = (int) $saved_value;
+					$post_title = get_the_title( $post_id );
+					$post_link  = get_permalink( $post_id );
+					$thumb      = get_the_post_thumbnail( $post_id, 'thumbnail' );	
+				?>
+
+				<div class="uem-event-sponsors">
+					<h3><?php echo esc_html__( 'Sponsers', 'ultimate-events-manager' ); ?></h3>
+					<ul>
+						<li>
+							<a href="<?php echo esc_url( $post_link ); ?>" target="_blank">
+								<?php
+								if ( $thumb ) {
+									echo $thumb;
+								} else {
+									echo '<img src="' . esc_url( wc_placeholder_img_src() ) . '" alt="" >';
+								}
+								?>
+								<span><?php echo esc_html( $post_title ); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
 				<?php endif; ?>
-			</div>
+
 			
+
+
+
 				<?php if ( ! empty( $tickets ) ) : ?>
 				<div class="uem-event-registration">
 					<h2><?php echo esc_html__( 'Register for this Event', 'ultimate-events-manager' ); ?></h2>
@@ -146,8 +197,6 @@ while ( have_posts() ) :
 
 <?php
 endwhile;
-
-
 
 get_footer();
 
