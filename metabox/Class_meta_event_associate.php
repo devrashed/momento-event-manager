@@ -14,15 +14,15 @@
                 <thead>
                     <tr>
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Organizer', 'mega-event-manager'); ?>
+                            <?php echo esc_html__('Organizer', 'mega-events-manager'); ?>
                         </th>
 
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Volunteer', 'mega-event-manager'); ?>
+                            <?php echo esc_html__('Volunteer', 'mega-events-manager'); ?>
                         </th>
 
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Sponsers', 'mega-event-manager'); ?>
+                            <?php echo esc_html__('Sponsers', 'mega-events-manager'); ?>
                         </th>
                     </tr>
                 </thead>
@@ -33,9 +33,7 @@
                         <td>
                             <select name="webcu_event_orga_name" style="width:100%;">
                                 <?php 
-
                                     $saved_value = get_post_meta($post->ID, 'webcu_event_orga_name', true);
-                                    print_r($saved_value);
                                     $organizers = get_posts([
                                         'post_type'      => 'mem_organizer',
                                         'posts_per_page' => -1,
@@ -55,7 +53,6 @@
                                     }
                                   ?>
                             </select>
-
                         </td>
                         <td>
                         <select name="webcu_event_volunteer_name" style="width:100%;">
@@ -70,7 +67,6 @@
 
                                 foreach ($sponsa as $sponsar) {
 
-                                   //$spons_name = get_post_meta($sponsar->ID, 'webcu_volun_name', true);
                                     $post_title = $sponsar->post_title;
                                     $post_id = $sponsar->ID;
                                 ?>
@@ -79,7 +75,6 @@
                                     <?php selected($saved_value, $post_id); ?>>
                                     <?php echo esc_html($post_title); ?>
                                 </option>    
-
                                 <?php    
                                 }
                                 ?>
@@ -99,7 +94,6 @@
 
                                 foreach ($volun as $voluns) {
 
-                                    //$volun_name = get_post_meta($voluns->ID, 'webcu_spon_name', true);
                                     $post_title = $voluns->post_title;
                                     $post_id = $voluns->ID;
                                 ?>
@@ -140,6 +134,3 @@
         }
 
     }
-      
-  
-

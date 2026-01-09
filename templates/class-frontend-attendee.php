@@ -12,7 +12,7 @@
     $attendee_form = get_post_meta( $post_id, 'attendee_form_data_types', true );
     
     if (!is_array($attendee_form)) {
-        echo '<p>' . esc_html__('No registration form available.', 'mega-event-manager') . '</p>';
+        echo '<p>' . esc_html__('No registration form available.', 'mega-events-manager') . '</p>';
         return;
     }
 
@@ -92,9 +92,9 @@
                                         name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
                                         class="webcu-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Option', 'mega-event-manager'); ?></option>
-                                    <option value="yes"><?php echo esc_html__('Yes', 'mega-event-manager'); ?></option>
-                                    <option value="no"><?php echo esc_html__('No', 'mega-event-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Option', 'mega-events-manager'); ?></option>
+                                    <option value="yes"><?php echo esc_html__('Yes', 'mega-events-manager'); ?></option>
+                                    <option value="no"><?php echo esc_html__('No', 'mega-events-manager'); ?></option>
                                 </select>
                                 <?php
                                 break;
@@ -105,10 +105,10 @@
                                         name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
                                         class="webcu-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Gender', 'mega-event-manager'); ?></option>
-                                    <option value="male"><?php echo esc_html__('Male', 'mega-event-manager'); ?></option>
-                                    <option value="female"><?php echo esc_html__('Female', 'mega-event-manager'); ?></option>
-                                    <option value="other"><?php echo esc_html__('Other', 'mega-event-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Gender', 'mega-events-manager'); ?></option>
+                                    <option value="male"><?php echo esc_html__('Male', 'mega-events-manager'); ?></option>
+                                    <option value="female"><?php echo esc_html__('Female', 'mega-events-manager'); ?></option>
+                                    <option value="other"><?php echo esc_html__('Other', 'mega-events-manager'); ?></option>
                                 </select>
                                 <?php
                                 break;
@@ -188,7 +188,7 @@
                                         name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
                                         class="webcu-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Option', 'mega-event-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Option', 'mega-events-manager'); ?></option>
                                     <?php foreach ($options_array as $option) : ?>
                                         <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                                     <?php endforeach; ?>

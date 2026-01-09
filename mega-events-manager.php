@@ -109,6 +109,7 @@ class Ultimate_Events_Manager {
 	/**
 	 * Load plugin dependencies
 	 */
+
 	private function webcu_load_dependencies() {
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-post-types.php';
 		require_once UEM_PLUGIN_DIR . 'settings/class-uem-settings.php';
@@ -116,6 +117,8 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'settings/class-uem-currency-setting.php';
 		require_once UEM_PLUGIN_DIR . 'settings/class-uem-woocommerce-inte.php';
 		require_once UEM_PLUGIN_DIR . 'settings/class-mem-event-template.php';
+		require_once UEM_PLUGIN_DIR . 'settings/class-google-map.php';
+	
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-organizer-metabox.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-volenteers-metabox.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-sponsers-metabox.php';
@@ -201,7 +204,6 @@ class Ultimate_Events_Manager {
 	 */
 	public function webcu_enqueue_admin_assets( $hook ) {
 		$screen = get_current_screen();
-		//if ( $screen && in_array( $screen->post_type, array( 'uem_event', 'uem_organizer', 'uem_volunteer', 'uem_sponsor', 'uem_registration' ) ) ) {
 			wp_enqueue_script('jquery');
 			wp_enqueue_style( 'uem-admin', UEM_PLUGIN_URL . 'assets/css/admin.css', array(), UEM_VERSION );
 			wp_enqueue_script( 'search-select', UEM_PLUGIN_URL . 'assets/js/jquery-searchbox.js',  array('jquery'), time(), true);
@@ -210,7 +212,6 @@ class Ultimate_Events_Manager {
 			wp_localize_script('uem-admin', 'ajax_ob', array(
 			  'counter'  => $counter ? $counter : 1,
 			) );      
-		//}
 	}
 	
 	/**
@@ -220,12 +221,6 @@ class Ultimate_Events_Manager {
 	 * @return string
 	 */
 	public function webcu_load_event_template( $template ) {
-		/* if ( is_singular( 'mem_event' ) ) {
-			$custom_template = UEM_PLUGIN_DIR . 'templates/single-mem_event.php';
-			if ( file_exists( $custom_template ) ) {
-				return $custom_template;
-			}
-		} */
 
 		if ( is_singular( 'mem_event' ) ) {
 			$template = UEM_PLUGIN_DIR . 'templates/single-mem_event.php';
@@ -259,10 +254,8 @@ class Ultimate_Events_Manager {
                 return $template;
             }
         }
-		
 
-
-		return $template;
+  	 return $template;
 	}
 	
 	/**

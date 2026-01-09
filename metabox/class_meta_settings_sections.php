@@ -17,7 +17,7 @@ public function __construct() {}
       <!-- Row 1: Show Available Seat -->
         <div class="webcu_setting_row">
             <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Show Available Seat?', 'mega-event-manager') ?></div>
+            <div class="label"><?php echo esc_html__('Show Available Seat?', 'mega-events-manager') ?></div>
             </div>
             <div class="webcu_setting_col-right">
             <label class="webcu_setting_toggle" title="Toggle">
@@ -29,34 +29,33 @@ public function __construct() {}
         </div>
 
         <!-- Row 2: Reset Booking Count -->
-        <div class="webcu_setting_row">
+        <!-- <div class="webcu_setting_row">
             <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Reset Booking Count :', 'mega-event-manager') ?></div>
+            <div class="label"><?php ///echo esc_html__('Reset Booking Count :', 'mega-events-manager') ?></div>
             </div>
             <div class="webcu_setting_col-right">
             <label class="webcu_setting_toggle">
                 <input type="checkbox" id="webcu_setting_booking" name="webcu_setting_booking" value="1"
-                            <?php checked(get_post_meta($post->ID, 'webcu_setting_booking', true), '1');?>>
+                            <?php //checked(get_post_meta($post->ID, 'webcu_setting_booking', true), '1');?>>
                 <span class="webcu_setting_slider"><span class="webcu_setting_knob"></span></span>
             </label>
-            <div class="webcu_setting_right-caption"><?php echo esc_html__('Current Booking Status :', 'mega-event-manager') ?></div>
+            <div class="webcu_setting_right-caption"><?php //echo esc_html__('Current Booking Status :', 'mega-events-manager') ?></div>
             </div>
         </div>
 
-        <!-- Info row (blue box spanning) -->
         <div class="webcu_setting_row" style="background:transparent;">
             <div class="webcu_setting_col-right" style="width:100%;">
             <div class="webcu_setting_info">
-                <?php echo esc_html__('<strong>If you reset this count, all booking information will be removed, including the attendee list.</strong>
-                &nbsp;This action is irreversible, so please be sure before you proceed.', 'mega-event-manager') ?>
+                <?php /* echo esc_html__('<strong>If you reset this count, all booking information will be removed, including the attendee list.</strong>
+                &nbsp;This action is irreversible, so please be sure before you proceed.', 'mega-events-manager') */ ?>
             </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Row 3: Show Attendee list? -->
         <div class="webcu_setting_row">
             <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Show Attendee list?', 'mega-event-manager') ?></div>
+            <div class="label"><?php echo esc_html__('Show Attendee list?', 'mega-events-manager') ?></div>
             </div>
             <div class="webcu_setting_col-right">
             <label class="webcu_setting_toggle">
@@ -70,8 +69,8 @@ public function __construct() {}
         <!-- Row 4: Enable Attendee information edit -->
         <div class="webcu_setting_row">
             <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Enable Attendee information edit?', 'mega-event-manager') ?></div>
-            <div class="webcu_setting_sub"><?php echo esc_html__('If enable, Attendee can be edited from the frontend', 'mega-event-manager') ?></div>
+            <div class="label"><?php echo esc_html__('Enable Attendee information edit?', 'mega-events-manager') ?></div>
+            <div class="webcu_setting_sub"><?php echo esc_html__('If enable, Attendee can be edited from the frontend', 'mega-events-manager') ?></div>
             </div>
             <div class="webcu_setting_col-right">
             <label class="webcu_setting_toggle">
@@ -85,7 +84,7 @@ public function __construct() {}
         <!-- Row 5: Member Only Event? + multi-select -->
         <div class="webcu_setting_row">
             <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Member Only Event?', 'mega-event-manager') ?></div>
+            <div class="label"><?php echo esc_html__('Member Only Event?', 'mega-events-manager') ?></div>
             </div>
             <div class="webcu_setting_col-right">
             <label class="webcu_setting_toggle">
@@ -131,12 +130,6 @@ public function __construct() {}
                          $timeline = array_map( 'sanitize_text_field', (array) $timeline );
                         update_post_meta( $post_id, $this->meta_key, $timeline );
                   }
-
-                    
-                /* if (isset($_POST['webcu_setting_roles'])) {
-                    $roles = array_map('sanitize_text_field', $_POST['webcu_setting_roles']);
-                    update_post_meta($post_id, 'webcu_setting_roles', $roles);
-                } */
         }  
 }
 

@@ -54,16 +54,16 @@ class Class_create_dynamic_taxonomy {
         ?>
 
         <div class="wrap">
-            <h2> <?php echo esc_html__('Dynamic Taxonomies', 'mega-event-manager') ?></h2>
+            <h2> <?php echo esc_html__('Dynamic Taxonomies', 'mega-events-manager') ?></h2>
 
             <form method="POST">
                 <table class="form-table">
                     <tr>
-                        <th><label><?php echo esc_html__('Taxonomy Name', 'mega-event-manager') ?></label></th>
+                        <th><label><?php echo esc_html__('Taxonomy Name', 'mega-events-manager') ?></label></th>
                         <td><input type="text" name="taxonomy_name" required class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th><label><?php echo esc_html__('Taxonomy Slug', 'mega-event-manager') ?></label></th>
+                        <th><label><?php echo esc_html__('Taxonomy Slug', 'mega-events-manager') ?></label></th>
                         <td><input type="text" name="taxonomy_slug" required class="regular-text"></td>
                     </tr>
                 </table>
@@ -71,14 +71,14 @@ class Class_create_dynamic_taxonomy {
                 <p><input type="submit" name="webcu_add_taxonomy" class="button button-primary" value="Create Taxonomy"></p>
             </form>
 
-            <h2> <?php echo esc_html__('Existing Taxonomies', 'mega-event-manager') ?></h2>
+            <h2> <?php echo esc_html__('Existing Taxonomies', 'mega-events-manager') ?></h2>
 
             <table class="widefat">
                 <thead>
                 <tr>
-                    <th><?php echo esc_html__('Label', 'mega-event-manager') ?></th>
-                    <th><?php echo esc_html__('Slug', 'mega-event-manager') ?></th>
-                    <th><?php echo esc_html__('Actions', 'mega-event-manager') ?></th>
+                    <th><?php echo esc_html__('Label', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('Slug', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('Actions', 'mega-events-manager') ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -89,13 +89,13 @@ class Class_create_dynamic_taxonomy {
                         <td><?php echo esc_html($data['slug']); ?></td>
                         <td>
                         <a href="<?php echo admin_url('edit.php?post_type=mem_event&page=mem-settings&tab=dytx&delete_tax=' . esc_attr($slug)
-                            ); ?>" onclick="return confirm('Delete this taxonomy?');"><?php echo esc_html__('Delete', 'mega-event-manager') ?> </a>
+                            ); ?>" onclick="return confirm('Delete this taxonomy?');"><?php echo esc_html__('Delete', 'mega-events-manager') ?> </a>
 
                         </td>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <tr><td colspan="3"> <?php echo esc_html__('No taxonomies found.', 'mega-event-manager') ?></td></tr>
+                    <tr><td colspan="3"> <?php echo esc_html__('No taxonomies found.', 'mega-events-manager') ?></td></tr>
                 <?php endif; ?>
                 </tbody>
             </table>

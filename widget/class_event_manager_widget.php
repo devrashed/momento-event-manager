@@ -16,9 +16,9 @@ class class_event_manager_widget{
     public function webcu_register_event_widgets() {
 
         register_sidebar( array(
-            'name'          => __( 'Event Organizer Sidebar', 'ultimate-event-manager' ),
+            'name'          => __( 'Event Organizer Sidebar', 'mega-events-manager' ),
             'id'            => 'webcu_event_orgnizer_sidebar',
-            'description'   => __( 'Widgets for Event Organizer section.', 'ultimate-event-manager' ),
+            'description'   => __( 'Widgets for Event Organizer section.', 'mega-events-manager' ),
             'before_widget' => '<div class="webcu-box">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="webcu-title">',
@@ -26,9 +26,9 @@ class class_event_manager_widget{
         ) );
 
         register_sidebar( array(
-            'name'          => __( 'Event Sponser Sidebar', 'ultimate-event-manager' ),
+            'name'          => __( 'Event Sponser Sidebar', 'mega-events-manager' ),
             'id'            => 'webcu_event_sponser_sidebar',
-            'description'   => __( 'Widgets for Event Sponser section.', 'ultimate-event-manager' ),
+            'description'   => __( 'Widgets for Event Sponser section.', 'mega-events-manager' ),
             'before_widget' => '<div class="webcu-box">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="webcu-title">',
@@ -36,9 +36,9 @@ class class_event_manager_widget{
         ) );    
         
         register_sidebar( array(
-            'name'          => __( 'Event Volunteer Sidebar', 'ultimate-event-manager' ),
+            'name'          => __( 'Event Volunteer Sidebar', 'mega-events-manager' ),
             'id'            => 'webcu_event_volunteer_sidebar',
-            'description'   => __( 'Widgets for Event Volunteer section.', 'ultimate-event-manager' ),
+            'description'   => __( 'Widgets for Event Volunteer section.', 'mega-events-manager' ),
             'before_widget' => '<div class="webcu-box">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="webcu-title">',

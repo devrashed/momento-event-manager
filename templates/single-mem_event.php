@@ -2,7 +2,7 @@
 /**
  * Single Event Template
  *
- * @package Ultimate_Events_Manager
+ * @package Mega_Events_Manager
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,15 +23,6 @@ while ( have_posts() ) :
 	if ( ! is_array( $tickets ) ) {
 		$tickets = array();
 	}
-
-	//$saved_data = get_post_meta($post->ID, 'attendee_form_data_types', true);
-	/* echo "<pre>";
-	var_dump($saved_data);
-	echo "</pre>";  */
-	
-	/* $organizers = get_post_meta( $event_id, 'webcu_event_orga_name', true );
-	$volunteers = get_post_meta( $event_id, '_uem_volunteers', true );
-	$sponsors = get_post_meta( $event_id, '_uem_sponsors', true ); */
 	
 	$event_date = get_post_meta( $event_id, '_uem_event_date', true );
 	$event_time = get_post_meta( $event_id, '_uem_event_time', true );
@@ -56,7 +47,7 @@ while ( have_posts() ) :
 				
 				<div class="uem-event-details">          
 					<?php if ( $event_date ) : ?>
-						<p><strong><?php echo esc_html__( 'Event Date:', 'ultimate-events-manager' ); ?></strong> 
+						<p><strong><?php echo esc_html__( 'Event Date:', 'mega-events-manager' ); ?></strong> 
 							<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $event_date ) ) ); ?>
 							<?php if ( $event_time ) : ?>
 								<?php echo esc_html( date_i18n( get_option( 'time_format' ), strtotime( $event_time ) ) ); ?>
@@ -65,7 +56,7 @@ while ( have_posts() ) :
 					<?php endif; ?>
 					
 					<?php if ( $event_end_date ) : ?>
-						<p><strong><?php echo esc_html__( 'Event End Date:', 'ultimate-events-manager' ); ?></strong> 
+						<p><strong><?php echo esc_html__( 'Event End Date:', 'mega-events-manager' ); ?></strong> 
 							<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $event_end_date ) ) ); ?>
 							<?php if ( $event_end_time ) : ?>
 								<?php echo esc_html( date_i18n( get_option( 'time_format' ), strtotime( $event_end_time ) ) ); ?>
@@ -74,11 +65,11 @@ while ( have_posts() ) :
 					<?php endif; ?>
 					
 					<?php if ( $event_location ) : ?>
-						<p><strong><?php echo esc_html__( 'Location:', 'ultimate-events-manager' ); ?></strong> <?php echo esc_html( $event_location ); ?></p>
+						<p><strong><?php echo esc_html__( 'Location:', 'mega-events-manager' ); ?></strong> <?php echo esc_html( $event_location ); ?></p>
 					<?php endif; ?>
 					
 					<?php if ( $event_address ) : ?>
-						<p><strong><?php echo esc_html__( 'Address:', 'ultimate-events-manager' ); ?></strong><br><?php echo nl2br( esc_html( $event_address ) ); ?></p>
+						<p><strong><?php echo esc_html__( 'Address:', 'mega-events-manager' ); ?></strong><br><?php echo nl2br( esc_html( $event_address ) ); ?></p>
 					<?php endif; ?>
 				</div>
 				
@@ -98,7 +89,7 @@ while ( have_posts() ) :
 						$thumb      = get_the_post_thumbnail( $post_id, 'thumbnail' );
 				?>
 				<div class="uem-event-organizers">
-					<h3><?php esc_html_e( 'Organizer', 'ultimate-events-manager' ); ?></h3>
+					<h3><?php esc_html_e( 'Organizer', 'mega-events-manager' ); ?></h3>
 
 					<ul>
 						<li>
@@ -129,7 +120,7 @@ while ( have_posts() ) :
 				?>
 
 				<div class="uem-event-volunteers">
-						<h3><?php echo esc_html__( 'Volunteers', 'ultimate-events-manager' ); ?></h3>
+						<h3><?php echo esc_html__( 'Volunteers', 'mega-events-manager' ); ?></h3>
 				    <ul>
 						<li>
 							<a href="<?php echo esc_url( $post_link ); ?>"  target="_blank">
@@ -159,7 +150,7 @@ while ( have_posts() ) :
 				?>
 
 				<div class="uem-event-sponsors">
-					<h3><?php echo esc_html__( 'Sponsers', 'ultimate-events-manager' ); ?></h3>
+					<h3><?php echo esc_html__( 'Sponsers', 'mega-events-manager' ); ?></h3>
 					<ul>
 						<li>
 							<a href="<?php echo esc_url( $post_link ); ?>" target="_blank">
@@ -183,7 +174,7 @@ while ( have_posts() ) :
 
 				<?php if ( ! empty( $tickets ) ) : ?>
 				<div class="uem-event-registration">
-					<h2><?php echo esc_html__( 'Register for this Event', 'ultimate-events-manager' ); ?></h2>
+					<h2><?php echo esc_html__( 'Register for this Event', 'mega-events-manager' ); ?></h2>
 					
 					<?php if ( $is_woocommerce ) : ?>
 						<?php webcu_uem_render_woocommerce_registration( $event_id, $tickets ); ?>

@@ -89,6 +89,20 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	/* vanue / location show hide */
+	jQuery('#offline_meeting').show();
+	jQuery('#vistual_on_meeting').hide();
+	jQuery('#toggleStatus').on('change', function () {
+
+		if (jQuery(this).is(':checked')) {
+			jQuery('#offline_meeting').hide();
+			jQuery('#vistual_on_meeting').show();
+		} else {
+			jQuery('#vistual_on_meeting').hide();
+			jQuery('#offline_meeting').show();
+		}
+	});
+
 });
 
 //select 2 and search 
@@ -118,333 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // ==== ticket price ===
-
-/* jQuery(function ($) {
-	var $tbody = $('#webcu_tk_ticketTable tbody');
-
-	jQuery('#webcu_tk_registrationToggle').on('click', function () {
-		jQuery(this).toggleClass('webcu_tk_on');
-		jQuery('#webcu_tk_registrationSection').toggle(jQuery(this).hasClass('webcu_tk_on'));
-		jQuery('#webcu_tk_registration_enabled').val(jQuery(this).hasClass('webcu_tk_on') ? '1' : '0');
-	});
-	jQuery('#webcu_tk_advancedToggle').on('click', function () {
-		jQuery(this).toggleClass('webcu_tk_on');
-		var isOn = jQuery(this).hasClass('webcu_tk_on');
-		jQuery('#webcu_tk_advanced_toggle').val(isOn ? '1' : '0');
-		if (isOn) {
-			jQuery('.webcu_tk_advanced').show();
-		} else {
-			jQuery('.webcu_tk_advanced').hide();
-		}
-	});
-	function updateDraggables() {
-		jQuery('#webcu_tk_ticketTable tbody tr').removeClass('webcu_tk_draggable-top');
-		var first = jQuery('#webcu_tk_ticketTable tbody tr.webcu_tk_ticket-row');
-		if (first.length) { first.addClass('webcu_tk_draggable-top'); }
-	}
-	jQuery('#webcu_tk_addTicket').on('click', function (e) {
-		e.preventDefault();
-		var cols = jQuery('#webcu_tk_ticketTable thead th').length;
-		var timestamp = Date.now();
-		var row = '<tr class=\"webcu_tk_ticket-row\">' +
-			'<td><input type=\"text\" name=\"webcu_tk_tickets[' + timestamp + '][name]\" placeholder=\"Ticket\"></td>' +
-			'<td><input type=\"text\" name=\"webcu_tk_tickets[' + timestamp + '][description]\" placeholder=\"Short description\"></td>' +
-			'<td><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][price]\" value=\"0\"></td>' +
-			'<td><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][capacity]\" value=\"0\"></td>' +
-			'<td class=\"webcu_tk_advanced\"><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][default_qty]\" placeholder=\"Ex:1\"></td>' +
-			'<td class=\"webcu_tk_advanced\"><input type=\"number\" name=\"webcu_tk_tickets[' + timestamp + '][reserve_qty]\" placeholder=\"Ex:1\"></td>' +
-			'<td class=\"webcu_tk_advanced\"><input type=\"date\" name=\"webcu_tk_tickets[' + timestamp + '][sale_end_date]\"></td>' +
-			'<td class=\"webcu_tk_advanced\"><input type=\"time\" name=\"webcu_tk_tickets[' + timestamp + '][sale_end_time]\"></td>' +
-			'<td><select name=\"webcu_tk_tickets[' + timestamp + '][qty_box]\"><option>Input Box</option><option>Dropdown</option><option>Hidden</option></select></td>' +
-			'<td class=\"webcu_tk_action-icons\">' +
-			'<button type=\"button\" class=\"webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove-row\">✖</button>' +
-			'<button type=\"button\" class=\"webcu_tk_btn webcu_tk_btn-outline webcu_tk_btn-small webcu_tk_move-row\">☰</button>' +
-			'</td>' +
-			'</tr>';
-		jQuery('#webcu_tk_ticketTable tbody').append(row);
-		updateDraggables();
-		if (jQuery('#webcu_tk_advancedToggle').hasClass('webcu_tk_on')) {
-			jQuery('.webcu_tk_advanced').show();
-		}
-	});
-
-	jQuery('#webcu_tk_addExtra').on('click', function (e) {
-		e.preventDefault();
-
-		jQuery('#webcu_tk_extraTable .webcu_tk_empty-row').remove();
-
-
-		var timestamp = Date.now();
-		var row = '<tr>' +
-			'<td><input type=\"text\" name=\"webcu_tk_extras[' + timestamp + '][name]\" placeholder=\"Name\" /></td>' +
-			'<td><input type=\"number\" name=\"webcu_tk_extras[' + timestamp + '][price]\" placeholder=\"Price\" /></td>' +
-			'<td><input type=\"number\" name=\"webcu_tk_extras[' + timestamp + '][available_qty]\" placeholder=\"Available Qty\" /></td>' +
-			'<td><select name=\"webcu_tk_extras[' + timestamp + '][qty_box]\"><option>Input Box</option><option>Dropdown</option></select></td>' +
-			'<td><button type=\"button\" class=\"webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove_extra_row\">✖</button></td>' +
-			'</tr>';
-		jQuery('#webcu_tk_extraTable tbody').append(row);
-	});
-
-	jQuery(document).on('click', '.webcu_tk_remove_extra_row', function () {
-
-		if (confirm('Are you sure you want to remove this Field?')) {
-			jQuery(this).closest('tr').remove();
-		}
-
-		if (jQuery('#webcu_tk_extraTable tbody tr').length === 0) {
-			jQuery('#webcu_tk_extraTable tbody').append('<tr class=\"webcu_tk_empty-row\"><td colspan=\"5\">No extra service added yet.</td></tr>');
-		}
-	});
-	jQuery(document).on('click', '.webcu_tk_remove-row', function () {
-
-		if (confirm('Are you sure you want to remove this Ticket & Pricing?')) {
-			jQuery(this).closest('tr').remove();
-			updateDraggables();
-		}
-
-	});
-	updateDraggables();
-	var dragging = false, $dragged = null, $placeholder = null;
-	var colCount = jQuery('#webcu_tk_ticketTable thead th').length;
-	function createPlaceholder() {
-		return jQuery('<tr class=\"webcu_tk_placeholder-row\"><td colspan=\"' + colCount + '\"></td></tr>');
-	}
-	jQuery(document).on('mousedown', '.webcu_tk_move-row', function (e) {
-		var $tr = jQuery(this).closest('tr');
-		if (!$tr.hasClass('webcu_tk_draggable-top')) {
-			alert('Only the top row is movable in this demo.');
-			return;
-		}
-		e.preventDefault();
-		e.stopPropagation();
-		dragging = true;
-		$dragged = $tr.addClass('webcu_tk_dragging');
-		jQuery('body').addClass('webcu_tk_no-select');
-		$placeholder = createPlaceholder();
-		$dragged.after($placeholder);
-		jQuery(document).on('mousemove.ticketdrag', function (ev) {
-			ev.preventDefault();
-			var el = document.elementFromPoint(ev.clientX, ev.clientY);
-			if (!el) return;
-			var $targetRow = jQuery(el).closest('tr');
-			if (!$targetRow.length || $targetRow.is($placeholder) || !$targetRow.closest('tbody').is($tbody)) return;
-			if ($targetRow.is($dragged)) return;
-			var phIndex = $placeholder.index();
-			var targetIndex = $targetRow.index();
-			if (targetIndex > phIndex) $targetRow.after($placeholder);
-			else $targetRow.before($placeholder);
-		});
-		jQuery(document).on('mouseup.ticketdrag', function () {
-			jQuery(document).off('.ticketdrag');
-			jQuery('body').removeClass('webcu_tk_no-select');
-			if ($placeholder && $dragged) { $placeholder.replaceWith($dragged); }
-			$dragged.removeClass('webcu_tk_dragging');
-			$placeholder = null; $dragged = null; dragging = false;
-			updateDraggables();
-		});
-	});
-	jQuery(document).on('selectstart', function (e) { if (dragging) e.preventDefault(); });
-	jQuery('.webcu_tk_advanced').hide();
-});
- */
-
-
-/* ==== 2nd good code ===== */
-
-/* jQuery(document).ready(function ($) {
-
- var webcuTicketManager = {
-	 init: function () {
-		 this.bindEvents();
-		 this.updateDraggables();
-		 this.toggleAdvancedColumns();
-	 },
-
-	 bindEvents: function () {
-		 // Registration toggle
-		 $('#webcu_tk_registrationToggle').on('click', this.toggleRegistration);
-
-		 // Advanced columns toggle
-		 $('#webcu_tk_advancedToggle').on('click', this.toggleAdvanced);
-
-		 // Add ticket row
-		 $('#webcu_tk_addTicket').on('click', this.addTicketRow);
-
-		 // Add extra row
-		 $('#webcu_tk_addExtra').on('click', this.addExtraRow);
-
-		 // Remove ticket row
-		 $(document).on('click', '.webcu_tk_remove-row', this.removeTicketRow);
-
-		 // Remove extra row
-		 $(document).on('click', '.webcu_tk_remove_extra_row', this.removeExtraRow);
-
-		 // Drag functionality
-		 $(document).on('mousedown', '.webcu_tk_move-row', this.startDragging);
-	 },
-
-	 toggleRegistration: function () {
-		 var $toggle = $(this);
-		 $toggle.toggleClass('webcu_tk_on');
-		 var isEnabled = $toggle.hasClass('webcu_tk_on') ? '1' : '0';
-		 $('#webcu_tk_registration_enabled').val(isEnabled);
-		 $('#webcu_tk_registrationSection').toggle(isEnabled === '1');
-	 },
-
-	 toggleAdvanced: function () {
-		 var $toggle = $(this);
-		 $toggle.toggleClass('webcu_tk_on');
-		 var isEnabled = $toggle.hasClass('webcu_tk_on') ? '1' : '0';
-		 $('#webcu_tk_advanced_toggle').val(isEnabled);
-		 $('.webcu_tk_advanced').toggle(isEnabled === '1');
-	 },
-
-	 toggleAdvancedColumns: function () {
-		 var isEnabled = $('#webcu_tk_advanced_toggle').val() === '1';
-		 $('.webcu_tk_advanced').toggle(isEnabled);
-	 },
-
-	 addTicketRow: function (e) {
-		 e.preventDefault();
-		 var timestamp = Date.now() + Math.floor(Math.random() * 1000);
-		 var advancedStyle = $('#webcu_tk_advancedToggle').hasClass('webcu_tk_on') ? '' : 'style="display:none;"';
-
-		 var row = '<tr class="webcu_tk_ticket-row">' +
-			 '<input type="hidden" name="webcu_tk_tickets[' + timestamp + '][type]" value="ticket">' +
-			 '<td><input type="text" name="webcu_tk_tickets[' + timestamp + '][name]" placeholder="Ticket"></td>' +
-			 '<td><input type="text" name="webcu_tk_tickets[' + timestamp + '][description]" placeholder="Short description"></td>' +
-			 '<td><input type="number" name="webcu_tk_tickets[' + timestamp + '][price]" value="0" step="0.01"></td>' +
-			 '<td><input type="number" name="webcu_tk_tickets[' + timestamp + '][quantity]" value="0" placeholder="Ex:1"></td>' +
-			 '<td class="webcu_tk_advanced" ' + advancedStyle + '><input type="number" name="webcu_tk_tickets[' + timestamp + '][default_qty]" placeholder="Ex:1"></td>' +
-			 '<td class="webcu_tk_advanced" ' + advancedStyle + '><input type="number" name="webcu_tk_tickets[' + timestamp + '][reserve_qty]" placeholder="Ex:1"></td>' +
-			 '<td class="webcu_tk_advanced" ' + advancedStyle + '><input type="date" name="webcu_tk_tickets[' + timestamp + '][sale_end_date]"></td>' +
-			 '<td class="webcu_tk_advanced" ' + advancedStyle + '><input type="time" name="webcu_tk_tickets[' + timestamp + '][sale_end_time]"></td>' +
-			 '<td><select name="webcu_tk_tickets[' + timestamp + '][qty_box]">' +
-			 '<option value="Input Box">Input Box</option>' +
-			 '<option value="Dropdown">Dropdown</option>' +
-			 '</select></td>' +
-			 '<td class="webcu_tk_action-icons">' +
-			 '<button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove-row" title="Remove">✖</button>' +
-			 '<button type="button" class="webcu_tk_btn webcu_tk_btn-outline webcu_tk_btn-small webcu_tk_move-row" title="Drag Top">☰</button>' +
-			 '</td>' +
-			 '</tr>';
-
-		 $('#webcu_tk_ticketTable tbody').append(row);
-		 webcuTicketManager.updateDraggables();
-	 },
-
-	 addExtraRow: function (e) {
-		 e.preventDefault();
-		 var timestamp = Date.now() + Math.floor(Math.random() * 1000);
-
-		 var row = '<tr class="webcu_tk_extra-row">' +
-			 '<input type="hidden" name="webcu_tk_tickets[' + timestamp + '][type]" value="extra">' +
-			 '<td><input type="text" name="webcu_tk_tickets[' + timestamp + '][name]" placeholder="Name" /></td>' +
-			 '<td><input type="number" name="webcu_tk_tickets[' + timestamp + '][price]" placeholder="Price" step="0.01" /></td>' +
-			 '<td><input type="number" name="webcu_tk_tickets[' + timestamp + '][available_qty]" placeholder="Available Qty" /></td>' +
-			 '<td><select name="webcu_tk_tickets[' + timestamp + '][qty_box]">' +
-			 '<option value="Input Box">Input Box</option>' +
-			 '<option value="Dropdown">Dropdown</option>' +
-			 '</select></td>' +
-			 '<td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove_extra_row">✖</button></td>' +
-			 '</tr>';
-
-		 $('#webcu_tk_extraTable .webcu_tk_empty-row').remove();
-		 $('#webcu_tk_extraTable tbody').append(row);
-	 },
-
-	 removeTicketRow: function () {
-		 if (confirm('Are you sure you want to remove this Ticket & Pricing?')) {
-			 $(this).closest('tr').remove();
-			 webcuTicketManager.updateDraggables();
-		 }
-	 },
-
-	 removeExtraRow: function () {
-		 if (confirm('Are you sure you want to remove this Extra Service?')) {
-			 var $row = $(this).closest('tr');
-			 $row.remove();
-
-			 // Add empty row if no extras left
-			 if ($('#webcu_tk_extraTable tbody tr').length === 0) {
-				 $('#webcu_tk_extraTable tbody').append(
-					 '<tr class="webcu_tk_empty-row">' +
-					 '<td colspan="5">No extra service added yet.</td>' +
-					 '</tr>'
-				 );
-			 }
-		 }
-	 },
-
-	 updateDraggables: function () {
-		 $('#webcu_tk_ticketTable tbody tr').removeClass('webcu_tk_draggable-top');
-		 var $firstRow = $('#webcu_tk_ticketTable tbody tr.webcu_tk_ticket-row:first');
-		 if ($firstRow.length) {
-			 $firstRow.addClass('webcu_tk_draggable-top');
-		 }
-	 },
-
-	 startDragging: function (e) {
-		 e.preventDefault();
-		 e.stopPropagation();
-
-		 var $tr = $(this).closest('tr');
-		 if (!$tr.hasClass('webcu_tk_draggable-top')) {
-			 alert('Only the top row can be moved.');
-			 return false;
-		 }
-
-		 var $tbody = $('#webcu_tk_ticketTable tbody');
-		 var colCount = $('#webcu_tk_ticketTable thead th').length;
-		 var $dragged = $tr.addClass('webcu_tk_dragging');
-		 var $placeholder = $('<tr class="webcu_tk_placeholder-row"><td colspan="' + colCount + '"></td></tr>');
-
-		 $dragged.after($placeholder);
-		 $('body').addClass('webcu_tk_no-select');
-
-		 var mouseMoveHandler = function (ev) {
-			 ev.preventDefault();
-			 var $targetRow = $(document.elementFromPoint(ev.clientX, ev.clientY)).closest('tr');
-
-			 if (!$targetRow.length || $targetRow.is($placeholder) || !$targetRow.closest('tbody').is($tbody)) {
-				 return;
-			 }
-			 if ($targetRow.is($dragged)) {
-				 return;
-			 }
-
-			 var phIndex = $placeholder.index();
-			 var targetIndex = $targetRow.index();
-
-			 if (targetIndex > phIndex) {
-				 $targetRow.after($placeholder);
-			 } else {
-				 $targetRow.before($placeholder);
-			 }
-		 };
-
-		 var mouseUpHandler = function () {
-			 $(document).off('mousemove', mouseMoveHandler);
-			 $(document).off('mouseup', mouseUpHandler);
-			 $('body').removeClass('webcu_tk_no-select');
-
-			 if ($placeholder && $dragged) {
-				 $placeholder.replaceWith($dragged);
-			 }
-			 $dragged.removeClass('webcu_tk_dragging');
-			 webcuTicketManager.updateDraggables();
-		 };
-
-		 $(document).on('mousemove', mouseMoveHandler);
-		 $(document).on('mouseup', mouseUpHandler);
-
-		 return false;
-	 }
- };
-
- // Initialize the ticket manager
- webcuTicketManager.init();
-}); */
 
 jQuery(function ($) {
 	var $tbody = $('#webcu_tk_ticketTable tbody');
@@ -576,8 +263,6 @@ jQuery(function ($) {
 	jQuery(document).on('selectstart', function (e) { if (dragging) e.preventDefault(); });
 	jQuery('.webcu_tk_advanced').hide();
 });
-
-
 
 
 
@@ -799,22 +484,6 @@ jQuery(document).ready(function ($) {
 });
 
 
-/* jQuery(function ($) {
-	jQuery('#registration_form_type').on('change', function () {
-	
-		jQuery('#global_form').hide();
-		if (jQuery(this).val() === 'custom_form') {
-			jQuery('#custom_form_wrapper').slideDown();
-			jQuery('#global_form').hide();
-	
-		} else if (jQuery(this).val() === 'global_form') {
-			jQuery('#custom_form_wrapper').slideUp();
-			jQuery('#global_form').show();
-		}
-	});
-}); */
-
-
 /* ==== Registration form =====*/
 
 jQuery(document).ready(function ($) {
@@ -872,29 +541,6 @@ jQuery(document).ready(function ($) {
 	});
 
 });
-
-
-
-
-/* jQuery(function ($) {
-	jQuery('#registration_form_type').on('change', function () {
-		console.log('change');
-	
-		if (jQuery(this).val() === 'custom_form') {
-			jQuery('#attendee_form_wrapper').slideDown();
-			jQuery('#attendee_global_form').hide();
-		} else if (jQuery(this).val() === 'global_form') {
-			jQuery('#attendee_form_wrapper').slideUp();
-			jQuery('#attendee_global_form').show();
-		} else {
-			jQuery('#attendee_form_wrapper').hide();
-			jQuery('#attendee_global_form').hide();
-		}
-	});
-	
-	jQuery('#registration_form_type').trigger('change');
-}); */
-
 
 
 //====== Registration Form =======
@@ -1189,13 +835,6 @@ jQuery(function ($) {
 	}).disableSelection();
 
 	// Expand / Collapse Toggle
-
-	/* jQuery(document).on('click', '.webcu_tc-expand', function() {
-		jQuery(this).closest('.webcu_tc-item').find('.webcu_tc-body').slideToggle();
-	}); */
-
-
-	//$(document).on('click', '.webcu_btn-expand', function(e) {
 
 	jQuery(document).on('click', '.webcu_tc-expand', function () {
 		var body = jQuery(this).closest('.webcu_tc-item').find('.webcu_tc-body');
@@ -2051,7 +1690,6 @@ jQuery(document).ready(function ($) {
 	});
 
 });
-
 
 
 /* ========== End Metabox ============= */

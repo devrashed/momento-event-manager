@@ -24,13 +24,13 @@ class Class_uem_woocommerce_inte {
         ?>
 
         <div class="wrap">
-            <h1><?php echo esc_html__('Ultimate Event - WooCommerce Integration', 'mega-event-manager'); ?></h1>
+            <h1><?php echo esc_html__('Ultimate Event - WooCommerce Integration', 'mega-events-manager'); ?></h1>
 
             <form method="post" action="<?php echo esc_url( admin_url( 'edit.php?post_type=mem_event&page=mem-settings' ) ); ?>">
                 <?php wp_nonce_field('save_woo_integration_settings'); ?>
 
                 <label class="switch-label">
-                    <?php echo esc_html__('WooCommerce Integration', 'mega-event-manager'); ?>
+                    <?php echo esc_html__('WooCommerce Integration', 'mega-events-manager'); ?>
                     <label class="switch">
 
                     <?php 
@@ -51,7 +51,7 @@ class Class_uem_woocommerce_inte {
                 </label>
 
                 <br><br>
-               <input type="submit" name="webcu_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'mega-event-manager'); ?>" />
+               <input type="submit" name="webcu_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'mega-events-manager'); ?>" />
             </form>
 
            <?php 
@@ -80,7 +80,7 @@ class Class_uem_woocommerce_inte {
 
             // Show admin notice after save
             add_action( 'admin_notices', function() {
-                echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'mega-event-manager' ) . '</p></div>';
+                echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'mega-events-manager' ) . '</p></div>';
             } );
         }
     }

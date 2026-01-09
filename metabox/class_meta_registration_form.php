@@ -83,18 +83,18 @@ class Class_meta_registration_form {
         
         <br><br>
         
-        <h3><?php echo esc_html__('Custom Registration Fields', 'mega-event-manager'); ?></h3>
-        <p class="description"><?php echo esc_html__('Add custom fields to your registration form', 'mega-event-manager'); ?></p>
+        <h3><?php echo esc_html__('Custom Registration Fields', 'megas-event-manager'); ?></h3>
+        <p class="description"><?php echo esc_html__('Add custom fields to your registration form', 'megas-event-manager'); ?></p>
 
         <table id="ue_regi-fields-table" class="attendee-fields-table" style="width:100%; border-collapse: collapse; margin-top: 15px;">
             <thead>
                 <tr>
-                    <th><?php echo esc_html__('Field Label', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Unique ID', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Field Type', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Options (for select/radio/checkbox)', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Required', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Action', 'mega-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Label', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Unique ID', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Type', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Options (for select/radio/checkbox)', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Required', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Action', 'mega-events-manager'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -106,24 +106,24 @@ class Class_meta_registration_form {
                                        name="ue_regi_field_label[]" 
                                        value="<?php echo esc_attr($field['label']); ?>"
                                        class="widefat"
-                                       placeholder="<?php echo esc_attr__('Field Label', 'mega-event-manager'); ?>">
+                                       placeholder="<?php echo esc_attr__('Field Label', 'mega-events-manager'); ?>">
                             </td>
                             <td>
                                 <input type="text" 
                                        name="ue_regi_field_id[]" 
                                        value="<?php echo esc_attr($field['id']); ?>"
                                        class="widefat"
-                                       placeholder="<?php echo esc_attr__('field_id', 'mega-event-manager'); ?>">
+                                       placeholder="<?php echo esc_attr__('field_id', 'mega-events-manager'); ?>">
                             </td>
                             <td>
                                 <select name="ue_regi_field_type[]" class="ue_regi-field-type widefat">
-                                    <option value="text" <?php selected($field['type'], 'text'); ?>><?php echo esc_html__('Text', 'mega-event-manager'); ?></option>
-                                    <option value="email" <?php selected($field['type'], 'email'); ?>><?php echo esc_html__('Email', 'mega-event-manager'); ?></option>
-                                    <option value="number" <?php selected($field['type'], 'number'); ?>><?php echo esc_html__('Number', 'mega-event-manager'); ?></option>
-                                    <option value="select" <?php selected($field['type'], 'select'); ?>><?php echo esc_html__('Select', 'mega-event-manager'); ?></option>
-                                    <option value="checkbox" <?php selected($field['type'], 'checkbox'); ?>><?php echo esc_html__('Checkbox', 'mega-event-manager'); ?></option>
-                                    <option value="radio" <?php selected($field['type'], 'radio'); ?>><?php echo esc_html__('Radio', 'mega-event-manager'); ?></option>
-                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>><?php echo esc_html__('Textarea', 'mega-event-manager'); ?></option>
+                                    <option value="text" <?php selected($field['type'], 'text'); ?>><?php echo esc_html__('Text', 'mega-events-manager'); ?></option>
+                                    <option value="email" <?php selected($field['type'], 'email'); ?>><?php echo esc_html__('Email', 'mega-events-manager'); ?></option>
+                                    <option value="number" <?php selected($field['type'], 'number'); ?>><?php echo esc_html__('Number', 'mega-events-manager'); ?></option>
+                                    <option value="select" <?php selected($field['type'], 'select'); ?>><?php echo esc_html__('Select', 'mega-events-manager'); ?></option>
+                                    <option value="checkbox" <?php selected($field['type'], 'checkbox'); ?>><?php echo esc_html__('Checkbox', 'mega-events-manager'); ?></option>
+                                    <option value="radio" <?php selected($field['type'], 'radio'); ?>><?php echo esc_html__('Radio', 'mega-events-manager'); ?></option>
+                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>><?php echo esc_html__('Textarea', 'mega-events-manager'); ?></option>
                                 </select>
                             </td>
                             <td>
@@ -131,17 +131,17 @@ class Class_meta_registration_form {
                                     name="ue_regi_field_options[]"
                                     class="ue_regi-field-options widefat"
                                     value="<?php echo esc_attr($field['options'] ?? ''); ?>"
-                                    placeholder="<?php echo esc_attr__('Option1, Option2', 'mega-event-manager'); ?>"
+                                    placeholder="<?php echo esc_attr__('Option1, Option2', 'mega-events-manager'); ?>"
                                     style="<?php echo in_array($field['type'], ['select','checkbox','radio']) ? '' : 'display:none;'; ?>">
                             </td>
                             <td>
                                 <select name="ue_field_required[]" class="widefat">
-                                    <option value="no" <?php selected($field['required'], 'no'); ?>> <?php echo esc_html__('Not Required', 'mega-event-manager'); ?></option>
-                                    <option value="yes" <?php selected($field['required'], 'yes'); ?>> <?php echo esc_html__('Required', 'mega-event-manager'); ?></option>
+                                    <option value="no" <?php selected($field['required'], 'no'); ?>> <?php echo esc_html__('Not Required', 'mega-events-manager'); ?></option>
+                                    <option value="yes" <?php selected($field['required'], 'yes'); ?>> <?php echo esc_html__('Required', 'mega-events-manager'); ?></option>
                                 </select>
                             </td>
                             <td>
-                                <button type="button" class="custom_form_remove-row button button-danger">
+                                <button type="button" id="custom_form_remove-row" class="button button-danger">
                                     <span class="dashicons dashicons-no"></span>
                                 </button>
                             </td>
@@ -154,36 +154,36 @@ class Class_meta_registration_form {
                             <input type="text" 
                                    name="ue_regi_field_label[]" 
                                    class="widefat"
-                                   placeholder="<?php echo esc_attr__('Field Label', 'mega-event-manager'); ?>">
+                                   placeholder="<?php echo esc_attr__('Field Label', 'mega-events-manager'); ?>">
                         </td>
                         <td>
                             <input type="text" 
                                    name="ue_regi_field_id[]" 
                                    class="widefat"
-                                   placeholder="<?php echo esc_attr__('field_id', 'mega-event-manager'); ?>">
+                                   placeholder="<?php echo esc_attr__('field_id', 'mega-events-manager'); ?>">
                         </td>
                         <td>
                             <select name="ue_regi_field_type[]" class="ue_regi-field-type widefat">
-                                <option value="text"><?php echo esc_html__('Text', 'mega-event-manager'); ?></option>
-                                <option value="email"><?php echo esc_html__('Email', 'mega-event-manager'); ?></option>
-                                <option value="number"><?php echo esc_html__('Number', 'mega-event-manager'); ?></option>
-                                <option value="select"><?php echo esc_html__('Select', 'mega-event-manager'); ?></option>
-                                <option value="checkbox"><?php echo esc_html__('Checkbox', 'mega-event-manager'); ?></option>
-                                <option value="radio"><?php echo esc_html__('Radio', 'mega-event-manager'); ?></option>
-                                <option value="textarea"><?php echo esc_html__('Textarea', 'mega-event-manager'); ?></option>
+                                <option value="text"><?php echo esc_html__('Text', 'mega-events-manager'); ?></option>
+                                <option value="email"><?php echo esc_html__('Email', 'mega-events-manager'); ?></option>
+                                <option value="number"><?php echo esc_html__('Number', 'mega-events-manager'); ?></option>
+                                <option value="select"><?php echo esc_html__('Select', 'mega-events-manager'); ?></option>
+                                <option value="checkbox"><?php echo esc_html__('Checkbox', 'mega-events-manager'); ?></option>
+                                <option value="radio"><?php echo esc_html__('Radio', 'mega-events-manager'); ?></option>
+                                <option value="textarea"><?php echo esc_html__('Textarea', 'mega-events-manager'); ?></option>
                             </select>
                         </td>
                         <td>
                             <input type="text" 
                                    name="ue_regi_field_options[]" 
                                    class="ue_regi-field-options widefat" 
-                                   placeholder="<?php echo esc_attr__('Option1, Option2', 'mega-event-manager'); ?>"
+                                   placeholder="<?php echo esc_attr__('Option1, Option2', 'mega-events-manager'); ?>"
                                    style="display:none;">
                         </td>
                         <td>
                             <select name="ue_field_required[]" class="widefat">
-                                <option value="no"><?php echo esc_html__('Not Required', 'mega-event-manager'); ?></option>
-                                <option value="yes"><?php echo esc_html__('Required', 'mega-event-manager'); ?></option>
+                                <option value="no"><?php echo esc_html__('Not Required', 'mega-events-manager'); ?></option>
+                                <option value="yes"><?php echo esc_html__('Required', 'mega-events-manager'); ?></option>
                             </select>
                         </td>
                         <td>
@@ -197,7 +197,7 @@ class Class_meta_registration_form {
         </table>
         
         <button type="button" id="add-field-regi-row" class="button button-primary" style="margin-top:10px;">
-            <?php echo esc_html__('+ Add New Field', 'mega-event-manager'); ?>
+            <?php echo esc_html__('+ Add New Field', 'mega-events-manager'); ?>
         </button>
     
         <?php
@@ -207,8 +207,7 @@ class Class_meta_registration_form {
 
     public function webcu_save_regitype_form($post_id) {
         
-        
-        // Initialize combined data array
+       // Initialize combined data array
         $regi_data = [
             'predefined_fields' => [],
             'custom_fields' => []

@@ -25,7 +25,7 @@ class Class_currency_setting {
                 <?php wp_nonce_field('webcu_currency_action', 'webcu_currency_nonce'); ?>
                 <?php $my_currency =  get_option('my_currency'); ?>
 
-                <label><?php esc_html_e( 'Currency', 'mega-event-manager' ); ?></label>
+                <label><?php esc_html_e( 'Currency', 'mega-events-manager' ); ?></label>
                 <select name="currency" id="currency">
                  <option value="AED" <?php if ($my_currency =='') { echo 'selected'; } ?> >United Arab Emirates dirham (د.إ) — AED</option>
                         <option value="AFN" <?php if ($my_currency=='AFN') { echo 'selected'; } ?> >Afghan afghani (؋) — AFN</option>
@@ -192,26 +192,26 @@ class Class_currency_setting {
                         <option value="ZMW" <?php if ($my_currency=='ZMW') { echo 'selected'; } ?>>Zambian kwacha (ZK) — ZMW</option>
                 </select>
 
-                <label><?php esc_html_e( 'Currency Position', 'mega-event-manager' ); ?></label>
+                <label><?php esc_html_e( 'Currency Position', 'mega-events-manager' ); ?></label>
                 <?php $curr_opsition = get_option('my_currency_position'); ?>
                 <select name="currency_position" id="currency_position">
-                    <option value="left" <?php if ($curr_opsition=='left') { echo 'selected'; } ?>><?php esc_html_e( 'Left', 'mega-event-manager' ); ?></option>
-                    <option value="right" <?php if ($curr_opsition=='right') { echo 'selected'; } ?>> <?php esc_html_e( 'Right', 'mega-event-manager' ); ?></option>
-                    <option value="left_space" <?php if ($curr_opsition=='left_space') { echo 'selected'; } ?>><?php esc_html_e( 'Left Space', 'mega-event-manager' ); ?></option>
-                    <option value="right_space" <?php if ($curr_opsition=='right_space') { echo 'selected'; } ?>><?php esc_html_e( 'Right Space', 'mega-event-manager' ); ?></option>
+                    <option value="left" <?php if ($curr_opsition=='left') { echo 'selected'; } ?>><?php esc_html_e( 'Left', 'mega-events-manager' ); ?></option>
+                    <option value="right" <?php if ($curr_opsition=='right') { echo 'selected'; } ?>> <?php esc_html_e( 'Right', 'mega-events-manager' ); ?></option>
+                    <option value="left_space" <?php if ($curr_opsition=='left_space') { echo 'selected'; } ?>><?php esc_html_e( 'Left Space', 'mega-events-manager' ); ?></option>
+                    <option value="right_space" <?php if ($curr_opsition=='right_space') { echo 'selected'; } ?>><?php esc_html_e( 'Right Space', 'mega-events-manager' ); ?></option>
                 </select>
 
-                <label><?php esc_html_e( 'Thousand Separator', 'mega-event-manager' ); ?></label>
+                <label><?php esc_html_e( 'Thousand Separator', 'mega-events-manager' ); ?></label>
                 <input type="text" name="thousand_separator" id="thousand_separator" value="<?php echo get_option('my_thousand_separator'); ?>" placeholder=",">
 
-                <label><?php esc_html_e( 'Decimal Separator', 'mega-event-manager' ); ?></label>
+                <label><?php esc_html_e( 'Decimal Separator', 'mega-events-manager' ); ?></label>
                 <input type="text" name="decimal_separator" id="decimal_separator" value="<?php echo get_option('my_decimal_separator'); ?>" placeholder=".">
 
-                <label><?php esc_html_e( 'Number of Decimals', 'mega-event-manager' ); ?></label>
+                <label><?php esc_html_e( 'Number of Decimals', 'mega-events-manager' ); ?></label>
                 <input type="number" name="num_decimals" id="num_decimals" value="<?php echo get_option('num_decimals'); ?>"  placeholder="2">
 
                 <button type="submit" name="webcu_currency" class="save-settings">
-                    <?php esc_html_e( 'Save Changes', 'mega-event-manager' ); ?>
+                    <?php esc_html_e( 'Save Changes', 'mega-events-manager' ); ?>
                 </button>
 
             </form>

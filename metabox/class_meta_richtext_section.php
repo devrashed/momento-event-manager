@@ -9,26 +9,27 @@
 class Class_meta_richtext_section { 
 
       public function webcu_richtext_fields($post) { 
+        
         $saved_eventstatus = get_post_meta($post->ID, 'webcu_eventstatus', true);
         $saved_attendance = get_post_meta($post->ID, 'webcu_attendance_mode', true);
       ?>  
 
-    <div class="webcu_container">
-        <div class="webcu_form-header">
-            <label><?php echo esc_html__('Rich Text Status', 'mega-event-manager') ?></label>
-            <select id="rich_text_status">
-                <option value="enable"><?php echo esc_html__('Enable', 'mega-event-manager') ?></option>
-                <option value="disable"><?php echo esc_html__('Disable', 'mega-event-manager') ?></option>
-            </select>
-        </div>
+        <div class="webcu_container">
+            <div class="webcu_form-header">
+                <label><?php echo esc_html__('Rich Text Status', 'mega-events-manager') ?></label>
+                <select id="rich_text_status">
+                    <option value="enable"><?php echo esc_html__('Enable', 'mega-events-manager') ?></option>
+                    <option value="disable"><?php echo esc_html__('Disable', 'mega-events-manager') ?></option>
+                </select>
+            </div>
 
             <table class="webcu_form_section">
                 <tr>
-                    <td><?php echo esc_html__('Type:', 'mega-event-manager') ?></td>
-                    <td><?php echo esc_html__('Event', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Type:', 'mega-events-manager') ?></td>
+                    <td><?php echo esc_html__('Event', 'mega-events-manager') ?></td>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('Name:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Name:', 'mega-events-manager') ?></td>
                     <?php
                        $post_id = get_the_ID(); // get current post ID dynamically
 
@@ -50,28 +51,13 @@ class Class_meta_richtext_section {
                     ?>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('Start Date:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Start Date:', 'mega-events-manager') ?></td>
                 <td>
                      
                 <?php 
                     $dates = get_post_meta(get_the_ID(), 'webcu_event_dates', true);
                    
-                    /* $start_date  = $dates['start_date'][0];   
-                    $start_time  = $dates['start_time'][0];   
-                    $date_format = $dates['date_format'];     
-                    $time_format = $dates['time_format'];     
-                    
-                    $datetime_string = $start_date . ' ' . $start_time;
-                    
-                    $timestamp = strtotime($datetime_string);
-                          
-                    $final_start_date = date($date_format, $timestamp);
-                    $final_start_time = date($time_format, $timestamp);
-
-                    echo esc_attr ($final_start_date . ' at ' . $final_start_time); */
-                    
                     if ( is_array($dates) ) {
-
                     $start_date   = isset($dates['start_date'][0]) ? $dates['start_date'][0] : '';
                     $start_time   = isset($dates['start_time'][0]) ? $dates['start_time'][0] : '';
                     $end_date     = isset($dates['end_date'][0]) ? $dates['end_date'][0] : '';
@@ -83,22 +69,17 @@ class Class_meta_richtext_section {
                         $timestamp = strtotime($start_date . ' ' . $start_time);
                         echo esc_html( date($date_format, $timestamp) . ' at ' . date($time_format, $timestamp) );
                     }
-
                 } else {
-                    echo esc_html__('Event date not available', 'mega-event-manager');
+                    echo esc_html__('Event date not available', 'mega-events-manager');
                 }
-
-
                 ?>
                 </td>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('End Date:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('End Date:', 'mega-events-manager') ?></td>
                     <td>
                       <?php 
                       if ( is_array($dates) ) {
-                        /* $end_date   = $dates['end_date'][0];   
-                        $end_time   = $dates['end_time'][0];  */
                         $end_date     = isset($dates['end_date'][0]) ? $dates['end_date'][0] : '';
                         $end_time     = isset($dates['end_time'][0]) ? $dates['end_time'][0] : '';  
                         $date_format = $dates['date_format'];  
@@ -116,33 +97,33 @@ class Class_meta_richtext_section {
                     </td>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('Event Status:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Event Status:', 'mega-events-manager') ?></td>
                     <td>
                         <select name="webcu_eventstatus" id="webcu_eventstatus">
-                            <option value="event rescheduled" <?php selected($saved_eventstatus, 'event rescheduled'); ?>> <?php echo esc_html__('Event Rescheduled', 'mega-event-manager') ?></option>
-                            <option value="event canceled" <?php selected($saved_eventstatus, 'event canceled'); ?>><?php echo esc_html__('Event Canceled', 'mega-event-manager') ?></option>
-                            <option value="event confirmed" <?php selected($saved_eventstatus, 'event confirmed'); ?>><?php echo esc_html__('Event Confirmed', 'mega-event-manager') ?></option>
+                            <option value="event rescheduled" <?php selected($saved_eventstatus, 'event rescheduled'); ?>> <?php echo esc_html__('Event Rescheduled', 'mega-events-manager') ?></option>
+                            <option value="event canceled" <?php selected($saved_eventstatus, 'event canceled'); ?>><?php echo esc_html__('Event Canceled', 'mega-events-manager') ?></option>
+                            <option value="event confirmed" <?php selected($saved_eventstatus, 'event confirmed'); ?>><?php echo esc_html__('Event Confirmed', 'mega-events-manager') ?></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('Event Attendance Mode:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Event Attendance Mode:', 'mega-events-manager') ?></td>
                     <td>
                         <select name="webcu_attendance_mode" id="webcu_attendance_mode">
-                            <option value="OfflineEventAttendanceMode" <?php selected($saved_attendance, 'OfflineEventAttendanceMode'); ?>> <?php echo esc_html__('Event Confirmed', 'mega-event-manager') ?></option>
-                            <option value="OnlineEventAttendanceMode" <?php selected($saved_attendance, 'OnlineEventAttendanceMode'); ?>> <?php echo esc_html__('OnlineEventAttendanceMode', 'mega-event-manager') ?> </option>
-                            <option value="MixedEventAttendanceMode" <?php selected($saved_attendance, 'MixedEventAttendanceMode'); ?>><?php echo esc_html__('MixedEventAttendanceMode', 'mega-event-manager') ?></option>
+                            <option value="OfflineEventAttendanceMode" <?php selected($saved_attendance, 'OfflineEventAttendanceMode'); ?>> <?php echo esc_html__('Event Confirmed', 'mega-events-manager') ?></option>
+                            <option value="OnlineEventAttendanceMode" <?php selected($saved_attendance, 'OnlineEventAttendanceMode'); ?>> <?php echo esc_html__('OnlineEventAttendanceMode', 'mega-events-manager') ?> </option>
+                            <option value="MixedEventAttendanceMode" <?php selected($saved_attendance, 'MixedEventAttendanceMode'); ?>><?php echo esc_html__('MixedEventAttendanceMode', 'mega-events-manager') ?></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td><?php echo esc_html__('Previous Start Date:', 'mega-event-manager') ?></td>
+                    <td><?php echo esc_html__('Previous Start Date:', 'mega-events-manager') ?></td>
                     <td> 2025-11-02 14:00:00</td>
                 </tr>
             </table>
 
             <div class="webcu_footer-info">
-                <i>ℹ</i> <a href="#"><?php echo esc_html__('Check Rich Text Status', 'mega-event-manager') ?></a>
+                <i>ℹ</i> <a href="#"><?php echo esc_html__('Check Rich Text Status', 'mega-events-manager') ?></a>
             </div>
      </div>
       

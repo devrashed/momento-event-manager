@@ -24,54 +24,54 @@ class Class_meta_emails_section {
                 ?>
                 <div class="webcu_re_box webcu_re_email-block" data-index="<?php echo esc_attr($index); ?>">
                 <div class="webcu_re_expand-remove">
-                    <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand', 'mega-event-manager');?> </button>
-                    <button type="button" class="webcu_re_remove-btn"><?php echo esc_html__('Remove', 'mega-event-manager');?> </button>
+                    <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand', 'mega-events-manager');?> </button>
+                    <button type="button" class="webcu_re_remove-btn"><?php echo esc_html__('Remove', 'mega-events-manager');?> </button>
                 </div>
 
                 <div class="webcu_re_header-row">
-                    <div class="webcu_re_title"><?php echo esc_html__('Event email reminder', 'mega-event-manager');?> <?php echo esc_html($index); ?></div>
+                    <div class="webcu_re_title"><?php echo esc_html__('Event email reminder', 'mega-events-manager');?> <?php echo esc_html($index); ?></div>
                     <div class="webcu_re_top-actions">
                     <div class="info-icon" title="Info">i</div>
-                    <button class="webcu_re_send-now"><?php echo esc_html__('Send Now', 'mega-event-manager');?></button>
+                    <button class="webcu_re_send-now"><?php echo esc_html__('Send Now', 'mega-events-manager');?></button>
                     </div>
                 </div>
 
                 <div class="webcu_re_form-row">
-                    <div class="webcu_re_label"><?php echo esc_html__('Email Timing:', 'mega-event-manager');?></div>
+                    <div class="webcu_re_label"><?php echo esc_html__('Email Timing:', 'mega-events-manager');?></div>
                     <div>
                     <div style="display:flex;align-items:center;gap:10px;">
                         <input class="webcu_re_timing" name="timing_<?php echo esc_attr($index); ?>" type="text" value="<?php echo esc_attr($data['timing']); ?>" /> 
-                        <span class="webcu_re_hours-label"><?php echo esc_html__('Hours', 'mega-event-manager') ?></span>
+                        <span class="webcu_re_hours-label"><?php echo esc_html__('Hours', 'mega-events-manager') ?></span>
                     </div>
-                    <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-event-manager');?> </div>
+                    <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-events-manager');?> </div>
                     </div>
                 </div>
 
                 <div class="webcu_re_form-row">
-                    <div class="label"><?php echo esc_html__('Time count:', 'mega-event-manager') ?></div>
+                    <div class="label"><?php echo esc_html__('Time count:', 'mega-events-manager') ?></div>
                     <div>
                     <div class="webcu_re_radios">
                         <label class="webcu_re_radio-item">
                         <input type="radio" name="timecount_<?php echo esc_attr($index); ?>" value="before" <?php checked($data['timecount'], 'before'); ?>>
-                        <?php echo esc_html__('Before Event Start', 'mega-event-manager');?></label>
+                        <?php echo esc_html__('Before Event Start', 'mega-events-manager');?></label>
                         <label class="webcu_re_radio-item">
                         <input type="radio" name="timecount_<?php echo esc_attr($index); ?>" value="after" <?php checked($data['timecount'], 'after'); ?>> 
-                        <?php echo esc_html__('After Event End', 'mega-event-manager');?> 
+                        <?php echo esc_html__('After Event End', 'mega-events-manager');?> 
                         </label>
                     </div>
-                    <div class="webcu_re_small-help"> <?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-event-manager');?></div>
+                    <div class="webcu_re_small-help"> <?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-events-manager');?></div>
                     </div>
                 </div>
 
                 <div class="webcu_re_form-row">
-                    <div class="label"><?php echo esc_html__('Email Subject line:', 'mega-event-manager');?></div>
+                    <div class="label"><?php echo esc_html__('Email Subject line:', 'mega-events-manager');?></div>
                     <div>
                     <input class="webcu_re_subject" name="subject_<?php echo esc_attr($index); ?>" placeholder="First Reminder email subject line" value="<?php echo esc_attr($data['subject']); ?>" />
                     </div>
                 </div>
 
                 <div class="webcu_re_form-row">
-                    <div class="label"><?php echo esc_html__('Email Content:', 'mega-event-manager');?></div>
+                    <div class="label"><?php echo esc_html__('Email Content:', 'mega-events-manager');?></div>
                     <div>
                     <?php 
                         wp_editor(
@@ -94,37 +94,37 @@ class Class_meta_emails_section {
                 <!-- Default block if no saved data -->
                 <div class="webcu_re_box webcu_re_email-block" data-index="1">
                 <div class="webcu_re_expand-remove">
-                    <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand:', 'mega-event-manager');?></button>
-                    <button type="button" class="webcu_re_remove-btn"> <?php echo esc_html__('Remove:', 'mega-event-manager');?></button>
+                    <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand:', 'mega-events-manager');?></button>
+                    <button type="button" class="webcu_re_remove-btn"> <?php echo esc_html__('Remove:', 'mega-events-manager');?></button>
                 </div>
 
                 <div class="webcu_re_header-row">
-                    <div class="webcu_re_title"><?php echo esc_html__('Event email reminder 1', 'mega-event-manager');?></div>
+                    <div class="webcu_re_title"><?php echo esc_html__('Event email reminder 1', 'mega-events-manager');?></div>
                     <div class="webcu_re_top-actions">
                     <!-- <div class="webcu_re_info-icon" title="Info">i</div> -->
-                    <button class="webcu_re_send-now"><?php echo esc_html__('Send Now', 'mega-event-manager');?></button>
+                    <button class="webcu_re_send-now"><?php echo esc_html__('Send Now', 'mega-events-manager');?></button>
                     </div>
                 </div>
 
                 <div class="webcu_re_form-row">
-                    <div class="webcu_re_label"><?php echo esc_html__('Time count:', 'mega-event-manager');?></div>
+                    <div class="webcu_re_label"><?php echo esc_html__('Time count:', 'mega-events-manager');?></div>
                     <div>
                     <div class="webcu_re_radios">
-                        <label class="webcu_re_radio-item"><input type="radio"  name="timecount_1" value="before" checked><?php echo esc_html__('Before Event Start', 'mega-event-manager');?></label>
-                        <label class="webcu_re_radio-item"><input type="radio" name="timecount_1" value="after"><?php echo esc_html__('After Event End', 'mega-event-manager');?></label>
+                        <label class="webcu_re_radio-item"><input type="radio"  name="timecount_1" value="before" checked><?php echo esc_html__('Before Event Start', 'mega-events-manager');?></label>
+                        <label class="webcu_re_radio-item"><input type="radio" name="timecount_1" value="after"><?php echo esc_html__('After Event End', 'mega-events-manager');?></label>
                     </div>
-                    <div class="webcu_re_small-help"><?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-event-manager');?></div>
+                    <div class="webcu_re_small-help"><?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-events-manager');?></div>
                     </div>
                 </div>  
 
                 <div class="webcu_re_form-row">
-                    <div class="webcu_re_label">  <?php echo esc_html__('Email Timing:', 'mega-event-manager');?></div>
+                    <div class="webcu_re_label">  <?php echo esc_html__('Email Timing:', 'mega-events-manager');?></div>
                     <div>
                     <div style="display:flex;align-items:center;gap:10px;">
                         <input class="webcu_re_timing" name="timing_1" type="text" value="168" /> 
-                        <span class="webcu_re_hours-label">  <?php echo esc_html__('Hours', 'mega-event-manager');?></span>
+                        <span class="webcu_re_hours-label">  <?php echo esc_html__('Hours', 'mega-events-manager');?></span>
                     </div>
-                    <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-event-manager');?></div>
+                    <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-events-manager');?></div>
                     </div>
                 </div>
 
@@ -134,9 +134,8 @@ class Class_meta_emails_section {
                   <input class="webcu_re_subject" name="subject_1" placeholder="First Reminder email subject line" />
                 </div>
               </div>
-
               <div class="form-row">
-                    <div class="label"><?php echo esc_html__('Email Content:', 'mega-event-manager');?></div>
+                    <div class="label"><?php echo esc_html__('Email Content:', 'mega-events-manager');?></div>
                     <div>
                     <?php 
                         wp_editor('', 'content_1', [

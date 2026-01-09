@@ -19,17 +19,17 @@ class Class_meta_venue_location {
         <label class="webcu_switch">
             <input type="checkbox" id="toggleStatus">
              <span class="webcu_slider webcu_round"></span>
-        </label>
+        </label> <span id="vistual_on_meeting"><?php echo esc_html__('Enable for virtuial Meeting') ?> </span> 
+        <span id="offline_meeting"><?php echo esc_html__('Disbale for physical Onsite meeting') ?> </span>
 
             <div id="onlineDiv" style="display:none;">
 
             <div class="webcu_info-box">
-                <p><?php echo esc_html__('If your event is online or virtual, please ensure that this option is enabled.', 'mega-event-manager') ?> </p>
+                <p><?php echo esc_html__('If your event is online or virtual, please ensure that this option is enabled.', 'mega-events-manager') ?> </p>
             </div>
 
                 <?php 
                     $content = get_post_meta($post->ID, 'webcu_custom_editor_content', true);
-                    // Display WordPress classic editor
                     wp_editor($content, 'webcu_custom_editor_field', [
                         'textarea_name' => 'webcu_custom_editor_field',
                         'media_buttons' => true,  // Show Add Media button
@@ -41,11 +41,10 @@ class Class_meta_venue_location {
                 ?>
             </div>
 
-
             <div id="offlineDiv" style="display:block;">
         
                 <div class="webcu_event-location-box">
-                <h3> <?php echo esc_html__('Events Location:', 'mega-event-manager') ?> </h3>
+                <h3> <?php echo esc_html__('Events Location:', 'mega-events-manager') ?> </h3>
 
                 <!-- Info Box -->
                 <div class="webcu_info-box">
@@ -53,39 +52,39 @@ class Class_meta_venue_location {
                 <p><?php echo esc_html__('If you have saved organizer details, please select the "Organizer" option. 
                     Please note that if you select "Organizer" and have not checked the organizer 
                     from the Event Organizer list on the right sidebar, the Event Location section will 
-                    not populate on the front end.', 'mega-event-manager') ?> </p>
+                    not populate on the front end.', 'mega-events-manager') ?> </p>
                 </div>
 
                 <!-- Two Column Fields -->
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Location/Venue:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Location/Venue:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_ve_location" name="webcu_ve_location" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_ve_location', true)); ?>"  placeholder="Enter Venue">
                     </div>
                     <div class="form-group">
-                        <label><?php echo esc_html__('Street:', 'mega-event-manager') ?> </label>
+                        <label><?php echo esc_html__('Street:', 'mega-events-manager') ?> </label>
                         <input type="text" id="webcu_ve_street" name="webcu_ve_street" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_ve_street', true)); ?>" placeholder="Enter Street">
                     </div>
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label> <?php echo esc_html__('City:', 'mega-event-manager') ?></label>
+                        <label> <?php echo esc_html__('City:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_ve_city" name="webcu_ve_city" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_ve_city', true)); ?>" placeholder="Enter City">
                     </div>
                     <div class="form-group">
-                        <label><?php echo esc_html__('State:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('State:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_ve_state" name="webcu_ve_state" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_ve_state', true)); ?>" placeholder="Ex: NY">
                     </div>
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Postcode:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Postcode:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_ve_postcocde" name="webcu_ve_postcocde" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_ve_postcocde', true)); ?>" placeholder="Enter Postcode">
                     </div>
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Country:', 'mega-event-manager') ?> </label>
+                        <label> <?php echo esc_html__('Country:', 'mega-events-manager') ?> </label>
                         <?php 
                             $saved_country = get_post_meta(get_the_ID(), 'webcu_ve_country', true);
                             $this->country->webcu_event_manaegr_country_dropdown($saved_country) 
@@ -103,9 +102,9 @@ class Class_meta_venue_location {
                      <br>
                     <div class="two-col" id="mapTextField" style="display: none; margin-top: 10px;">
                         <div class="form-group" >
-                           <label><?php echo esc_html__('Google Map API:', 'mega-event-manager') ?> 
+                           <label><?php echo esc_html__('Google Map API:', 'mega-events-manager') ?> 
                             <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html__( 'Get API key', 'mega-event-manager' ); ?>
+                                <?php echo esc_html__( 'Get API key', 'mega-events-manager' ); ?>
                             </a>
                         </label>
                           <input type="text" id="webcu_googleMap_Api" name="webcu_googleMap_Api" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_googleMap_Api', true)); ?>" placeholder="Enter Google MAP API">
@@ -115,10 +114,8 @@ class Class_meta_venue_location {
            
                 </div>       
             </div>  
-    <?php
-    }
-
-
+        <?php
+        }
 
     public function webcu_save_meta_venue_location($post_id){
 
@@ -148,8 +145,6 @@ class Class_meta_venue_location {
 
     } 
    
-
-
 } /* end the class */
 
 

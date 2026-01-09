@@ -15,7 +15,7 @@ class UEM_Meta_Boxes {
 	 */
 	public static function init() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'webcu_add_meta_boxes' ) );
-		add_action( 'save_post', array( __CLASS__, 'webcu_save_meta_boxes' ) );
+		//add_action( 'save_post', array( __CLASS__, 'webcu_save_meta_boxes' ) );
 	}
 	/**
 	 * Add meta boxes
@@ -24,7 +24,7 @@ class UEM_Meta_Boxes {
 		// Event meta boxes
 		add_meta_box(
 			'uem_event_organizers',
-			__( 'Organizers', 'ultimate-events-manager' ),
+			__( 'Organizers', 'mega-events-manager' ),
 			array( __CLASS__, 'webcu_render_organizers_meta_box' ),
 			'mem_event',
 			'side',
@@ -33,7 +33,7 @@ class UEM_Meta_Boxes {
 		
 		add_meta_box(
 			'uem_event_volunteers',
-			__( 'Volunteers', 'ultimate-events-manager' ),
+			__( 'Volunteers', 'mega-events-manager' ),
 			array( __CLASS__, 'webcu_render_volunteers_meta_box' ),
 			'mem_event',
 			'side',
@@ -42,16 +42,16 @@ class UEM_Meta_Boxes {
 		
 		add_meta_box(
 			'uem_event_sponsors',
-			__( 'Sponsors', 'ultimate-events-manager' ),
+			__( 'Sponsors', 'mega-events-manager' ),
 			array( __CLASS__, 'webcu_render_sponsors_meta_box' ),
 			'mem_event',
 			'side',
 			'default'
 		);
 		
-		add_meta_box(
+		/* add_meta_box(
 			'uem_event_tickets',
-			__( 'Ticket Types', 'ultimate-events-manager' ),
+			__( 'Ticket Types', 'mega-events-manager' ),
 			array( __CLASS__, 'webcu_render_tickets_meta_box' ),
 			'mem_event',
 			'normal',
@@ -60,12 +60,12 @@ class UEM_Meta_Boxes {
 		
 		add_meta_box(
 			'uem_event_details',
-			__( 'Event Details', 'ultimate-events-manager' ),
+			__( 'Event Details', 'mega-events-manager' ),
 			array( __CLASS__, 'webcu_render_event_details_meta_box' ),
 			'mem_event',
 			'normal',
 			'high'
-		);
+		); */
 	}
 	
 	/**
@@ -89,7 +89,7 @@ class UEM_Meta_Boxes {
 		<div class="uem-meta-box">
 			<p>
 				<label for="uem_organizers">
-					<?php echo esc_html( 'Select Organizers:', 'ultimate-events-manager' ); ?>
+					<?php echo esc_html( 'Select Organizers:', 'mega-events-manager' ); ?>
 				</label>
 			</p>
 			<select name="uem_organizers[]" id="uem_organizers" multiple="multiple" style="width: 100%; height: 150px;">
@@ -100,7 +100,7 @@ class UEM_Meta_Boxes {
 				<?php endforeach; ?>
 			</select>
 			<p class="description">
-				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple organizers.', 'ultimate-events-manager' ); ?>
+				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple organizers.', 'mega-events-manager' ); ?>
 			</p>
 		</div>
 		<?php
@@ -125,7 +125,7 @@ class UEM_Meta_Boxes {
 		<div class="uem-meta-box">
 			<p>
 				<label for="uem_volunteers">
-					<?php echo esc_html( 'Select Volunteers:', 'ultimate-events-manager' ); ?>
+					<?php echo esc_html( 'Select Volunteers:', 'mega-events-manager' ); ?>
 				</label>
 			</p>
 			<select name="uem_volunteers[]" id="uem_volunteers" multiple="multiple" style="width: 100%; height: 150px;">
@@ -136,7 +136,7 @@ class UEM_Meta_Boxes {
 				<?php endforeach; ?>
 			</select>
 			<p class="description">
-				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple volunteers.', 'ultimate-events-manager' ); ?>
+				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple volunteers.', 'mega-events-manager' ); ?>
 			</p>
 		</div>
 		<?php
@@ -161,7 +161,7 @@ class UEM_Meta_Boxes {
 		<div class="uem-meta-box">
 			<p>
 				<label for="uem_sponsors">
-					<?php echo esc_html( 'Select Sponsors:', 'ultimate-events-manager' ); ?>
+					<?php echo esc_html( 'Select Sponsors:', 'mega-events-manager' ); ?>
 				</label>
 			</p>
 			<select name="uem_sponsors[]" id="uem_sponsors" multiple="multiple" style="width: 100%; height: 150px;">
@@ -172,16 +172,19 @@ class UEM_Meta_Boxes {
 				<?php endforeach; ?>
 			</select>
 			<p class="description">
-				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple sponsors.', 'ultimate-events-manager' ); ?>
+				<?php echo esc_html( 'Hold Ctrl/Cmd to select multiple sponsors.', 'mega-events-manager' ); ?>
 			</p>
 		</div>
 		<?php
 	}
 	
+	
+
+
 	/**
 	 * Render tickets meta box
 	 */
-	public static function webcu_render_tickets_meta_box( $post ) {
+	/* public static function webcu_render_tickets_meta_box( $post ) {
 		$tickets = get_post_meta( $post->ID, '_uem_tickets', true );
 		if ( ! is_array( $tickets ) ) {
 			$tickets = array();
@@ -194,36 +197,36 @@ class UEM_Meta_Boxes {
 					<?php foreach ( $tickets as $index => $ticket ) : ?>
 						<div class="uem-ticket-item" data-index="<?php echo esc_attr( $index ); ?>">
 							<p>
-								<label><?php echo esc_html( 'Ticket Name:', 'ultimate-events-manager' ); ?></label>
+								<label><?php echo esc_html( 'Ticket Name:', 'mega-events-manager' ); ?></label>
 								<input type="text" name="uem_tickets[<?php echo esc_attr( $index ); ?>][name]" value="<?php echo esc_attr( $ticket['name'] ); ?>" class="widefat" />
 							</p>
 							<p>
-								<label><?php echo esc_html( 'Price:', 'ultimate-events-manager' ); ?></label>
+								<label><?php echo esc_html( 'Price:', 'mega-events-manager' ); ?></label>
 								<input type="number" name="uem_tickets[<?php echo esc_attr( $index ); ?>][price]" value="<?php echo esc_attr( $ticket['price'] ); ?>" step="0.01" min="0" class="widefat" />
 							</p>
 							<p>
-								<label><?php echo esc_html( 'Quantity Available:', 'ultimate-events-manager' ); ?></label>
+								<label><?php echo esc_html( 'Quantity Available:', 'mega-events-manager' ); ?></label>
 								<input type="number" name="uem_tickets[<?php echo esc_attr( $index ); ?>][quantity]" value="<?php echo esc_attr( $ticket['quantity'] ); ?>" min="0" class="widefat" />
 							</p>
 							<p>
-								<label><?php echo esc_html( 'Description:', 'ultimate-events-manager' ); ?></label>
+								<label><?php echo esc_html( 'Description:', 'mega-events-manager' ); ?></label>
 								<textarea name="uem_tickets[<?php echo esc_attr( $index ); ?>][description]" class="widefat" rows="3"><?php echo esc_textarea( $ticket['description'] ); ?></textarea>
 							</p>
-							<button type="button" class="button uem-remove-ticket"><?php echo esc_html( 'Remove Ticket', 'ultimate-events-manager' ); ?></button>
+							<button type="button" class="button uem-remove-ticket"><?php echo esc_html( 'Remove Ticket', 'mega-events-manager' ); ?></button>
 							<hr>
 						</div>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
-			<button type="button" class="button uem-add-ticket"><?php echo esc_html( 'Add Ticket Type', 'ultimate-events-manager' ); ?></button>
+			<button type="button" class="button uem-add-ticket"><?php echo esc_html( 'Add Ticket Type', 'mega-events-manager' ); ?></button>
 		</div>
 		<?php
-	}
+	} */
 	
 	/**
 	 * Render event details meta box
 	 */
-	public static function webcu_render_event_details_meta_box( $post ) {
+	/* public static function webcu_render_event_details_meta_box( $post ) {
 		$event_date = get_post_meta( $post->ID, '_uem_event_date', true );
 		$event_time = get_post_meta( $post->ID, '_uem_event_time', true );
 		$event_end_date = get_post_meta( $post->ID, '_uem_event_end_date', true );
@@ -234,37 +237,37 @@ class UEM_Meta_Boxes {
 		?>
 		<div class="uem-meta-box">
 			<p>
-				<label for="uem_event_date"><?php echo esc_html( 'Event Start Date:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_date"><?php echo esc_html( 'Event Start Date:', 'mega-events-manager' ); ?></label>
 				<input type="date" name="uem_event_date" id="uem_event_date" value="<?php echo esc_attr( $event_date ); ?>" class="widefat" />
 			</p>
 			<p>
-				<label for="uem_event_time"><?php echo esc_html( 'Event Start Time:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_time"><?php echo esc_html( 'Event Start Time:', 'mega-events-manager' ); ?></label>
 				<input type="time" name="uem_event_time" id="uem_event_time" value="<?php echo esc_attr( $event_time ); ?>" class="widefat" />
 			</p>
 			<p>
-				<label for="uem_event_end_date"><?php echo esc_html( 'Event End Date:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_end_date"><?php echo esc_html( 'Event End Date:', 'mega-events-manager' ); ?></label>
 				<input type="date" name="uem_event_end_date" id="uem_event_end_date" value="<?php echo esc_attr( $event_end_date ); ?>" class="widefat" />
 			</p>
 			<p>
-				<label for="uem_event_end_time"><?php echo esc_html( 'Event End Time:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_end_time"><?php echo esc_html( 'Event End Time:', 'mega-events-manager' ); ?></label>
 				<input type="time" name="uem_event_end_time" id="uem_event_end_time" value="<?php echo esc_attr( $event_end_time ); ?>" class="widefat" />
 			</p>
 			<p>
-				<label for="uem_event_location"><?php echo esc_html( 'Event Location:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_location"><?php echo esc_html( 'Event Location:', 'mega-events-manager' ); ?></label>
 				<input type="text" name="uem_event_location" id="uem_event_location" value="<?php echo esc_attr( $event_location ); ?>" class="widefat" />
 			</p>
 			<p>
-				<label for="uem_event_address"><?php echo esc_html( 'Event Address:', 'ultimate-events-manager' ); ?></label>
+				<label for="uem_event_address"><?php echo esc_html( 'Event Address:', 'mega-events-manager' ); ?></label>
 				<textarea name="uem_event_address" id="uem_event_address" class="widefat" rows="3"><?php echo esc_textarea( $event_address ); ?></textarea>
 			</p>
 		</div>
 		<?php
-	}
+	} */
 	
 	/**
 	 * Save meta boxes
 	 */
-	public static function webcu_save_meta_boxes( $post_id ) {
+	/* public static function webcu_save_meta_boxes( $post_id ) {
 		// Check nonce
 		if ( ! isset( $_POST['uem_meta_boxes_nonce'] ) || ! wp_verify_nonce( $_POST['uem_meta_boxes_nonce'], 'uem_save_meta_boxes' ) ) {
 			return;
@@ -341,6 +344,6 @@ class UEM_Meta_Boxes {
 		if ( isset( $_POST['uem_event_address'] ) ) {
 			update_post_meta( $post_id, '_uem_event_address', sanitize_textarea_field( $_POST['uem_event_address'] ) );
 		}
-	}
+	} */
 }
 

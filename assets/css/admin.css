@@ -1,7 +1,7 @@
 /**
  * Admin Styles
  *
- * @package Ultimate_Events_Manager
+ * @package Mega_Events_Manager
  */
 
 .uem-meta-box {
@@ -417,7 +417,7 @@ input:checked+.webcu_slider:before {
 
 .form-group input {
 	width: 100%;
-	padding: 8px;
+	padding: 6px !important;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 }
@@ -474,9 +474,6 @@ input:checked+.webcu_slider:before {
 .refineText {
 	padding: 8px 0 8px 0 !important;
 }
-
-
-
 
 
 /* ====== Ticket price ====== */
@@ -1050,27 +1047,6 @@ select {
 #custom_form_wrapper .notice {
 	margin-bottom: 15px;
 }
-
-/* .atendi_form {
-  border-radius: 6px;
-  width: 100%;
-}
-
-.atendi_form table tbody,
-th,
-td {
-  border: 1px solid #ebebeb;
-}
-
-#custom_form_wrapper table.atendi_form th,
-#custom_form_wrapper table.atendi_form td {
-  vertical-align: middle;
-  padding: 10px 8px;
-} 
-#custom_form_wrapper table.atendi_form tr:hover {
-  background-color: #f9f9f9;
-}  
-*/
 
 .attendee-fields-table {
 	width: 100%;

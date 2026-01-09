@@ -36,7 +36,7 @@ class class_event_custom_metabox {
 
         add_meta_box(
             'event_details_metabox',
-            __('Event Information', 'mega-event-manager'),
+            __('Event Information', 'mega-events-manager'),
             [$this, 'webcu_render_event_details_metabox'],
             'mem_event',
             'normal',
@@ -52,18 +52,18 @@ class class_event_custom_metabox {
                 <!-- Sidebar Navigation -->
                 <div class="event-sidebar">
                     <ul>
-                        <li class="active" data-tab="venue"><?php echo esc_html__('Venue / Location', 'mega-event-manager') ?> </li>
-                        <li data-tab="ticket"> <?php echo esc_html__('Ticket & Pricing', 'mega-event-manager') ?></li>
-                        <li data-tab="datetime"> <?php echo esc_html__('Date & Time', 'mega-event-manager') ?> </li>
-                        <li data-tab="settings"> <?php echo esc_html__('Settings', 'mega-event-manager') ?>  </li>
-                        <li data-tab="richtext"> <?php echo esc_html__('Rich Text', 'mega-event-manager') ?>  </li>
-                        <li data-tab="emails"> <?php echo esc_html__('Emails', 'mega-event-manager') ?></li>
-                        <li data-tab="regis"> <?php echo esc_html__('Registration Form', 'mega-event-manager') ?></li>
-                        <li data-tab="attendee_form"> <?php echo esc_html__('Attendee Form', 'mega-event-manager') ?> </li>
-                        <li data-tab="faq"> <?php echo esc_html__('F.A.Q', 'mega-event-manager') ?> </li>
-                        <li data-tab="timeline_details"> <?php echo esc_html__('Additional content', 'mega-event-manager') ?></li>
-                        <li data-tab="terms_conditions"> <?php echo esc_html__('Terms & Conditios', 'mega-event-manager') ?>  </li>
-                        <li data-tab="event_assot"> <?php echo esc_html__('Event Associates', 'mega-event-manager') ?>  </li>
+                        <li class="active" data-tab="venue"><?php echo esc_html__('Venue / Location', 'mega-events-manager') ?> </li>
+                        <li data-tab="ticket"> <?php echo esc_html__('Ticket & Pricing', 'mega-events-manager') ?></li>
+                        <li data-tab="datetime"> <?php echo esc_html__('Date & Time', 'mega-events-manager') ?> </li>
+                        <li data-tab="settings"> <?php echo esc_html__('Settings', 'mega-events-manager') ?>  </li>
+                        <!-- <li data-tab="richtext"> <?php //echo esc_html__('Rich Text', 'mega-events-manager') ?>  </li> -->
+                        <li data-tab="emails"> <?php echo esc_html__('Emails', 'mega-events-manager') ?></li>
+                        <li data-tab="regis"> <?php echo esc_html__('Registration Form', 'mega-events-manager') ?></li>
+                        <li data-tab="attendee_form"> <?php echo esc_html__('Attendee Form', 'mega-events-manager') ?> </li>
+                        <li data-tab="faq"> <?php echo esc_html__('F.A.Q', 'mega-events-manager') ?> </li>
+                        <!-- <li data-tab="timeline_details"> <?php //echo esc_html__('Additional content', 'mega-events-manager') ?></li> -->
+                        <li data-tab="terms_conditions"> <?php echo esc_html__('Terms & Conditios', 'mega-events-manager') ?>  </li>
+                        <li data-tab="event_assot"> <?php echo esc_html__('Event Associates', 'mega-events-manager') ?>  </li>
                     </ul>
                 </div>
 
@@ -72,7 +72,7 @@ class class_event_custom_metabox {
                 <div class="event-content">
                     <!-- Venue Tab -->
                     <div class="event-tab active" id="venue">
-                        <h3><?php echo esc_html__('Venue / Location', 'mega-event-manager'); ?></h3>
+                        <h3><?php echo esc_html__('Venue / Location', 'mega-events-manager'); ?></h3>
                         <?php     
                             $venuelocation = new Class_meta_venue_location();
                             $venuelocation->webcu_venue_location_field($post);
@@ -80,7 +80,7 @@ class class_event_custom_metabox {
                     </div>
                     <!-- Ticket Tab -->
                     <div class="event-tab" id="ticket">
-                        <h3><?php echo esc_html__('Ticket & Pricing', 'mega-event-manager') ?></h3>
+                        <h3><?php echo esc_html__('Ticket & Pricing', 'mega-events-manager') ?></h3>
     
                         <?php 
                             $ticket = new Class_meta_ticket_price();
@@ -90,7 +90,7 @@ class class_event_custom_metabox {
 
                     <!-- Date & Time Tab -->
                     <div class="event-tab" id="datetime">
-                       <h3><?php echo esc_html__('Events Date & Time', 'mega-event-manager') ?></h3>        
+                       <h3><?php echo esc_html__('Events Date & Time', 'mega-events-manager') ?></h3>        
                         <?php
                            $datetime = new Class_meta_dateTime_section();
                            $datetime->webcu_meta_dateTime_field($post);
@@ -98,7 +98,7 @@ class class_event_custom_metabox {
                     </div>
                     <!-- Settings Tab -->
                     <div class="event-tab" id="settings">
-                        <h3><?php echo esc_html__('Events Settings:', 'mega-event-manager') ?></h3>         
+                        <h3><?php echo esc_html__('Events Settings:', 'mega-events-manager') ?></h3>         
                         <?php                         
                             $settings = new Class_meta_settings_sections();
                             $settings->webcu_settings_sections($post);
@@ -106,17 +106,17 @@ class class_event_custom_metabox {
                     </div>  
 
                     <!-- Rich Text -->
-                    <div class="event-tab" id="richtext">
-                         <h3><?php echo esc_html__('Events Rich Texts for SEO & Google Schema Text :', 'mega-event-manager') ?></h3>
+                    <!-- <div class="event-tab" id="richtext">
+                         <h3><?php //echo esc_html__('Events Rich Texts for SEO & Google Schema Text :', 'mega-events-manager') ?></h3>
                          <?php 
-                            $richtext = new Class_meta_richtext_section();
-                            $richtext->webcu_richtext_fields($post);
+                           /*  $richtext = new Class_meta_richtext_section();
+                            $richtext->webcu_richtext_fields($post); */
                          ?>
-                    </div>  
+                    </div>   -->
              
                     <!-- Emails -->
                     <div class="event-tab" id="emails">
-                        <h3><?php echo esc_html__('Emails', 'mega-event-manager') ?></h3>
+                        <h3><?php echo esc_html__('Emails', 'mega-events-manager') ?></h3>
                         <?php 
                             $reminder = new Class_meta_emails_section(); 
                             $reminder->webcu_meta_emails_field($post);
@@ -126,7 +126,7 @@ class class_event_custom_metabox {
                     <!-- Registration Form -->  
 
                     <div class="event-tab" id="regis">
-                        <h3><?php echo esc_html__('Registration Form', 'mega-event-manager') ?></h3>
+                        <h3><?php echo esc_html__('Registration Form', 'mega-events-manager') ?></h3>
                         <?php 
                             $registra = new Class_meta_registration_form(); 
                             $registra->webcu_meta_registration_form_field($post);
@@ -135,7 +135,7 @@ class class_event_custom_metabox {
 
 
                     <div class="event-tab" id="attendee_form">
-                        <h3><?php echo esc_html__('Attendee Form', 'mega-event-manager') ?></h3>
+                        <h3><?php echo esc_html__('Attendee Form', 'mega-events-manager') ?></h3>
                         <?php
                             $attendeeform = new Class_meta_attendee_form();
                             $attendeeform->webcu_attendee_form($post);                                    
@@ -143,7 +143,7 @@ class class_event_custom_metabox {
                     </div>
                     <!-- F.A.Q -->    
                     <div class="event-tab" id="faq">
-                        <h3><?php echo esc_html__('F.A.Q', 'mega-event-manager') ?></h3>
+                        <h3><?php echo esc_html__('F.A.Q', 'mega-events-manager') ?></h3>
                          <?php 
                             $faq = new Class_meta_faq_section();
                             $faq->webcu_faq_fields($post);
@@ -151,13 +151,13 @@ class class_event_custom_metabox {
                     </div>
 
                     <!-- timeline details -->
-                    <div class="event-tab" id="timeline_details">
-                        <h3><?php echo esc_html__('Timeline Details', 'mega-event-manager') ?></h3>
+                    <!-- <div class="event-tab" id="timeline_details">
+                        <h3><?php //echo esc_html__('Timeline Details', 'mega-events-manager') ?></h3>
                         <?php 
-                            $timeline = new Class_meta_timeline_details();
-                            $timeline->webcu_timeline_settings_field($post);
+                            /* $timeline = new Class_meta_timeline_details();
+                            $timeline->webcu_timeline_settings_field($post); */
                         ?>
-                    </div>
+                    </div> -->
 
                     <!-- terms_conditions -->
                     <div class="event-tab" id="terms_conditions">
@@ -169,7 +169,7 @@ class class_event_custom_metabox {
                     
                       <!-- event_associates -->
                     <div class="event-tab" id="event_assot">
-                         <h3><?php echo esc_html__('Event Associates', 'mega-event-manager') ?></h3>
+                         <h3><?php echo esc_html__('Event Associates', 'mega-events-manager') ?></h3>
                         <?php
                             $associate = new Class_meta_event_associate();
                             $associate->webcu_event_associate_meta_field($post);
@@ -231,8 +231,8 @@ class class_event_custom_metabox {
 
         /* ====== Rich text sections ======= */ 
 
-        $richtext = new Class_meta_richtext_section();    
-        $richtext->webcu_save_meta_richtext($post_id);
+        /* $richtext = new Class_meta_richtext_section();    
+        $richtext->webcu_save_meta_richtext($post_id); */
 
         /* ====== Emails sections ======= */ 
 
@@ -246,8 +246,8 @@ class class_event_custom_metabox {
 
         /* ====== Time line & Details ======= */
         
-        $timeline = new Class_meta_timeline_details();
-        $timeline->webcu_save_meta_timeline_details($post_id);
+     /*    $timeline = new Class_meta_timeline_details();
+        $timeline->webcu_save_meta_timeline_details($post_id); */
 
         /* ====== terms & conditions ======= */ 
 

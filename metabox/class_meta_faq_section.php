@@ -24,7 +24,7 @@ class Class_meta_faq_section {
                         <li class="faq_timeline-item">
                             <div class="faq_timeline-top">
                                 <button type="button" class="faq_btn faq_btn-expand">
-                                   <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-event-manager'); ?>
+                                   <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-events-manager'); ?>
                                 </button>
                                 <button type="button" class="faq_btn faq_btn-remove">
                                    <span class="dashicons dashicons-no"></span>
@@ -34,10 +34,10 @@ class Class_meta_faq_section {
                                 </button>
                             </div>
                             <div class="faq_timeline-body" style="display:block;">
-                                <label><?php echo esc_html__('Title', 'mega-event-manager'); ?></label>
+                                <label><?php echo esc_html__('Title', 'mega-events-manager'); ?></label>
                                 <input type="text" name="faq_faq[<?php echo $index; ?>][title]" value="<?php echo esc_attr($item['title']); ?>" class="faq_title">
 
-                                <label><?php echo esc_html__('Description', 'mega-event-manager'); ?></label>
+                                <label><?php echo esc_html__('Description', 'mega-events-manager'); ?></label>
                                 <?php
                                 wp_editor(
                                     wp_kses_post($item['content']),
@@ -58,7 +58,7 @@ class Class_meta_faq_section {
                     <li class="faq_timeline-item">
                         <div class="faq_timeline-top">
                             <button type="button" class="faq_btn faq_btn-expand">
-                               <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-event-manager'); ?>
+                               <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-events-manager'); ?>
                             </button>
                             <button type="button" class="faq_btn faq_btn-remove">
                                <span class="dashicons dashicons-no"></span>
@@ -68,10 +68,10 @@ class Class_meta_faq_section {
                             </button>
                         </div>
                         <div class="faq_timeline-body" style="display:block;">
-                            <label><?php echo esc_html__('Title', 'mega-event-manager'); ?></label>
+                            <label><?php echo esc_html__('Title', 'mega-events-manager'); ?></label>
                             <input type="text" name="faq_faq[0][title]" class="faq_title">
 
-                            <label><?php echo esc_html__('Description', 'mega-event-manager'); ?></label>
+                            <label><?php echo esc_html__('Description', 'mega-events-manager'); ?></label>
                             <?php
                             wp_editor('', 'faq_faq_content_0', [
                                 'textarea_name' => 'faq_faq[0][content]',
@@ -85,7 +85,7 @@ class Class_meta_faq_section {
             </ul>
 
             <button type="button" id="faq_addTimeline" class="faq_add-timeline">
-               <span class="dashicons dashicons-plus"></span> <?php echo esc_html__('Add New F.A.Q', 'mega-event-manager'); ?>
+               <span class="dashicons dashicons-plus"></span> <?php echo esc_html__('Add New F.A.Q', 'mega-events-manager'); ?>
             </button>
         </div>
         <?php

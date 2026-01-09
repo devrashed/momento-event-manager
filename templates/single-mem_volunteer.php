@@ -117,7 +117,7 @@ if ( "right" === $webcu_voltem ){
                 endif;
             ?>
 
-        <h3> <?php echo esc_html__('Photo Gallery:', 'ultimate-event-manager') ?> </h3>     
+        <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
 
         <?php 
             $webcu_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
@@ -134,7 +134,7 @@ if ( "right" === $webcu_voltem ){
         ?>
         <br>
         <br>    
-        <h3> <?php echo esc_html__('Video Gallery:', 'ultimate-event-manager') ?> </h3>     
+        <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
         
         <?php
 
@@ -389,7 +389,7 @@ if ( "right" === $webcu_voltem ){
                         endif;
                     ?>
 
-                <h3> <?php echo esc_html__('Photo Gallery:', 'ultimate-event-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
 
                 <?php 
                     $webcu_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
@@ -406,7 +406,7 @@ if ( "right" === $webcu_voltem ){
                 ?>
                 <br>
                 <br>    
-                <h3> <?php echo esc_html__('Video Gallery:', 'ultimate-event-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
                 
                 <?php
                 $webcu_ownvideo = get_post_meta($post->ID, '_webcu_video_type', true);
@@ -447,8 +447,6 @@ if ( "right" === $webcu_voltem ){
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                 ></iframe>
-
-                <!-- <script src="https://player.vimeo.com/api/player.js"></script> -->
         
                 <?php 
                     } elseif ( !empty($webcu_ownvideo) && in_array($webcu_ext, ['mp4','webm','ogg']) ) {
@@ -501,7 +499,6 @@ if ( "right" === $webcu_voltem ){
                         allowfullscreen
                     ></iframe>
 
-                    <!-- <script src="https://player.vimeo.com/api/player.js"></script> -->
                     <?php
                     } elseif ('webcu_ownvideo' === $webcu_video_type ) {
                         

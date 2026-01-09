@@ -69,8 +69,8 @@ class Class_meta_attendee_form {
         <!-- ==== Attendee dynamically row add & Remove ===== -->
         
         <br>
-        <h3><?php echo esc_html__('Custom Attendee Fields', 'mega-event-manager'); ?></h3>
-        <p class="description"><?php echo esc_html__('Add custom fields to your Attendee form', 'mega-event-manager'); ?></p>
+        <h3><?php echo esc_html__('Custom Attendee Fields', 'mega-events-manager'); ?></h3>
+        <p class="description"><?php echo esc_html__('Add custom fields to your Attendee form', 'mega-events-manager'); ?></p>
 
         <br>
         
@@ -82,12 +82,12 @@ class Class_meta_attendee_form {
         <table id="ue-fields-table" class="attendee-fields-table" style="width:100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th><?php echo esc_html__('Field Label', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Unique ID', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Field Type', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Options', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Required', 'mega-event-manager'); ?></th>
-                    <th><?php echo esc_html__('Action', 'mega-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Label', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Unique ID', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Type', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Options', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Required', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Action', 'mega-events-manager'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -115,16 +115,16 @@ class Class_meta_attendee_form {
                         </td>
                         <td>
                             <select name="ue_field_required[]">
-                                <option value="no" <?php selected($field['required'], 'no'); ?>><?php echo esc_html__('Not Required', 'mega-event-manager'); ?></option>
-                                <option value="yes" <?php selected($field['required'], 'yes'); ?>><?php echo esc_html__('Required', 'mega-event-manager'); ?></option>
+                                <option value="no" <?php selected($field['required'], 'no'); ?>><?php echo esc_html__('Not Required', 'mega-events-manager'); ?></option>
+                                <option value="yes" <?php selected($field['required'], 'yes'); ?>><?php echo esc_html__('Required', 'mega-events-manager'); ?></option>
                             </select>
                         </td>
-                        <td><button type="button" class="custom_form_remove-row button button-danger"><span class="dashicons dashicons-no"></span></button></td>
+                        <td><button type="button" id="custom_form_remove-row" class="button button-danger"><span class="dashicons dashicons-no"></span></button></td>
                     </tr>
                 <?php endforeach; endif; ?>
             </tbody>
         </table>
-        <button type="button" id="add-field-row" class="button button-primary" style="margin-top:10px;"><?php echo esc_html__('+ Add New Field', 'mega-event-manager'); ?></button>
+        <button type="button" id="add-field-row" class="button button-primary" style="margin-top:10px;"><?php echo esc_html__('+ Add New Field', 'mega-events-manager'); ?></button>
         <?php
     }
 

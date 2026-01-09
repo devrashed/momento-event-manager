@@ -8,9 +8,7 @@
 class Class_meta_dateTime_section {  
     private $meta_key = 'webcu_event_dates';
 
-    Public function __construct(){
-        //$this->webcu_meta_data();
-    }
+    Public function __construct(){}
 
     public function webcu_meta_dateTime_field($post) {
         $saved_data = get_post_meta($post->ID, $this->meta_key, true);
@@ -19,11 +17,11 @@ class Class_meta_dateTime_section {
             <table class="webcu_date_table" id="webcu_date_dateTable">
                 <thead>
                     <tr>
-                        <th><?php echo esc_html__('Start Date', 'mega-event-manager'); ?></th>
-                        <th><?php echo esc_html__('Start Time', 'mega-event-manager'); ?></th>
-                        <th><?php echo esc_html__('End Date', 'mega-event-manager'); ?></th>
-                        <th><?php echo esc_html__('End Time', 'mega-event-manager'); ?></th>
-                        <th><?php echo esc_html__('Action', 'mega-event-manager'); ?></th>
+                        <th><?php echo esc_html__('Start Date', 'mega-events-manager'); ?></th>
+                        <th><?php echo esc_html__('Start Time', 'mega-events-manager'); ?></th>
+                        <th><?php echo esc_html__('End Date', 'mega-events-manager'); ?></th>
+                        <th><?php echo esc_html__('End Time', 'mega-events-manager'); ?></th>
+                        <th><?php echo esc_html__('Action', 'mega-events-manager'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,9 +46,9 @@ class Class_meta_dateTime_section {
             </table>
             
 
-            <button type="button" class="webcu_date_add-btn" id="webcu_date_addDate"><?php echo esc_html__('+ Add More Dates', 'mega-event-manager'); ?></button>
+            <button type="button" class="webcu_date_add-btn" id="webcu_date_addDate"><?php echo esc_html__('+ Add More Dates', 'mega-events-manager'); ?></button>
 
-            <p class="webcu_date_info-text"><?php echo esc_html__('You can change the date and time format by going to the settings Events (Off/On):', 'mega-event-manager'); ?></p>
+            <p class="webcu_date_info-text"><?php echo esc_html__('You can change the date and time format by going to the settings Events (Off/On):', 'mega-events-manager'); ?></p>
 
             <div class="webcu_date_toggle-wrapper">
                 <label class="webcu_switch">
@@ -61,9 +59,9 @@ class Class_meta_dateTime_section {
             
             <div class="webcu_date_format-section" id="webcu_date_formatSection">
                 
-                <div class="webcu_date_info-box">ℹ️ <?php echo esc_html__('Please select your preferred date format. If you wish to use a custom format, select Custom and enter your desired date format.', 'mega-event-manager'); ?></div>
+                <div class="webcu_date_info-box">ℹ️ <?php echo esc_html__('Please select your preferred date format. If you wish to use a custom format, select Custom and enter your desired date format.', 'mega-events-manager'); ?></div>
 
-                <label><?php echo esc_html__('Date Format', 'mega-event-manager'); ?></label>
+                <label><?php echo esc_html__('Date Format', 'mega-events-manager'); ?></label>
                 <select name="webcu_date_format" id="webcu_date_format">
                     <?php 
                     $dateformats = array(
@@ -81,9 +79,9 @@ class Class_meta_dateTime_section {
                     ?>   
                 </select>
             
-                <div class="webcu_date_info-box">ℹ️ <?php echo esc_html__('Please select the time format from the list. If you want a custom time format, select Custom and write it.', 'mega-event-manager'); ?></div>
+                <div class="webcu_date_info-box">ℹ️ <?php echo esc_html__('Please select the time format from the list. If you want a custom time format, select Custom and write it.', 'mega-events-manager'); ?></div>
                 
-                <label><?php echo esc_html__('Time Format', 'mega-event-manager'); ?></label>
+                <label><?php echo esc_html__('Time Format', 'mega-events-manager'); ?></label>
                 <?php
                 $time_formats = array('g:i a', 'g:i A', 'H:i', 'H:i:s', 'g:i:s a');
                 echo '<select name="webcu_time_format" id="webcu_time_format">';
@@ -92,9 +90,9 @@ class Class_meta_dateTime_section {
                 }
                 echo '</select>';
                 ?>
-                <div class="webcu_date_info-box">ℹ️ <?php _e('If you want to show date and time in your local timezone, please select Yes.', 'mega-event-manager'); ?></div>
+                <div class="webcu_date_info-box">ℹ️ <?php _e('If you want to show date and time in your local timezone, please select Yes.', 'mega-events-manager'); ?></div>
 
-                <label><?php echo esc_html__('Show Timezone', 'mega-event-manager'); ?></label>
+                <label><?php echo esc_html__('Show Timezone', 'mega-events-manager'); ?></label>
                 <select name="webcu_show_timezone">
                     <option <?php selected($saved_data['timezone'] ?? '', 'No'); ?>>No</option>
                     <option <?php selected($saved_data['timezone'] ?? '', 'Yes'); ?>>Yes</option>
@@ -117,9 +115,6 @@ class Class_meta_dateTime_section {
             'timezone'    => isset($_POST['webcu_show_timezone']) ? sanitize_text_field(wp_unslash($_POST['webcu_show_timezone'])) : '',
         ];
         update_post_meta($post_id, $this->meta_key, $data);
-    }
-
-
-    
+    }    
 
 }

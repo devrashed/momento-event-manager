@@ -118,7 +118,7 @@
                     endif;
                 ?>
 
-            <h3> <?php echo esc_html__('Photo Gallery:', 'ultimate-event-manager') ?> </h3>     
+            <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
 
             <?php 
                 $gallery_ids = get_post_meta($post->ID, '_sponser_gallery_ids', true);
@@ -135,7 +135,7 @@
             ?>
             <br>
             <br>    
-            <h3> <?php echo esc_html__('Video Gallery:', 'ultimate-event-manager') ?> </h3>     
+            <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
             
             <?php
 
@@ -334,7 +334,7 @@
                         endif;
                     ?>
 
-                <h3> <?php echo esc_html__('Photo Gallery:', 'ultimate-event-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
 
                 <?php 
                     $gallery_ids = get_post_meta($post->ID, '_sponser_gallery_ids', true);
@@ -351,7 +351,7 @@
                 ?>
                 <br>
                 <br>    
-                <h3> <?php echo esc_html__('Video Gallery:', 'ultimate-event-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
                 
                 <?php
 

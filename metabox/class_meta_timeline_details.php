@@ -21,15 +21,15 @@ class Class_meta_timeline_details {
                     foreach ($saved as $index => $item) { ?>
                         <li class="webcu_timeline-item">
                             <div class="webcu_timeline-top">
-                                <button type="button" class="webcu_btn webcu_btn-expand"> <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-event-manager') ?></button>
+                                <button type="button" class="webcu_btn webcu_btn-expand"> <span class="dashicons dashicons-arrow-down-alt2"></span> <?php echo esc_html__('Expand', 'mega-events-manager') ?></button>
                                 <button type="button" class="webcu_btn webcu_btn-remove"><span class="dashicons dashicons-no"></span></button>
                                 <button type="button" class="webcu_btn webcu_btn-drag"><span class="dashicons dashicons-fullscreen-alt"></i></button>
                             </div>
                             <div class="webcu_timeline-body" style="display:block;">
-                                <label><?php echo esc_html__('Title.', 'mega-event-manager') ?></label>
+                                <label><?php echo esc_html__('Title.', 'mega-events-manager') ?></label>
                                 <input type="text" name="webcu_timeline[<?php echo $index; ?>][title]" value="<?php echo esc_attr($item['title']); ?>" class="webcu_title">
 
-                                <label><?php echo esc_html__('Description.', 'mega-event-manager') ?></label>
+                                <label><?php echo esc_html__('Description.', 'mega-events-manager') ?></label>
                                 <?php
                                 wp_editor(
                                     wp_kses_post($item['content']),
@@ -49,15 +49,15 @@ class Class_meta_timeline_details {
                 } else { ?>
                     <li class="webcu_timeline-item">
                         <div class="webcu_timeline-top">
-                            <button type="button" class="webcu_btn webcu_btn-expand"><span class="dashicons dashicons-arrow-down-alt2"></span><?php echo esc_html__('Expand', 'mega-event-manager') ?></button>
+                            <button type="button" class="webcu_btn webcu_btn-expand"><span class="dashicons dashicons-arrow-down-alt2"></span><?php echo esc_html__('Expand', 'mega-events-manager') ?></button>
                             <button type="button" class="webcu_btn webcu_btn-remove"><span class="dashicons dashicons-no"></span></button>
                             <button type="button" class="webcu_btn webcu_btn-drag"><span class="dashicons dashicons-fullscreen-alt"></i></button>
                         </div>
                         <div class="webcu_timeline-body" style="display:block;">
-                            <label><?php echo esc_html__('Title', 'mega-event-manager') ?></label>
+                            <label><?php echo esc_html__('Title', 'mega-events-manager') ?></label>
                             <input type="text" name="webcu_timeline[0][title]" class="webcu_title">
 
-                            <label><?php echo esc_html__('Description', 'mega-event-manager') ?></label>
+                            <label><?php echo esc_html__('Description', 'mega-events-manager') ?></label>
                             <?php
                             wp_editor('', 'webcu_content_0', [
                                 'textarea_name' => 'webcu_timeline[0][content]',
@@ -71,7 +71,7 @@ class Class_meta_timeline_details {
             </ul>
 
             <button type="button" id="webcu_addTimeline" class="webcu_add-timeline">
-                <span class="dashicons dashicons-plus"></span> <?php echo esc_html__('Add New Timeline', 'mega-event-manager') ?>
+                <span class="dashicons dashicons-plus"></span> <?php echo esc_html__('Add New Timeline', 'mega-events-manager') ?>
             </button>
         </div>
       <?php

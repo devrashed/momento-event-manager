@@ -32,7 +32,7 @@ class class_organizer_meta_box{
     public function webcu_event_organizer_meta_field() {
         add_meta_box(
             'webcu_event_organizer_fields',
-            __('Organizer Information', 'mega-event-manager'),
+            __('Organizer Information', 'mega-events-manager'),
             [$this, 'webcu_organzier_metabox_field'],
             'mem_organizer',
             'normal',
@@ -70,12 +70,12 @@ class class_organizer_meta_box{
             
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Organizer Owner Name', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Organizer Owner Name', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_name" name="webcu_orga_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_name', true)); ?>"  placeholder="Please write your organization name">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Designation', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Designation', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_desig" name="webcu_orga_desig" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_desig', true)); ?>"  placeholder="Please write your Designation">
                      </div>    
                 </div>
@@ -83,16 +83,16 @@ class class_organizer_meta_box{
                 <div class="two-col">
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Street:', 'mega-event-manager') ?> </label>
+                        <label><?php echo esc_html__('Street:', 'mega-events-manager') ?> </label>
                         <input type="text" id="webcu_orga_street" name="webcu_orga_street" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_street', true)); ?>" placeholder="Enter Street Address">
                     </div>
 
                     <div class="form-group">
-                        <label> <?php echo esc_html__('City:', 'mega-event-manager') ?></label>
+                        <label> <?php echo esc_html__('City:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_city" name="webcu_orga_city" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_city', true)); ?>" placeholder="Enter City">
                     </div>
                     <div class="form-group">
-                        <label><?php echo esc_html__('State:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('State:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_state" name="webcu_orga_state" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_state', true)); ?>" placeholder="Ex: NY">
                     </div>
                 </div>
@@ -100,12 +100,12 @@ class class_organizer_meta_box{
                 <div class="two-col">
 
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Latitude:', 'mega-event-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php esc_html_e( 'Click here for the latitude and longitude', 'mega-event-manager' ); ?> </a> </span> </label>
+                        <label> <?php echo esc_html__('Latitude:', 'mega-events-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e( 'Click here for the latitude and longitude', 'mega-events-manager' ); ?> </a> </span> </label>
                         <input type="text" id="webcu_orga_late" name="webcu_orga_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_late', true)); ?>" placeholder="Latitude">
                     </div>
                     <div class="form-group">
-                        <label><?php echo esc_html__('Longitude:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Longitude:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_long" name="webcu_orga_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_long', true)); ?>" placeholder="Longitude">
                     </div>
 
@@ -113,11 +113,11 @@ class class_organizer_meta_box{
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Postcode:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Postcode:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_postcocde" name="webcu_orga_postcocde" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_postcocde', true)); ?>" placeholder="Enter Postcode">
                     </div>
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Country:', 'mega-event-manager') ?> </label>
+                        <label> <?php echo esc_html__('Country:', 'mega-events-manager') ?> </label>
                         <?php 
                             $saved_country = get_post_meta(get_the_ID(), 'webcu_orga_country', true);
                             $this->country->webcu_orga_render_country_dropdown($saved_country);
@@ -128,36 +128,36 @@ class class_organizer_meta_box{
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Phone Number:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Phone Number:', 'mega-events-manager') ?></label>
                         <input type="number" id="webcu_orga_phone" name="webcu_orga_phone" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_phone', true)); ?>" placeholder="Enter Phone">
                     </div>
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Email:', 'mega-event-manager') ?> </label>
+                        <label> <?php echo esc_html__('Email:', 'mega-events-manager') ?> </label>
                         <input type="email" id="webcu_orga_email" name="webcu_orga_email" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_email', true)); ?>" placeholder="Enter email address">
                     </div>
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Website Address:', 'mega-event-manager') ?></label>
+                        <label><?php echo esc_html__('Website Address:', 'mega-events-manager') ?></label>
                         <input type="text" id="webcu_orga_website" name="webcu_orga_website" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_orga_website', true)); ?>" placeholder="Enter website address">
                     </div>
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Special Note:', 'mega-event-manager') ?> </label>
+                        <label> <?php echo esc_html__('Special Note:', 'mega-events-manager') ?> </label>
                         <textarea id="webcu_orga_coment" name="webcu_orga_coment" placeholder="Special Note" rows="4" cols="50"><?php echo esc_textarea( get_post_meta( $post->ID, 'webcu_orga_coment', true ) ); ?></textarea>
                     </div>
                 </div>
                 
-            <h3><?php echo esc_html__('Social Network', 'mega-event-manager') ?></h3>
+            <h3><?php echo esc_html__('Social Network', 'mega-events-manager') ?></h3>
                 
 
 
             <table class="webcu_tk_extra-table" id="webcu_orga_extraTable">
                 <thead>
                     <tr>
-                    <th><?php echo esc_html__('Social Media', 'mega-event-manager') ?></th>
-                    <th><?php echo esc_html__('URL', 'mega-event-manager') ?></th>
-                    <th><?php echo esc_html__('Action', 'mega-event-manager') ?></th>
+                    <th><?php echo esc_html__('Social Media', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('URL', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('Action', 'mega-events-manager') ?></th>
                     </tr>
                 </thead>
                 
@@ -188,13 +188,13 @@ class class_organizer_meta_box{
             </table>
 
             <div style="margin-bottom:18px">
-                <button type="button" id="webcu_orga_addExtra" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add Social Media Link', 'mega-event-manager') ?></button>
+                <button type="button" id="webcu_orga_addExtra" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add Social Media Link', 'mega-events-manager') ?></button>
             </div>    
         
 
          <!-- ===== Hero banenr ==== -->                                     
             
-         <h3><?php echo esc_html__('Hero Banner (Portrait Banner)', 'mega-event-manager') ?></h3>    
+         <h3><?php echo esc_html__('Hero Banner (Portrait Banner)', 'mega-events-manager') ?></h3>    
          
          <?php 
                $image_id  = get_post_meta( $post->ID, '_event_sponser_image_id', true );
@@ -215,7 +215,7 @@ class class_organizer_meta_box{
                             </button>
 
                             <button type="button" class="button" id="rk-remove-btn" style="display:<?php echo $image_url ? 'inline-block' : 'none'; ?>;">
-                               <?php echo esc_html__('Remove', 'mega-event-manager') ?>
+                               <?php echo esc_html__('Remove', 'mega-events-manager') ?>
                             </button>
                         </p>
 
@@ -227,12 +227,12 @@ class class_organizer_meta_box{
              
                 <!--========= Video upload ========== -->  
 
-        <h3><?php echo esc_html__('Video Upload', 'mega-event-manager') ?></h3>    
+        <h3><?php echo esc_html__('Video Upload', 'mega-events-manager') ?></h3>    
                                
             <table class="webcu_tk_extra-table">
                <tr> 
-                    <th><?php echo esc_html__('Select your video type', 'mega-event-manager') ?></th>
-                    <th><?php echo esc_html__('Video link', 'mega-event-manager') ?></th>
+                    <th><?php echo esc_html__('Select your video type', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('Video link', 'mega-events-manager') ?></th>
                </tr>
             
               <tr>                          
@@ -250,19 +250,19 @@ class class_organizer_meta_box{
                     
                     <!-- YouTube URL -->
                     <p id="webcu-youtube-field" style="display:none;">
-                        <label><strong><?php echo esc_html__('YouTube URL:', 'mega-event-manager') ?></strong></label>
+                        <label><strong><?php echo esc_html__('YouTube URL:', 'mega-events-manager') ?></strong></label>
                         <input type="text" name="webcu_youtube_url" value="<?php echo esc_attr($youtube_url); ?>" class="widefat">
                     </p>
 
                     <!-- Vimeo URL -->
                     <p id="webcu-vimeo-field" style="display:none;">
-                        <label><strong><?php echo esc_html__('Vimeo URL:', 'mega-event-manager') ?></strong></label>
+                        <label><strong><?php echo esc_html__('Vimeo URL:', 'mega-events-manager') ?></strong></label>
                         <input type="text" name="webcu_vimeo_url" value="<?php echo esc_attr($vimeo_url); ?>" class="widefat">
                     </p>
 
                     <!-- Own Video Upload -->
                     <div id="webcu-ownvideo-field" style="display:none;">
-                        <label><strong><?php echo esc_html__('Upload Video:', 'mega-event-manager') ?></strong></label><br>
+                        <label><strong><?php echo esc_html__('Upload Video:', 'mega-events-manager') ?></strong></label><br>
                         <video id="webcu-video-preview" src="<?php echo esc_url($video_url); ?>" style="max-width:100%; display:<?php echo $video_url ? 'block' : 'none'; ?>;" controls></video>
                         <input type="hidden" id="webcu-video-id" name="webcu_own_video_id" value="<?php echo esc_attr($video_id); ?>" />
                         <p>
@@ -271,7 +271,7 @@ class class_organizer_meta_box{
                             </button>
 
                             <button type="button" class="button" id="webcu-remove-video-btn" style="display:<?php echo $video_url ? 'inline-block' : 'none'; ?>;">
-                                <?php echo esc_html__('Remove', 'mega-event-manager') ?>
+                                <?php echo esc_html__('Remove', 'mega-events-manager') ?>
                             </button>
                         </p>                                                     
                     </div>                                      
@@ -367,7 +367,7 @@ class class_organizer_meta_box{
             </div>
             <input type="hidden" id="webcu_organizer_gallery" name="webcu_organizer_gallery" value="<?php echo esc_attr($gallery_ids); ?>" />
             <button type="button" class="button button-primary" id="webcu_organizer_gallery_images">
-                <?php echo esc_html__('Add Images', 'mega-event-manager'); ?>
+                <?php echo esc_html__('Add Images', 'mega-events-manager'); ?>
             </button>
         </div>
         <?php

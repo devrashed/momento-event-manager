@@ -1,7 +1,7 @@
 /**
  * Frontend Styles
  *
- * @package Ultimate_Events_Manager
+ * @package Mega_Events_Manager
  */
 
 .uem-single-event {
@@ -233,7 +233,7 @@
 	.uem-attendee-row {
 		flex-direction: column;
 	}
-	
+
 	.uem-attendee-field-inline {
 		min-width: 100%;
 	}
@@ -329,4 +329,3 @@
 	opacity: 0.6;
 	pointer-events: none;
 }
-

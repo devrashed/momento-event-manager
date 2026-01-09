@@ -88,7 +88,7 @@ class Class_mem_event_template{
                </label>
 
 
-               <h4><?php esc_html_e( 'sponsor Template', 'ultimate-event-manager' ); ?></h4>  
+               <h4><?php esc_html_e( 'sponsor Template', 'mega-events-manager' ); ?></h4>  
                
                <?php $spontempla = get_option('webcu_sponser_template'); ?>
 

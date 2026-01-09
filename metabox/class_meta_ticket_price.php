@@ -33,10 +33,10 @@ class Class_meta_ticket_price{
         ?>
         <div class="webcu_tk_container">
           <div class="webcu_tk_shortcode-box">
-            <div style="font-size:13px;color:#666;margin-bottom:6px"><?php echo esc_html__('Add To Cart Form Shortcode', 'ultimate-event-manager') ?></div>
+            <div style="font-size:13px;color:#666;margin-bottom:6px"><?php echo esc_html__('Add To Cart Form Shortcode', 'mega-events-manager') ?></div>
             <div class="webcu_tk_shortcode">[event-add-cart-section event="<?php echo esc_attr($post->ID); ?>"]</div>
             <div class="webcu_tk_registration-row">
-              <div style="font-size:13px;color:#666"><?php echo esc_html__('Registration Off/On:', 'ultimate-event-manager') ?></div>
+              <div style="font-size:13px;color:#666"><?php echo esc_html__('Registration Off/On:', 'mega-events-manager') ?></div>
               <div id="webcu_tk_registrationToggle" class="webcu_tk_toggle <?php echo esc_attr($toggle_class); ?>">
                 <span class="webcu_tk_knob"></span>
               </div>
@@ -49,9 +49,9 @@ class Class_meta_ticket_price{
 
 
           <div id="webcu_tk_registrationSection" style="<?php echo esc_attr($section_style); ?>">
-            <h2 class="webcu_tk_section-title"><?php echo esc_html__('Ticket Type List :', 'ultimate-event-manager') ?></h2>
+            <h2 class="webcu_tk_section-title"><strong><?php echo esc_html__('Ticket Type List :', 'mega-events-manager') ?></strong></h2>
             <div class="webcu_tk_controls-row">
-              <label class="webcu_tk_switch-label"> <?php echo esc_html__('Show Advanced Column:', 'ultimate-event-manager') ?></label>
+              <label class="webcu_tk_switch-label"> <?php echo esc_html__('Show Advanced Column:', 'mega-events-manager') ?></label>
               <div id="webcu_tk_advancedToggle" class="webcu_tk_toggle <?php echo esc_attr($advanced_toggle_class); ?>">
                 <span class="webcu_tk_knob"></span>
               </div>
@@ -61,20 +61,20 @@ class Class_meta_ticket_price{
             <table class="webcu_tk_ticket-table" id="webcu_tk_ticketTable">
               <thead>
                 <tr>
-                  <th><?php echo esc_html__('Name', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Short Desc.', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Price', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Quantity', 'ultimate-event-manager') ?></th>
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Default Qty', 'ultimate-event-manager') ?></th>
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Reserve Qty', 'ultimate-event-manager') ?></th>
+                  <th><?php echo esc_html__('Name', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Short Desc.', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Price', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Quantity', 'mega-events-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Default Qty', 'mega-events-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Reserve Qty', 'mega-events-manager') ?></th>
 
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Date', 'ultimate-event-manager') ?></th>
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Time', 'ultimate-event-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Date', 'mega-events-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale Start Time', 'mega-events-manager') ?></th>
 
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Date', 'ultimate-event-manager') ?></th>
-                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Time', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Qty Box', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Action ', 'ultimate-event-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Date', 'mega-events-manager') ?></th>
+                  <th class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Time', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Qty Box', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Action ', 'mega-events-manager') ?></th>
                 </tr>
               </thead>
               <tbody>
@@ -96,8 +96,8 @@ class Class_meta_ticket_price{
                       <td class="webcu_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="time" name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][sale_end_time]" value="<?php echo esc_attr(isset($ticket['sale_end_time']) ? $ticket['sale_end_time'] : ''); ?>"></td>
                       <td>
                         <select name="webcu_tk_tickets[<?php echo esc_attr($key); ?>][qty_box]">
-                          <option <?php selected($ticket['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'ultimate-event-manager') ?></option>
-                          <option <?php selected($ticket['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'ultimate-event-manager') ?></option>
+                          <option <?php selected($ticket['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'mega-events-manager') ?></option>
+                          <option <?php selected($ticket['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'mega-events-manager') ?></option>
                         </select>
                       </td>
                       <td class="webcu_tk_action-icons">
@@ -115,20 +115,20 @@ class Class_meta_ticket_price{
             <!-- Extra service Area -->          
             
             <div style="margin-bottom:18px">
-              <button type="button" id="webcu_tk_addTicket" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add New Ticket Type', 'ultimate-event-manager') ?></button>
+              <button type="button" id="webcu_tk_addTicket" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add New Ticket Type', 'mega-events-manager') ?></button>
             </div>
             
-            <h3><?php echo esc_html__('Extra service Area :', 'ultimate-event-manager') ?></h3>
-            <div class="webcu_tk_info-bar"><i class="fa fa-info-circle"></i> <?php echo esc_html__('Extra Service as Product that you can sell and it is not included on event package ', 'ultimate-event-manager') ?></div>
+            <h3><?php echo esc_html__('Extra service Area :', 'mega-events-manager') ?></h3>
+            <div class="webcu_tk_info-bar"><i class="fa fa-info-circle"></i> <?php echo esc_html__('Extra Service as Product that you can sell and it is not included on event package ', 'mega-events-manager') ?></div>
             
             <table class="webcu_tk_extra-table" id="webcu_tk_extraTable">
               <thead>
                 <tr>
-                  <th><?php echo esc_html__('Name', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Price', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Available Qty', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Qty Box', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Action', 'ultimate-event-manager') ?></th>
+                  <th><?php echo esc_html__('Name', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Price', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Available Qty', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Qty Box', 'mega-events-manager') ?></th>
+                  <th><?php echo esc_html__('Action', 'mega-events-manager') ?></th>
                 </tr>
               </thead>
               <tbody>
@@ -140,42 +140,42 @@ class Class_meta_ticket_price{
                       <td><input type="number" name="webcu_tk_extras[<?php echo esc_attr($key); ?>][available_qty]" value="<?php echo esc_attr($extra['available_qty']); ?>" placeholder="Available Qty" /></td>
                       <td>
                         <select name="webcu_tk_extras[<?php echo esc_attr($key); ?>][qty_box]">
-                          <option <?php selected($extra['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'ultimate-event-manager') ?></option>
-                          <option <?php selected($extra['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'ultimate-event-manager') ?></option>
+                          <option <?php selected($extra['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'mega-events-manager') ?></option>
+                          <option <?php selected($extra['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'mega-events-manager') ?></option>
                         </select>
                       </td>
                       <td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove_extra_row"> ✖</button></td>
                     </tr>
                   <?php endforeach; ?>
                 <?php else : ?>
-                  <tr class="webcu_tk_empty-row"><td colspan="5"> <?php echo esc_html__('No extra service added yet.', 'ultimate-event-manager') ?></td></tr>
+                  <tr class="webcu_tk_empty-row"><td colspan="5"> <?php echo esc_html__('No extra service added yet.', 'mega-events-manager') ?></td></tr>
                 <?php endif; ?>
               </tbody>
             </table>
             
             <div style="margin-bottom:18px">
-              <button type="button" id="webcu_tk_addExtra" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add Extra Price', 'ultimate-event-manager') ?></button>
+              <button type="button" id="webcu_tk_addExtra" class="webcu_tk_btn webcu_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add Extra Price', 'mega-events-manager') ?></button>
             </div>
             
-            <div class="webcu_tk_links-list">
+            <!-- <div class="webcu_tk_links-list">
               <div>
-                 ⚙️<?php echo esc_html__( 'Setup Event Common QTY of All Ticket Types — get', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Global QTY Addon', 'ultimate-event-manager' ); ?></a>
+                 <?php echo esc_html__( 'Setup Event Common QTY of All Ticket Types — get', 'mega-events-manager' ); ?>
+                    <a href="#"><?php //echo esc_html__( 'Global QTY Addon', 'mega-events-manager' ); ?></a>
                 </div>
 
                 <div>
-                  🔖<?php echo esc_html__( 'Special Price Option for each user type or membership — get', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Membership Pricing Addon', 'ultimate-event-manager' ); ?></a>
+                  <?php echo esc_html__( 'Special Price Option for each user type or membership — get', 'mega-events-manager' ); ?>
+                    <a href="#"><?php  // echo esc_html__( 'Membership Pricing Addon', 'mega-events-manager' ); ?></a>
                 </div>
 
                 <div>
-                 🔢<?php echo esc_html__( 'Set maximum/minimum quantity buying option with', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Max/Min Qty Addon', 'ultimate-event-manager' ); ?></a>
+                 <?php echo esc_html__( 'Set maximum/minimum quantity buying option with', 'mega-events-manager' ); ?>
+                    <a href="#"><?php // echo esc_html__( 'Max/Min Qty Addon', 'mega-events-manager' ); ?></a>
                 </div>
 
-            </div>
+            </div> -->
             
-            <div style="text-align:right;color:#999;font-size:11px;margin-top:12px"><?php echo esc_html__( '#WC:', 'ultimate-event-manager' ); ?><?php echo esc_html($post->ID); ?></div>
+            <div style="text-align:right;color:#999;font-size:11px;margin-top:12px"><?php echo esc_html__( '#WC:', 'mega-events-manager' ); ?><?php echo esc_html($post->ID); ?></div>
           </div>
         </div>
       <?php
@@ -231,5 +231,4 @@ class Class_meta_ticket_price{
               delete_post_meta($post_id, '_webcu_tk_extras');
           }
         }
-
 }
