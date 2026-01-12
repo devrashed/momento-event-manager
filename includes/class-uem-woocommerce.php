@@ -1586,6 +1586,8 @@ class UEM_WooCommerce {
 			}
 		
 			$cart_item_key = isset( $_POST['cart_item_key'] ) ? sanitize_text_field( $_POST['cart_item_key'] ) : '';
+			error_log('AJAX Update Cart called. cart_item_key: ' . $cart_item_key);
+			
 			$quantity = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 0;
 			$ticket_index = isset( $_POST['ticket_index'] ) ? intval( $_POST['ticket_index'] ) : -1;
 			$event_id = isset( $_POST['event_id'] ) ? intval( $_POST['event_id'] ) : 0;

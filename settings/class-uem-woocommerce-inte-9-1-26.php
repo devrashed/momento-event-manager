@@ -8,8 +8,7 @@
 class Class_uem_woocommerce_inte {
 
     public function __construct() {
-        add_action( 'admin_init', array( $this, 'webcu_save_woo_integration_settings' ) );
-        add_action( 'admin_notices', array( $this, 'webcu_display_save_notice' ) );
+        add_action('admin_init', [$this, 'webcu_save_woo_integration_settings']);
     }
   
     public function webcu_woo_inte_page() {
@@ -19,9 +18,8 @@ class Class_uem_woocommerce_inte {
             $this->webcu_save_woo_integration_settings();
         }
 
-        $woo_inte = get_option('webcu_wooIntegration_status');
+        $woo_inte = get_option('webcu_wooIntegration_status', 'off');
         $checked = ($woo_inte == 'on') ? 'checked' : '';
-        var_dump($checked);
 
         ?>
 
@@ -53,7 +51,7 @@ class Class_uem_woocommerce_inte {
                 </label>
 
                 <br><br>
-               <input type="submit" name="webcu_woo_inte_save" id="webcu_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'mega-events-manager'); ?>" />
+               <input type="submit" name="webcu_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'mega-events-manager'); ?>" />
             </form>
 
            <?php 
@@ -80,19 +78,11 @@ class Class_uem_woocommerce_inte {
                 update_option( 'webcu_wooIntegration_status', 'off' );
             }
 
-            // Redirect to refresh the page so Currency option visibility updates immediately.
-            wp_safe_redirect( add_query_arg( 'woo_saved', '1', admin_url( 'edit.php?post_type=mem_event&page=mem-settings&tab=woointe' ) ) );
-            exit;
+            // Show admin notice after save
+            add_action( 'admin_notices', function() {
+                echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'mega-events-manager' ) . '</p></div>';
+            } );
         }
     }
 
-    /**
-     * Display admin notice after settings are saved.
-     */
-    public function webcu_display_save_notice() {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only displaying notice, no data processing.
-        if ( isset( $_GET['woo_saved'] ) && '1' === $_GET['woo_saved'] ) {
-            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'mega-events-manager' ) . '</p></div>';
-        }
-    }
 } 

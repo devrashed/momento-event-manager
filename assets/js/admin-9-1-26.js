@@ -111,7 +111,7 @@ jQuery('.js-searchBox').searchBox({ elementWidth: '250' });
 
 /* === Google Map API key toggle ====*/
 
-/* document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 	const checkbox = document.getElementById('webcu_ve_googleMap');
 	const textField = document.getElementById('mapTextField');
 
@@ -128,7 +128,7 @@ jQuery('.js-searchBox').searchBox({ elementWidth: '250' });
 			textField.style.display = 'none';
 		}
 	});
-}); */
+});
 
 
 // ==== ticket price ===
@@ -1690,122 +1690,6 @@ jQuery(document).ready(function ($) {
 	});
 
 });
-
-
-
-//===== Event photogallery ======
-
-jQuery(document).ready(function ($) {
-	var mediaUploader;
-
-	jQuery('#webcu_event_gallery_images').on('click', function (e) {
-		e.preventDefault();
-		if (mediaUploader) {
-			mediaUploader.open();
-			return;
-		}
-		mediaUploader = wp.media({
-			title: 'Select Gallery Images',
-			button: {
-				text: 'Add to Gallery'
-			},
-			multiple: true
-		});
-
-		mediaUploader.on('select', function () {
-			var attachments = mediaUploader.state().get('selection').toJSON();
-			var ids = jQuery('#webcu_event_gallery').val();
-			var idsArray = ids ? ids.split(',').filter(function (v) { return v !== ''; }) : [];
-
-			attachments.forEach(function (attachment) {
-				if (idsArray.indexOf(attachment.id.toString()) === -1) {
-					idsArray.push(attachment.id);
-
-					// Get thumbnail URL with fallback to full size or URL.
-					var imgUrl = '';
-					if (attachment.sizes && attachment.sizes.thumbnail) {
-						imgUrl = attachment.sizes.thumbnail.url;
-					} else if (attachment.sizes && attachment.sizes.full) {
-						imgUrl = attachment.sizes.full.url;
-					} else {
-						imgUrl = attachment.url;
-					}
-
-					var imgHtml = '<div class="webcu-event-gallery-item" data-id="' + attachment.id + '">';
-					imgHtml += '<img src="' + imgUrl + '" />';
-					imgHtml += '<span class="webcu-event-remove-image" title="Remove">&times;</span>';
-					imgHtml += '</div>';
-
-					jQuery('#webcu-event-gallery-images').append(imgHtml);
-				}
-			});
-
-			jQuery('#webcu_event_gallery').val(idsArray.join(','));
-		});
-
-		mediaUploader.open();
-	});
-
-	// Use same class name as PHP template for consistency.
-	jQuery('#webcu-event-gallery-images').on('click', '.webcu-event-remove-image', function () {
-		var item = jQuery(this).parent();
-		var id = item.data('id').toString();
-		var ids = jQuery('#webcu_event_gallery').val().split(',');
-
-		ids = ids.filter(function (val) {
-			return val !== id;
-		});
-
-		jQuery('#webcu_event_gallery').val(ids.join(','));
-		item.remove();
-	});
-});
-
-
-/* ==== Event Hero banner ==== */
-
-
-var heroMediaUploader;
-jQuery('#rk-event-upload-btn').on('click', function (e) {
-	e.preventDefault();
-
-	if (heroMediaUploader) {
-		heroMediaUploader.open();
-		return;
-	}
-
-	heroMediaUploader = wp.media({
-		title: 'Select Image',
-		button: { text: 'Use this image' },
-		multiple: false
-	});
-
-	heroMediaUploader.on('select', function () {
-		var attachment = heroMediaUploader.state().get('selection').first().toJSON();
-		jQuery("#rk-event-image-preview").attr("src", attachment.url).show();
-		jQuery("#event_image_id").val(attachment.id); // Fixed: was using wrong field ID.
-		jQuery("#rk-event-remove-btn").show();
-		jQuery("#rk-event-upload-btn").text("Change Image");
-	});
-
-	heroMediaUploader.open();
-});
-
-jQuery('#rk-event-remove-btn').on('click', function (e) {
-	e.preventDefault();
-	jQuery("#rk-event-image-preview").hide();
-	jQuery("#event_image_id").val(''); // Fixed: was using wrong field ID.
-	jQuery(this).hide();
-	jQuery("#rk-event-upload-btn").text("Upload Image"); // Fixed: was using wrong button ID.
-});
-
-
-/* jQuery(document).ready(function ($) {
-
-	jQuery('#webcu_woo_inte_save').on('click', function (e) {
-		location.reload();
-	});
-}); */
 
 
 /* ========== End Metabox ============= */

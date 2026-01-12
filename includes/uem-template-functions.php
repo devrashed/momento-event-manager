@@ -22,7 +22,7 @@ function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
 	<div class="uem-woocommerce-registration" data-event-id="<?php echo esc_attr( $event_id ); ?>">
 		<div class="uem-ticket-selection">
 			<h3><?php echo esc_html( 'Select Tickets', 'mega-events-manager' ); ?></h3>
-			<table class="uem-tickets-table">
+			<!-- <table class="uem-tickets-table">
 				<thead>
 					<tr>
 						<th><?php echo esc_html( 'Ticket Type', 'mega-events-manager' ); ?></th>
@@ -86,7 +86,79 @@ function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
 						?></strong></td>
 					</tr>
 				</tfoot>
+			</table> -->
+
+			<table class="uem-tickets-table">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Ticket Type', 'mega-events-manager' ); ?></th>
+						<th><?php esc_html_e( 'Price', 'mega-events-manager' ); ?></th>
+						<th><?php esc_html_e( 'Quantity', 'mega-events-manager' ); ?></th>
+						<th><?php esc_html_e( 'Total', 'mega-events-manager' ); ?></th>
+					</tr>
+				</thead>
+
+				<tbody>
+				<?php
+				$grand_total = 0;
+				$max_qty     = 0; // No limit by default	
+
+				foreach ( $tickets as $index => $ticket ) :
+					// Default quantity (ONLY source)
+					$quantity = isset( $ticket['default_qty'] )
+						? (int) $ticket['default_qty']
+						: 0;
+
+					// Safety limit
+					//$quantity = min( $quantity, $max_qty );
+
+					$price = (float) $ticket['price'];
+
+					$row_total   = $price * $quantity;
+					$grand_total += $row_total;
+				?>
+					<tr>
+						<td>
+							<strong><?php echo esc_html( $ticket['name'] ); ?></strong>
+							<?php if ( ! empty( $ticket['description'] ) ) : ?>
+								<br><small><?php echo esc_html( $ticket['description'] ); ?></small>
+							<?php endif; ?>
+						</td>
+
+						<td><?php echo wc_price( $price ); ?></td>
+								
+						<td>
+							<input type="number"
+								class="uem-ticket-quantity"
+								data-ticket-index="<?php echo esc_attr( $index ); ?>"
+								data-ticket-price="<?php echo esc_attr( $price ); ?>"
+								min="0"
+								max="<?php echo esc_attr( $max_qty ); ?>"
+								value="<?php echo esc_attr( $quantity ); ?>"
+								style="width:80px;">
+						</td>
+
+						<td class="uem-ticket-total"
+							data-ticket-index="<?php echo esc_attr( $index ); ?>">
+							<?php echo wc_price( $row_total ); ?>
+						</td>
+					</tr>
+
+				<?php endforeach; ?>
+				</tbody>
+
+				<tfoot>
+					<tr>
+						<td colspan="3" style="text-align:right;">
+							<strong><?php esc_html_e( 'Grand Total:', 'mega-events-manager' ); ?></strong>
+						</td>
+						<td class="uem-grand-total">
+							<strong><?php echo wc_price( $grand_total ); ?></strong>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
+
 		</div>
 		
 		<div class="uem-checkout-form">
@@ -95,7 +167,6 @@ function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
 			if ( function_exists( 'WC' ) && WC()->cart ) {
 				// Calculate totals (even if cart is empty)
 				WC()->cart->calculate_totals();
-				
 				// Get checkout object
 				$checkout = WC()->checkout();
 				

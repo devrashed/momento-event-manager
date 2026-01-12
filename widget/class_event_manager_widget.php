@@ -16,6 +16,16 @@ class class_event_manager_widget{
     public function webcu_register_event_widgets() {
 
         register_sidebar( array(
+            'name'          => __( 'Event Sidebar', 'mega-events-manager' ),
+            'id'            => 'webcu_event_sidebar',
+            'description'   => __( 'Widgets for Event section.', 'mega-events-manager' ),
+            'before_widget' => '<div class="webcu-box">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="webcu-title">',
+            'after_title'   => '</h3>',
+        ) );
+
+        register_sidebar( array(
             'name'          => __( 'Event Organizer Sidebar', 'mega-events-manager' ),
             'id'            => 'webcu_event_orgnizer_sidebar',
             'description'   => __( 'Widgets for Event Organizer section.', 'mega-events-manager' ),
@@ -62,6 +72,7 @@ class class_event_manager_widget{
 
         require_once plugin_dir_path(__FILE__) . 'class_gmap_widget.php';
         register_widget( 'webcu_gmap_Info_Widget' );
+        
     }
        
     

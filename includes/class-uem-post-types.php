@@ -770,9 +770,11 @@ class UEM_Post_Types {
 				$new['start_event_dates'] = __( 'Start Event Dates', 'mega-events-manager' );
 				$new['end_event_dates']   = __( 'End Event Dates', 'mega-events-manager' );
 				$new['total_seat']   = __( 'Total Seat', 'mega-events-manager' );
+				$new['reserved_seat']   = __( 'Reserved Seat', 'mega-events-manager' );
 				$new['booking_seat']   = __( 'Booking seat', 'mega-events-manager' );
 				$new['available_seat']   = __( 'Available Seat', 'mega-events-manager' );
-				$new['atteende_data']   = __( 'Atteende Data', 'mega-events-manager' );				
+				$new['atteende_data']   = __( 'Atteende Data', 'mega-events-manager' );
+				$new['short_code']   = __( 'Short Code', 'mega-events-manager' );				
 			}
 		}
 
@@ -871,7 +873,20 @@ class UEM_Post_Types {
 			echo esc_html( $quantity );
 		} 
 		
-		if ( $column == 'booking_seat' ) {
+		if ($column == 'reserved_seat') {
+
+			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
+
+			if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
+				$ticket      = reset( $totalseat );
+				$reserve_qty = isset( $ticket['reserve_qty'] ) ? $ticket['reserve_qty'] : 0;
+			} else {
+				$reserve_qty = 0;
+			}
+
+			echo esc_html( $reserve_qty );
+			
+		} if ( $column == 'booking_seat' ) {
 
 			$products = get_post_meta( $post_id, '_uem_wc_products', true );
 			
@@ -919,6 +934,7 @@ class UEM_Post_Types {
 			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
 			$ticket    = is_array( $totalseat ) ? reset( $totalseat ) : [];
 			$quantity  = isset( $ticket['quantity'] ) ? absint( $ticket['quantity'] ) : 0;
+			$reseverd  = isset( $ticket['reserve_qty'] ) ? absint( $ticket['reserve_qty'] ) : 0;
 
 			$products    = get_post_meta( $post_id, '_uem_wc_products', true );
 			$total_sold  = 0;
@@ -929,8 +945,6 @@ class UEM_Post_Types {
 						self::webcu_get_product_sold_qty( (int) $product_id )
 						
 					);
-					//$refund_ids = self::webcu_get_order_ids_by_product_id( (int) $product_id );						
-					//$refund_ids = self::webcu_get_refunded_order_ids_by_product_id( (int) $product_id);
 					$cancelled_orders = self::get_cancelled_refunded_orders_by_product($product_id);
 				}
 			}
@@ -944,8 +958,10 @@ class UEM_Post_Types {
 
 			$cancelled_orders = is_array( $cancelled_orders ) ? $cancelled_orders : [];
 			$available_qty = max(0, $quantity - ( (int) $total_sold - (int) count( $cancelled_orders ) ) );
+			$total_sold_ticket = (int) $available_qty - (int) $reseverd;
 
-			echo esc_html( $available_qty );
+			echo esc_html( $total_sold_ticket );
+			
 
 		} 
 
@@ -982,7 +998,11 @@ class UEM_Post_Types {
 			echo '<a href="' . esc_url( $url ) . '" class="button button-small">
 					CSV Export
 				</a>';
-        }
+        } if ( $column === 'short_code' ) {	
+
+			echo esc_html( '[event-add-cart-section event="' . $post_id . '"]' );
+
+		}
 
 
     }

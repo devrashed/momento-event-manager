@@ -12,9 +12,8 @@ class Class_meta_venue_location {
         $this->country = new Class_country_list();
     }
 
-    public function webcu_venue_location_field($post) { 
-      
-    ?>
+    public function webcu_venue_location_field($post) {   
+     ?>
 
         <label class="webcu_switch">
             <input type="checkbox" id="toggleStatus">
@@ -97,25 +96,11 @@ class Class_meta_venue_location {
                         <input type="checkbox" class="wodgc_check" name="webcu_ve_googleMap" id="webcu_ve_googleMap" value="1" 
                         <?php checked(get_post_meta($post->ID, 'webcu_ve_googleMap', true), '1'); ?>>
                         <label for="webcu_ve_googleMap">Show Google Map</label>
-                    </div>
-
-                     <br>
-                    <div class="two-col" id="mapTextField" style="display: none; margin-top: 10px;">
-                        <div class="form-group" >
-                           <label><?php echo esc_html__('Google Map API:', 'mega-events-manager') ?> 
-                            <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html__( 'Get API key', 'mega-events-manager' ); ?>
-                            </a>
-                        </label>
-                          <input type="text" id="webcu_googleMap_Api" name="webcu_googleMap_Api" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_googleMap_Api', true)); ?>" placeholder="Enter Google MAP API">
-                        </div>
-                    </div>
-
-           
+                    </div>                                      
                 </div>       
             </div>  
         <?php
-        }
+    }
 
     public function webcu_save_meta_venue_location($post_id){
 

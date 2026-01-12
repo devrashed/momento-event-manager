@@ -20,22 +20,20 @@ class class_event_custom_metabox {
     private $reminder;
     private $photogallery;
     private $associate;
-    private $media;
 
     public function __construct() { 
 
         $this->photogallery = new class_event_meta_photogallery();
 
         add_action('add_meta_boxes', [$this, 'webcu_event_meta_field']);
-
         add_action('save_post', [$this, 'webcu_save_event_registration_meta']);
-        // Removed sidebar gallery metabox - gallery is now in Media tab.
-        // add_action('add_meta_boxes', [$this->photogallery,'webcu_add_gallery_meta_box']);
-        // add_action('save_post_mem_event', [$this->photogallery,'webcu_save_gallery_meta']);  
+        add_action('add_meta_boxes', [$this->photogallery,'webcu_add_gallery_meta_box']);
+        add_action('save_post_mem_event', [$this->photogallery,'webcu_save_gallery_meta']);  
 
     }
 
     public function webcu_event_meta_field() {
+
         add_meta_box(
             'event_details_metabox',
             __('Event Information', 'mega-events-manager'),
@@ -45,8 +43,6 @@ class class_event_custom_metabox {
             'high'
         );
     }
-        
-
 
     public function webcu_render_event_details_metabox($post) {
         // Nonce for verification when saving
@@ -65,10 +61,9 @@ class class_event_custom_metabox {
                         <li data-tab="regis"> <?php echo esc_html__('Registration Form', 'mega-events-manager') ?></li>
                         <li data-tab="attendee_form"> <?php echo esc_html__('Attendee Form', 'mega-events-manager') ?> </li>
                         <li data-tab="faq"> <?php echo esc_html__('F.A.Q', 'mega-events-manager') ?> </li>
-                        <li data-tab="media"> <?php echo esc_html__('Media', 'mega-events-manager') ?> </li>
                         <!-- <li data-tab="timeline_details"> <?php //echo esc_html__('Additional content', 'mega-events-manager') ?></li> -->
                         <li data-tab="terms_conditions"> <?php echo esc_html__('Terms & Conditios', 'mega-events-manager') ?>  </li>
-                        <!-- <li data-tab="event_assot"> <?php //echo esc_html__('Event Associates', 'mega-events-manager') ?>  </li> -->
+                        <li data-tab="event_assot"> <?php echo esc_html__('Event Associates', 'mega-events-manager') ?>  </li>
                     </ul>
                 </div>
 
@@ -126,9 +121,9 @@ class class_event_custom_metabox {
                             $reminder = new Class_meta_emails_section(); 
                             $reminder->webcu_meta_emails_field($post);
                          ?>    
-                    </div> 
+                    </div>
 
-                    <!-- Registration Form -->
+                    <!-- Registration Form -->  
 
                     <div class="event-tab" id="regis">
                         <h3><?php echo esc_html__('Registration Form', 'mega-events-manager') ?></h3>
@@ -172,23 +167,14 @@ class class_event_custom_metabox {
                         ?>     
                     </div>
                     
-                    <!-- media -->
-                    <div class="event-tab" id="media">
-                        <?php
-                            $media = new Class_meta_event_media();
-                            $media->webcu_event_media_meta_field($post);
-                        ?>     
-                    </div>
-
-
                       <!-- event_associates -->
-                    <!-- <div class="event-tab" id="event_assot">
+                    <div class="event-tab" id="event_assot">
                          <h3><?php echo esc_html__('Event Associates', 'mega-events-manager') ?></h3>
                         <?php
                             $associate = new Class_meta_event_associate();
                             $associate->webcu_event_associate_meta_field($post);
                         ?>     
-                    </div> --> 
+                    </div> 
             </div>
         <?php
     }
@@ -268,44 +254,12 @@ class class_event_custom_metabox {
         $termscondition = new Class_meta_terms_conditions();
         $termscondition->webcu_save_meta_terms_conditions($post_id);
 
-        /* ====== Media ======= */
-        // Save hero banner, gallery, and video fields.
-        if ( isset( $_POST['webcu_event_media_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['webcu_event_media_nonce'] ) ), 'webcu_event_media_meta' ) ) {
-            // Hero banner.
-            if ( isset( $_POST['event_image_id'] ) ) {
-                update_post_meta( $post_id, '_event_image_id', sanitize_text_field( wp_unslash( $_POST['event_image_id'] ) ) );
-            }
-            
-            // Event photo gallery (using same meta key as old sidebar gallery).
-            if ( isset( $_POST['webcu_gallery_ids'] ) ) {
-                update_post_meta( $post_id, '_webcu_gallery_ids', sanitize_text_field( wp_unslash( $_POST['webcu_gallery_ids'] ) ) );
-            }
-
-            // Video type.
-            if ( isset( $_POST['webcu_events_video_type'] ) ) {
-                update_post_meta( $post_id, '_webcu_events_video_type', sanitize_text_field( wp_unslash( $_POST['webcu_events_video_type'] ) ) );
-            }
-            
-            // YouTube URL.
-            if ( isset( $_POST['webcu_events_youtube_url'] ) ) {
-                update_post_meta( $post_id, '_webcu_events_youtube_url', esc_url_raw( wp_unslash( $_POST['webcu_events_youtube_url'] ) ) );
-            }
-            
-            // Vimeo URL.
-            if ( isset( $_POST['webcu_events_vimeo_url'] ) ) {
-                update_post_meta( $post_id, '_webcu_events_vimeo_url', esc_url_raw( wp_unslash( $_POST['webcu_events_vimeo_url'] ) ) );
-            }
-
-            // Self-hosted video.
-            if ( isset( $_POST['webcu_events_self_video_id'] ) ) {
-                update_post_meta( $post_id, '_webcu_events_self_video_id', absint( wp_unslash( $_POST['webcu_events_self_video_id'] ) ) );
-            }
-        }
-
         /* ====== Associated ======= */ 
 
-        /* $associate = new Class_meta_event_associate();
-        $associate->webcu_save_event_associated_field($post_id); */
-    }
+        $associate = new Class_meta_event_associate();
+        $associate->webcu_save_event_associated_field($post_id);
+    } 
+
+    
 
 }

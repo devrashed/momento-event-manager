@@ -1708,56 +1708,6 @@ input.webcu_re_subject {
 }
 
 
-/* ==== Event photogallery ==== */
-
-
-/* === Organizer photo gallery ====*/
-
-
-.webcu-event-gallery-grid {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-	margin-bottom: 15px;
-}
-
-.webcu-event-gallery-item {
-	position: relative;
-	border: 1px solid #ddd;
-	padding: 5px;
-	background: #f9f9f9;
-	width: 100px;
-	height: 100px;
-}
-
-.webcu-event-gallery-item img {
-	width: 100%;
-	height: 100%;
-	display: block;
-	object-fit: cover;
-	border-radius: 4px;
-}
-
-.webcu-event-remove-image {
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: #dc3232;
-	color: white;
-	width: 24px;
-	height: 24px;
-	text-align: center;
-	line-height: 24px;
-	cursor: pointer;
-	font-size: 18px;
-}
-
-.webcu-event-remove-image:hover {
-	background: #a00;
-}
-
-
-
 
 /* === Event Registration Global ====*/
 
@@ -2053,7 +2003,7 @@ input.webcu_re_subject {
 	margin-top: 10px;
 }
 
-/* ====== Voluenteer gallery ====== */
+/* ====== voluenteer gallery ====== */
 
 .volenteer-gallery-container {
 	margin-top: 10px;
@@ -2156,13 +2106,4 @@ input.webcu_re_subject {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-}
-
-/* ==== Media ==== */
-
-#webcu-video-preview {
-	max-width: 300px;
-	height: auto;
-	border-radius: 6px;
-	margin-top: 10px;
 }

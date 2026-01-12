@@ -455,6 +455,72 @@ p {
     margin-top: auto;
 }
 
+/* ==== Associate ==== */
+
+.uem-event-people {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* responsive */
+}
+
+/* Each block */
+.uem-event-people>div {
+    flex: 1 1 30%;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+/* Remove default ul style */
+.uem-event-people ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Align image + text horizontally */
+.uem-event-people li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+/* Thumbnail image */
+.uem-event-people img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* Title text */
+.uem-event-people span {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+    .uem-event-people>div {
+        flex: 1 1 48%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .uem-event-people {
+        flex-direction: column;
+    }
+
+    .uem-event-people>div {
+        flex: 1 1 100%;
+    }
+}
+
+
 /* --- Right Sidebar Column --- */
 .right-column {
     flex: 1;

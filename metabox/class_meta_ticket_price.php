@@ -42,7 +42,7 @@ class Class_meta_ticket_price{
               </div>
               <input type="hidden" id="webcu_tk_registration_enabled" name="webcu_tk_registration_enabled" value="<?php echo esc_attr($registration_enabled); ?>" >
             </div>
-          </div>
+        </div>
           
 
           <!-- Ticket Type & Price Settings -->

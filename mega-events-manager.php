@@ -79,8 +79,10 @@ class Ultimate_Events_Manager {
 		new class_event_custom_metabox();
 		//event template
 		new Class_mem_event_template();
-		
+		//event widget
 		new class_event_manager_widget();
+		//registration shortcode
+		new class_mem_registration_shortcode();
 		
 		// Initialize WooCommerce integration if enabled
 		// Register AJAX handlers early
@@ -104,6 +106,7 @@ class Ultimate_Events_Manager {
 		//Template loader
 		add_filter( 'single_template', array( $this, 'webcu_load_event_template' ) );
 		add_filter( 'template_include', array( $this, 'webcu_load_thank_you_template' ) );
+		
 	}
 	
 	/**
@@ -125,11 +128,10 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-country-list.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-event-metabox.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_attendee_form.php';  
+		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_emails_section.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_dateTime_section.php'; 
-		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_emails_section.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_faq_section.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_registration_form.php'; 
-		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_richtext_section.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_terms_conditions.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_ticket_price.php'; 
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_timeline_details.php';
@@ -139,6 +141,8 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'metabox/class_meta_settings_sections.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-event-meta-photogallery.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-event-meta-photogallery.php';
+	    require_once UEM_PLUGIN_DIR . 'metabox/class_meta_event_media.php';
+		
 		require_once UEM_PLUGIN_DIR . 'widget/class_event_manager_widget.php';
 
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-meta-boxes.php';
@@ -147,6 +151,9 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-ajax.php';
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-template-loader.php';
 		require_once UEM_PLUGIN_DIR . 'includes/uem-template-functions.php';
+		require_once UEM_PLUGIN_DIR . 'includes/class-uem-shortcode.php';
+
+
 	}
 	
 	/**
@@ -184,7 +191,7 @@ class Ultimate_Events_Manager {
 			wp_enqueue_script('vimeo-player','https://player.vimeo.com/api/player.js', array(), null, true);  
 			
 			// Enqueue WooCommerce scripts if needed
-			if ( $this->webcu_is_woocommerce_enabled() && class_exists( 'WooCommerce' ) && is_singular( 'uem_event' ) ) {
+			if ( $this->webcu_is_woocommerce_enabled() && class_exists( 'WooCommerce' ) && is_singular( 'mem_event' ) ) {
 				if ( function_exists( 'WC' ) ) {
 					WC()->frontend_includes();
 					if ( is_checkout() || is_cart() ) {
@@ -204,6 +211,7 @@ class Ultimate_Events_Manager {
 	 */
 	public function webcu_enqueue_admin_assets( $hook ) {
 		$screen = get_current_screen();
+		    $counter = 0;
 			wp_enqueue_script('jquery');
 			wp_enqueue_style( 'uem-admin', UEM_PLUGIN_URL . 'assets/css/admin.css', array(), UEM_VERSION );
 			wp_enqueue_script( 'search-select', UEM_PLUGIN_URL . 'assets/js/jquery-searchbox.js',  array('jquery'), time(), true);
@@ -273,8 +281,14 @@ class Ultimate_Events_Manager {
 		}
 		return $template;
 	}
+
+	 
 }
 
+
+
+
+    
 /**
  * Activation hook
  */

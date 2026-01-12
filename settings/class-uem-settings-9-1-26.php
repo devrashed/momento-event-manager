@@ -49,7 +49,7 @@ class UEM_Settings {
                 wp_die( __( 'Insufficient permissions' ) );
             }
 
-            $allowed_tabs = ['woointe', 'registration', 'dytx', 'currency', 'template', 'mapg'];
+            $allowed_tabs = [ 'registration', 'dytx', 'currency', 'template', 'googlemap'];
             $tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'woointe';
             if ( ! in_array( $tab, $allowed_tabs, true ) ) $tab = 'woointe';
 
@@ -58,7 +58,6 @@ class UEM_Settings {
             function van_tab_link( $base_url, $tab_name ) {
                 return esc_url( add_query_arg( 'tab', $tab_name, $base_url ) );
             } 
-
 			$woo_inte = get_option('webcu_wooIntegration_status', 'off');
 			
 			
@@ -69,19 +68,17 @@ class UEM_Settings {
                         <ul>
 							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=woointe" class="<?php echo $tab === 'woointe' ? 'van-active' : ''; ?>" data-tab="woointe"><?php esc_html_e( 'WooCommerce integration', 'mega-events-manager' ); ?></a></li>
 
-                            <li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=registration" class="<?php echo $tab === 'registration' ? 'van-active' : ''; ?>" data-tab="registration"><?php esc_html_e( 'Registration Method', 'mega-events-manager' ); ?></a></li>	
-							<?php if( get_option('webcu_wooIntegration_status', 'off') == 'off') {?>
-
+                            <li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=dytx" class="<?php echo $tab === 'dytx' ? 'van-active' : ''; ?>" data-tab="dytx"><?php esc_html_e( 'Dynamic Taxonomy', 'mega-events-manager' ); ?></a></li>
+   
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=registration" class="<?php echo $tab === 'registration' ? 'van-active' : ''; ?>" data-tab="registration"><?php esc_html_e( 'Registration Method', 'mega-events-manager' ); ?></a></li>	
+							<?php if($woo_inte === 'off') {?>
 							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=currency" class="<?php echo $tab === 'currency' ? 'van-active' : ''; ?>" data-tab="currency"><?php esc_html_e( 'Currency Option', 'mega-events-manager' ); ?></a></li>
 							<?php } ?>	
-							
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=dytx" class="<?php echo $tab === 'dytx' ? 'van-active' : ''; ?>" data-tab="dytx"><?php esc_html_e( 'Dynamic Taxonomy', 'mega-events-manager' ); ?></a></li>
-
 							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=template" class="<?php echo $tab === 'template' ? 'van-active' : ''; ?>" data-tab="template"><?php esc_html_e( 'Template', 'mega-events-manager' ); ?></a></li>	
 
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=mapg" class="<?php echo $tab === 'mapg' ? 'van-active' : ''; ?>" data-tab="mapg"><?php esc_html_e( 'Google Map Integration', 'mega-events-manager' ); ?></a></li>	
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=googlemap" class="<?php echo $tab === 'googlemap' ? 'van-active' : ''; ?>" data-tab="googlemap"><?php esc_html_e( 'Google Map Integration', 'mega-events-manager' ); ?></a></li>	
 						</ul>		
-                    </nav>              
+                    </nav>
 
                     <section class="van-content" role="main">
 
@@ -111,27 +108,23 @@ class UEM_Settings {
                              <?php 
 							    $currency = new Class_currency_setting();
 								$currency->webcu_event_currency_fields();
-
 							 ?>
                         </div>
-
-
-						<div id="van-tab-mapg" class="van-tab" style="<?php echo $tab === 'mapg' ? '' : 'display:none;'; ?>">	
-							<h2><?php esc_html_e( 'Google Map Integration', 'mega-events-manager' ); ?></h2>  							
-								<?php 
-								$google = new class_google_map();
-								$google->webcu_google_map_integration();
-								?>
-						</div>
-								
 						
-						<div id="van-tab-template" class="van-tab" style="<?php echo $tab === 'template' ? '' : 'display:none;'; ?>">								
+						<div id="van-tab-template" class="van-tab" style="<?php echo $tab === 'template' ? '' : 'display:none;'; ?>">
+								<h2><?php esc_html_e( 'Template ', 'mega-events-manager' ); ?></h2>   
 								<?php 
 								$temp = new Class_mem_event_template();
 								$temp->webcu_event_web_template(); 
 								?>
 						</div>
-
+								
+						<div id="van-tab-googlemap" class="van-tab" style="<?php echo $tab === 'googlemap' ? '' : 'display:none;'; ?>">
+						    <?php 
+								$google = new Class_uem_google_map ();
+								$google->webcu_google_map_integration(); 
+							?>
+						</div>
 						
                     </section>
             </div>
@@ -169,15 +162,9 @@ class UEM_Settings {
 							</th>
 							<td>
 								<select name="uem_registration_method" id="uem_registration_method">
-
-									<?php if( get_option('webcu_wooIntegration_status', 'on') == 'on') {?>
-
-										<option value="woocommerce" <?php selected( $registration_method, 'woocommerce' ); ?>>
-											<?php echo esc_html( 'WooCommerce', 'mega-events-manager' ); ?>
-										</option>
-
-									<?php } ?>
-
+									<option value="woocommerce" <?php selected( $registration_method, 'woocommerce' ); ?>>
+										<?php echo esc_html( 'WooCommerce', 'mega-events-manager' ); ?>
+									</option>
 									<option value="simple" <?php selected( $registration_method, 'simple' ); ?>>
 										<?php echo esc_html( 'Simple Registration (Without WooCommerce)', 'mega-events-manager' ); ?>
 									</option>
@@ -201,9 +188,4 @@ class UEM_Settings {
 	}
 }
 
-// Instantiate Google Map class globally to ensure save handler is always registered
-/* if (class_exists('Class_uem_google_map')) {
-    new Class_uem_google_map();
-}
-UEM_Settings::init(); */
 
