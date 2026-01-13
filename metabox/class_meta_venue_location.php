@@ -101,7 +101,7 @@ class Class_meta_venue_location {
             </div>  
         <?php
     }
-
+            
     public function webcu_save_meta_venue_location($post_id){
 
             if (isset($_POST['webcu_custom_editor_field'])) {

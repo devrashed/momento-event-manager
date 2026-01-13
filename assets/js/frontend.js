@@ -4,6 +4,7 @@
  * @package Ultimate_Events_Manager
  */
 
+
 (function ($) {
 	'use strict';
 
@@ -12,6 +13,7 @@
 		// WooCommerce cart update
 		if (typeof uemData !== 'undefined' && uemData.isWooCommerce) {
 			handleWooCommerceCartUpdate();
+			loadEventTickets();
 		}
 
 		// Simple registration form
@@ -21,142 +23,127 @@
 
 	});
 
+	function loadEventTickets() {
+		var $input = $('.uem-ticket-quantity');
+		var cartItemKey = $input.data('cart-item-key');
+		var quantity = parseInt($input.val()) || 0;
+		var ticketIndex = $input.data('ticket-index');
+		var eventId = $input.closest('.uem-woocommerce-registration').data('event-id') || '';
+
+		// Show loading state
+		$input.prop('disabled', true);
+		jQuery('.uem-checkout-form').addClass('uem-loading');
+
+		// Update cart via AJAX
+		jQuery.ajax({
+			url: uemData.ajaxUrl,
+			type: 'POST',
+			data: {
+				action: 'webcu_uem_update_cart',
+				nonce: uemData.nonce,
+				cart_item_key: cartItemKey || '',
+				quantity: quantity,
+				ticket_index: ticketIndex,
+				event_id: eventId
+			},
+			success: function (response) {
+				if (response.success) {
+					// Update cart item key if it was returned
+					if (response.data.cart_item_key && !cartItemKey) {
+						$input.data('cart-item-key', response.data.cart_item_key);
+					}
+
+					// Update fragments
+					if (response.data.fragments) {
+						$.each(response.data.fragments, function (selector, html) {
+							var $target = $(selector);
+							if ($target.length) {
+								if (selector === '#uem-attendee-details-section' && !html) {
+									// Remove section if empty
+									$target.remove();
+								} else {
+									// Use html() to replace content, preserving parent structure
+									$target.html(html);
+									//alert($target.html(html))
+								}
+							} else if (selector === '#uem-attendee-details-section' && html) {
+								// Insert attendee section if it doesn't exist
+								var $orderReview = $('.woocommerce-checkout-review-order');
+								if ($orderReview.length) {
+									// Find the order review table and insert after it
+									var $orderTable = $orderReview.find('table.shop_table');
+									if ($orderTable.length) {
+										$(html).insertAfter($orderTable);
+									} else {
+										$orderReview.prepend(html);
+									}
+								}
+							}
+						});
+
+						// Trigger WooCommerce checkout update to reinitialize scripts
+						$('body').trigger('update_checkout');
+					}
+
+					// Update ticket totals from response
+					if (response.data.ticket_totals) {
+						$.each(response.data.ticket_totals, function (index, total) {
+							var $totalCell = $('.uem-ticket-total[data-ticket-index="' + index + '"]');
+							if (typeof wc_price !== 'undefined') {
+								$totalCell.html(wc_price(total));
+							} else {
+								$totalCell.html('$' + total.toFixed(2));
+							}
+						});
+					}
+
+					// Update grand total
+					if (response.data.grand_total !== undefined) {
+						var $grandTotal = $('.uem-grand-total');
+						if (typeof wc_price !== 'undefined') {
+							$grandTotal.html('<strong>' + wc_price(response.data.grand_total) + '</strong>');
+						} else {
+							$grandTotal.html('<strong>$' + response.data.grand_total.toFixed(2) + '</strong>');
+						}
+					}
+
+					// Update cart item keys for all inputs
+					if (response.data.cart_item_keys) {
+						$.each(response.data.cart_item_keys, function (index, key) {
+							$('.uem-ticket-quantity[data-ticket-index="' + index + '"]').data('cart-item-key', key);
+						});
+					}
+
+					// Trigger update checkout event
+					$('body').trigger('update_checkout');
+				}
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = 'Failed to update cart. Please refresh the page.';
+				if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
+					errorMessage = xhr.responseJSON.data.message;
+				}
+				alert(errorMessage);
+				console.error('AJAX Error:', status, error, xhr.responseText);
+			},
+			complete: function () {
+				$input.prop('disabled', false);
+				$('.uem-checkout-form').removeClass('uem-loading');
+			}
+		});
+
+	}
+
 	/**
 	 * Handle WooCommerce cart updates
 	 */
 	function handleWooCommerceCartUpdate() {
-		// Update ticket totals immediately on change
-		jQuery(document).on('input change', '.uem-ticket-quantity', function () {
-			var $input = $(this);
-			var quantity = parseInt($input.val()) || 0;
-			var ticketPrice = parseFloat($input.data('ticket-price')) || 0;
-			var ticketIndex = $input.data('ticket-index');
-			var $totalCell = $('.uem-ticket-total[data-ticket-index="' + ticketIndex + '"]');
 
-			// Update individual ticket total
-			var ticketTotal = ticketPrice * quantity;
-			if (typeof wc_price !== 'undefined') {
-				$totalCell.html(wc_price(ticketTotal));
-			} else {
-				$totalCell.html('$' + ticketTotal.toFixed(2));
-			}
-
-			// Update grand total
-			updateGrandTotal();
-		});
-
-		// Update cart via AJAX when quantity changes
 		jQuery(document).on('change', '.uem-ticket-quantity', function () {
-
-			var $input = $(this);
-			var cartItemKey = $input.data('cart-item-key');
-			var quantity = parseInt($input.val()) || 0;
-			var ticketIndex = $input.data('ticket-index');
-			var eventId = $input.closest('.uem-woocommerce-registration').data('event-id') || '';
-
-			// Show loading state
-			$input.prop('disabled', true);
-			jQuery('.uem-checkout-form').addClass('uem-loading');
-
-			// Update cart via AJAX
-			jQuery.ajax({
-				url: uemData.ajaxUrl,
-				type: 'POST',
-				data: {
-					action: 'webcu_uem_update_cart',
-					nonce: uemData.nonce,
-					cart_item_key: cartItemKey || '',
-					quantity: quantity,
-					ticket_index: ticketIndex,
-					event_id: eventId
-				},
-				success: function (response) {
-					if (response.success) {
-						// Update cart item key if it was returned
-						if (response.data.cart_item_key && !cartItemKey) {
-							$input.data('cart-item-key', response.data.cart_item_key);
-						}
-
-						// Update fragments
-						if (response.data.fragments) {
-							$.each(response.data.fragments, function (selector, html) {
-								var $target = $(selector);
-								if ($target.length) {
-									if (selector === '#uem-attendee-details-section' && !html) {
-										// Remove section if empty
-										$target.remove();
-									} else {
-										// Use html() to replace content, preserving parent structure
-										$target.html(html);
-										//alert($target.html(html))
-									}
-								} else if (selector === '#uem-attendee-details-section' && html) {
-									// Insert attendee section if it doesn't exist
-									var $orderReview = $('.woocommerce-checkout-review-order');
-									if ($orderReview.length) {
-										// Find the order review table and insert after it
-										var $orderTable = $orderReview.find('table.shop_table');
-										if ($orderTable.length) {
-											$(html).insertAfter($orderTable);
-										} else {
-											$orderReview.prepend(html);
-										}
-									}
-								}
-							});
-
-							// Trigger WooCommerce checkout update to reinitialize scripts
-							$('body').trigger('update_checkout');
-						}
-
-						// Update ticket totals from response
-						if (response.data.ticket_totals) {
-							$.each(response.data.ticket_totals, function (index, total) {
-								var $totalCell = $('.uem-ticket-total[data-ticket-index="' + index + '"]');
-								if (typeof wc_price !== 'undefined') {
-									$totalCell.html(wc_price(total));
-								} else {
-									$totalCell.html('$' + total.toFixed(2));
-								}
-							});
-						}
-
-						// Update grand total
-						if (response.data.grand_total !== undefined) {
-							var $grandTotal = $('.uem-grand-total');
-							if (typeof wc_price !== 'undefined') {
-								$grandTotal.html('<strong>' + wc_price(response.data.grand_total) + '</strong>');
-							} else {
-								$grandTotal.html('<strong>$' + response.data.grand_total.toFixed(2) + '</strong>');
-							}
-						}
-
-						// Update cart item keys for all inputs
-						if (response.data.cart_item_keys) {
-							$.each(response.data.cart_item_keys, function (index, key) {
-								$('.uem-ticket-quantity[data-ticket-index="' + index + '"]').data('cart-item-key', key);
-							});
-						}
-
-						// Trigger update checkout event
-						$('body').trigger('update_checkout');
-					}
-				},
-				error: function (xhr, status, error) {
-					var errorMessage = 'Failed to update cart. Please refresh the page.';
-					if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
-						errorMessage = xhr.responseJSON.data.message;
-					}
-					alert(errorMessage);
-					console.error('AJAX Error:', status, error, xhr.responseText);
-				},
-				complete: function () {
-					$input.prop('disabled', false);
-					$('.uem-checkout-form').removeClass('uem-loading');
-				}
-			});
+			loadEventTickets();
 		});
 	}
+
 
 	/**
 	 * Update grand total

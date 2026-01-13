@@ -360,56 +360,70 @@ jQuery(function ($) {
 
 	// Add new email block
 	jQuery('#addNewEmail').on('click', function () {
-
 		counter++;
 		const newBox = `
-                <div class="webcu_re_box webcu_re_email-block" data-index="${counter}">
-                <div class="webcu_re_expand-remove">
-                    <button type="button" class="webcu_re_expand-btn">Expand</button>
-                    <button type="button" class="webcu_re_remove-btn">Remove</button>
-                </div>
+        <div class="webcu_re_box webcu_re_email-block" data-index="${counter}">
+            <div class="webcu_re_expand-remove">
+                <button type="button" class="webcu_re_expand-btn">Expand</button>
+                <button type="button" class="webcu_re_remove-btn">Remove</button>
+            </div>
 
-                <div class="webcu_re_header-row">
-                    <div class="webcu_re_title">Event email reminder ${counter}</div>
-                    <div class="webcu_re_top-actions">
+            <div class="webcu_re_header-row">
+                <div class="webcu_re_title">Event email reminder ${counter}</div>
+                <div class="webcu_re_top-actions">
                     <button class="webcu_re_send-now">Send Now</button>
-                    </div>
                 </div>
+            </div>
 
             <div class="webcu_re_form-row">
-                    <div class="webcu_re_label">Time count:</div>
-                    <div>
+                <div class="webcu_re_label">Email Timing:</div>
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <input class="webcu_re_timing" name="timing_${counter}" type="text" value="72" /> 
+                        <span class="webcu_re_hours-label">Hours</span>
+                    </div>
+                    <div class="webcu_re_small-help">Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.</div>
+                </div>
+            </div>
+
+            <div class="webcu_re_form-row">
+                <div class="webcu_re_label">Time count:</div>
+                <div>
                     <div class="webcu_re_radios">
                         <label class="webcu_re_radio-item"><input type="radio" name="timecount_${counter}" value="before" checked> Before Event Start</label>
                         <label class="webcu_re_radio-item"><input type="radio" name="timecount_${counter}" value="after"> After Event End</label>
                     </div>
                     <div class="webcu_re_small-help">Schedule email send before event start or after event end?</div>
-                    </div>
                 </div>
+            </div>
 
             <div class="webcu_re_form-row">
-                    <div class="webcu_re_label">Email Timing:</div>
-                    <div>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <input class="webcu_re_timing" name="timing_${counter}" type="text" value="168" /> 
-                        <span class="webcu_re_hours-label">Hours</span>
+                <div class="label">Email Receiver:</div>
+                <div>
+                    <div class="webcu_re_radios">
+                        <select name="email_reciever_${counter}">
+                            <option value="organizer">organizer</option>
+                            <option value="sponsor">Sponsor</option>
+                            <option value="volunteer">Volunteer</option>
+                            <option value="attendee">Attendee</option>
+                        </select>
                     </div>
-                    <div class="webcu_re_small-help">Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.</div>
-                    </div>
+                    <div class="webcu_re_small-help">Who Recieve the email</div>
                 </div>
+            </div> 
 
-                <div class="webcu_re_form-row">
-                    <div class="webcu_re_label">Email Subject line:</div>
-                    <div>
+            <div class="webcu_re_form-row">
+                <div class="webcu_re_label">Email Subject line:</div>
+                <div>
                     <input class="webcu_re_subject" name="subject_${counter}" placeholder="First Reminder email subject line" />
-                    </div>
                 </div>
+            </div>
 
-                <div class="webcu_re_form-row">
-                    <div class="webcu_re_label">Email Content:</div>
-                    <div id="webcu_re_editor_container_${counter}"></div>
-                </div>
-                </div>`;
+            <div class="webcu_re_form-row">
+                <div class="webcu_re_label">Email Content:</div>
+                <div id="webcu_re_editor_container_${counter}"></div>
+            </div>
+        </div>`;
 
 		jQuery('#emailContainer').append(newBox);
 
@@ -419,6 +433,125 @@ jQuery(function ($) {
 			wp.editor.initialize(newId, { tinymce: true, quicktags: true });
 		}
 	});
+
+
+	/* ==== email send script ===== */
+
+	// Add this to your existing JavaScript
+	jQuery(document).on('click', '.webcu_re_send-now_old', function (e) {
+		e.preventDefault();
+
+		var $button = jQuery(this);
+		var $block = $button.closest('.webcu_re_email-block');
+		var index = $block.data('index');
+
+		// Get form data
+		var post_id = $button.data('post-id');
+		var timing = $block.find('input[name="timing_' + index + '"]').val();
+		var timecount = $block.find('input[name="timecount_' + index + '"]:checked').val();
+		var receiver = $block.find('select[name="email_reciever_' + index + '"]').val();
+		var subject = $block.find('input[name="subject_' + index + '"]').val();
+		var content = '';
+
+		// Get content from TinyMCE editor
+		if (typeof tinyMCE !== 'undefined') {
+			var editor_id = 'content_' + index;
+			if (tinyMCE.get(editor_id)) {
+				content = tinyMCE.get(editor_id).getContent();
+			} else {
+				content = jQuery('textarea[name="content_' + index + '"]').val();
+			}
+		} else {
+			content = jQuery('textarea[name="content_' + index + '"]').val();
+		}
+
+		// Validate data
+		if (!timing || !subject || !content) {
+			alert('Please fill in all required fields: timing, subject, and content.');
+			return;
+		}
+
+		// Disable button and show loading
+		$button.prop('disabled', true).text('Sending...');
+
+		// Send AJAX request
+		jQuery.ajax({
+			url: ajax_ob.ajax_url,
+			type: 'POST',
+			data: {
+				action: 'webcu_send_email_now_old',
+				nonce: ajax_ob.nonce,
+				post_id: post_id,
+				index: index,
+				timing: timing,
+				timecount: timecount,
+				receiver: receiver,
+				subject: subject,
+				content: content,
+				event_start: $button.data('event-start'),
+				event_end: $button.data('event-end')
+			},
+			success: function (response) {
+				if (response.success) {
+					alert(response.data.message);
+					console.log('Scheduled time:', response.data.scheduled_time);
+				} else {
+					alert('Error: ' + response.data);
+				}
+				$button.prop('disabled', false).text('Send Now');
+			},
+			error: function () {
+				alert('An error occurred while sending the email.');
+				$button.prop('disabled', false).text('Send Now');
+			}
+		});
+	});
+
+	// Also update your "Add New Email" jQuery to include data attributes
+	jQuery('#addNewEmail').on('click', function () {
+		counter++;
+		const newBox = `
+        <div class="webcu_re_box webcu_re_email-block" data-index="${counter}">
+            <div class="webcu_re_expand-remove">
+                <button type="button" class="webcu_re_expand-btn">Expand</button>
+                <button type="button" class="webcu_re_remove-btn">Remove</button>
+            </div>
+
+            <div class="webcu_re_header-row">
+                <div class="webcu_re_title">Event email reminder ${counter}</div>
+                <div class="webcu_re_top-actions">
+                    <button type="button" class="webcu_re_send-now" 
+                        data-post-id="<?php echo esc_attr(get_the_ID()); ?>"
+                        data-index="${counter}"
+                        data-timing="72"
+                        data-timecount="before"
+                        data-receiver="organizer"
+                        data-event-start="<?php echo esc_attr(get_post_meta(get_the_ID(), '_event_start_date', true)); ?>"
+                        data-event-end="<?php echo esc_attr(get_post_meta(get_the_ID(), '_event_end_date', true)); ?>">
+                        Send Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Rest of your form fields -->
+            <!-- ... -->
+            
+        </div>`;
+
+		jQuery('#emailContainer').append(newBox);
+
+		// Initialize editor
+		const newId = 'content_' + counter;
+		jQuery('#webcu_re_editor_container_' + counter).html('<textarea id="' + newId + '" name="' + newId + '"></textarea>');
+		if (typeof wp !== 'undefined' && wp.editor) {
+			wp.editor.initialize(newId, { tinymce: true, quicktags: true });
+		}
+	});
+
+
+
+
+
 
 });
 
@@ -1811,5 +1944,278 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 /* ========== End Metabox ============= */
 
 
+/* ==== Email section send ===== */
 
 
+/* jQuery(document).ready(function ($) {
+	// Handle Send Now button click
+	$(document).on('click', '.webcu_re_send-now', function (e) {
+		e.preventDefault();
+
+		console.log('dddddddd')
+
+		const button = $(this);
+		const originalText = button.text();
+		const postId = button.data('post-id');
+		const index = button.data('index');
+		const receiver = button.data('receiver');
+		const subject = button.data('subject') || $('input[name="subject_' + index + '"]').val();
+		const content = button.data('content') || $('#content_' + index + '-editor-container').find('iframe').contents().find('body').html();
+
+		// Get content from editor if not in data attribute
+		if (!content || content.trim() === '') {
+			if (typeof tinyMCE !== 'undefined' && tinyMCE.get('content_' + index)) {
+				var editorContent = tinyMCE.get('content_' + index).getContent();
+			} else {
+				var editorContent = $('textarea[name="content_' + index + '"]').val();
+			}
+		} else {
+			var editorContent = content;
+		}
+
+		// Validate
+		if (!subject || subject.trim() === '') {
+			alert('Please enter email subject');
+			return;
+		}
+
+		if (!editorContent || editorContent.trim() === '') {
+			alert('Please enter email content');
+			return;
+		}
+
+		// Show loading state
+		button.text('Sending...').prop('disabled', true);
+
+		// AJAX request
+		jQuery.ajax({
+			url: ajax_ob.ajax_url,
+			type: 'POST',
+			data: {
+				action: 'webcu_send_email_now',
+				nonce: ajax_ob.nonce,
+				post_id: postId,
+				index: index,
+				receiver: receiver,
+				subject: subject,
+				content: editorContent
+			},
+			success: function (response) {
+				if (response.success) {
+					alert(response.data.message);
+
+					// Show success message temporarily
+					var originalHtml = button.html();
+					alert('Email send')
+					button.html('<span style="color:green;">✓ Sent</span>');
+
+					setTimeout(function () {
+						button.html(originalText);
+					}, 3000);
+
+				} else {
+					alert('Error: ' + response.data.message);
+					button.text(originalText).prop('disabled', false);
+				}
+			},
+			error: function () {
+				alert('An error occurred while sending email');
+				button.text(originalText).prop('disabled', false);
+			}
+		});
+	});
+
+	// Update button data when form fields change
+	$(document).on('change keyup', '.webcu_re_subject, .webcu_re_timing, select[name^="email_reciever_"]', function () {
+		var input = $(this);
+		var name = input.attr('name');
+		var index = name.split('_')[1];
+		var button = $('.webcu_re_email-block[data-index="' + index + '"]').find('.webcu_re_send-now');
+
+		// Update subject
+		if (name.startsWith('subject_')) {
+			button.data('subject', input.val());
+		}
+
+		// Update receiver
+		if (name.startsWith('email_reciever_')) {
+			button.data('receiver', input.val());
+		}
+
+		// Update timing
+		if (name.startsWith('timing_')) {
+			button.data('timing', input.val());
+		}
+	});
+
+	// Handle timecount radio change
+	$(document).on('change', 'input[name^="timecount_"]', function () {
+		var input = $(this);
+		var name = input.attr('name');
+		var index = name.split('_')[1];
+		var button = $('.webcu_re_email-block[data-index="' + index + '"]').find('.webcu_re_send-now');
+
+		button.data('timecount', input.val());
+	});
+}); */
+
+
+jQuery(document).ready(function ($) {
+	// Handle Send Now button click
+	$(document).on('click', '.webcu_re_send-now', function (e) {
+		e.preventDefault();
+
+		const button = $(this);
+		const originalText = button.text();
+		const postId = button.data('post-id');
+		const index = button.data('index');
+		const receiver = button.data('receiver');
+
+		// Get subject from input field
+		let subject = $('input[name="subject_' + index + '"]').val();
+		if (!subject && button.data('subject')) {
+			subject = button.data('subject');
+		}
+
+		// Get content from editor
+		let content = '';
+		if (typeof tinyMCE !== 'undefined' && tinyMCE.get('content_' + index)) {
+			content = tinyMCE.get('content_' + index).getContent();
+		} else {
+			content = $('textarea[name="content_' + index + '"]').val();
+		}
+
+		// If no content from editor, try data attribute
+		if (!content || content.trim() === '') {
+			content = button.data('content') || '';
+		}
+
+		// Debug logging
+		console.log('Post ID:', postId);
+		console.log('Index:', index);
+		console.log('Receiver:', receiver);
+		console.log('Subject:', subject);
+		console.log('Content length:', content ? content.length : 0);
+
+		// Validate
+		if (!subject || subject.trim() === '') {
+			alert('Please enter email subject');
+			return;
+		}
+
+		if (!content || content.trim() === '') {
+			alert('Please enter email content');
+			return;
+		}
+
+		// Show loading state
+		button.text('Sending...').prop('disabled', true);
+
+		// AJAX request
+		$.ajax({
+			url: ajax_ob.ajax_url,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				action: 'webcu_send_email_now',
+				nonce: ajax_ob.nonce,
+				post_id: postId,
+				index: index,
+				receiver: receiver,
+				subject: subject,
+				content: content
+			},
+			success: function (response) {
+				console.log('AJAX Success:', response);
+
+				if (response.success) {
+					// Show success message
+					alert('✓ ' + response.data.message);
+
+					// Update button temporarily
+					button.html('<span style="color:green;">✓ Sent</span>');
+
+					setTimeout(function () {
+						button.text(originalText).prop('disabled', false);
+					}, 3000);
+
+				} else {
+					alert('✗ Error: ' + (response.data.message || 'Unknown error'));
+					button.text(originalText).prop('disabled', false);
+				}
+			},
+			error: function (xhr, status, error) {
+				console.log('AJAX Error:', status, error);
+				console.log('XHR Response:', xhr.responseText);
+
+				let errorMsg = 'An error occurred while sending email.';
+
+				// Try to parse error from response
+				try {
+					const errorResponse = JSON.parse(xhr.responseText);
+					if (errorResponse && errorResponse.data && errorResponse.data.message) {
+						errorMsg = errorResponse.data.message;
+					}
+				} catch (e) {
+					// If can't parse JSON, use default message
+					if (xhr.responseText && xhr.responseText.includes('error')) {
+						errorMsg = xhr.responseText;
+					}
+				}
+
+				alert('✗ ' + errorMsg);
+				button.text(originalText).prop('disabled', false);
+			},
+			complete: function () {
+				console.log('AJAX request completed');
+			}
+		});
+	});
+
+	// Update button data when form fields change
+	$(document).on('change keyup', '.webcu_re_subject, .webcu_re_timing, select[name^="email_reciever_"]', function () {
+		var input = $(this);
+		var name = input.attr('name');
+		var matches = name.match(/(\d+)$/);
+
+		if (matches && matches[1]) {
+			var index = matches[1];
+			var block = input.closest('.webcu_re_email-block');
+			var button = block.find('.webcu_re_send-now');
+
+			if (button.length) {
+				// Update subject
+				if (name.startsWith('subject_')) {
+					button.data('subject', input.val());
+				}
+
+				// Update receiver
+				if (name.startsWith('email_reciever_')) {
+					button.data('receiver', input.val());
+				}
+
+				// Update timing
+				if (name.startsWith('timing_')) {
+					button.data('timing', input.val());
+				}
+			}
+		}
+	});
+
+	// Handle timecount radio change
+	$(document).on('change', 'input[name^="timecount_"]', function () {
+		var input = $(this);
+		var name = input.attr('name');
+		var matches = name.match(/(\d+)$/);
+
+		if (matches && matches[1]) {
+			var index = matches[1];
+			var block = input.closest('.webcu_re_email-block');
+			var button = block.find('.webcu_re_send-now');
+
+			if (button.length) {
+				button.data('timecount', input.val());
+			}
+		}
+	});
+});

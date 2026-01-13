@@ -30,6 +30,8 @@ define( 'MEM_EVENT_ASSETS', UEM_PLUGIN_URL . '/assets' );
  */
 class Ultimate_Events_Manager {
 	
+	private $emailsend;
+
 	/**
 	 * Instance of this class
 	 *
@@ -83,6 +85,8 @@ class Ultimate_Events_Manager {
 		new class_event_manager_widget();
 		//registration shortcode
 		new class_mem_registration_shortcode();
+
+		$this->emailsend = new Class_meta_emails_section();
 		
 		// Initialize WooCommerce integration if enabled
 		// Register AJAX handlers early
@@ -106,6 +110,9 @@ class Ultimate_Events_Manager {
 		//Template loader
 		add_filter( 'single_template', array( $this, 'webcu_load_event_template' ) );
 		add_filter( 'template_include', array( $this, 'webcu_load_thank_you_template' ) );
+		
+	    add_action('wp_ajax_webcu_send_email_now', [$this->emailsend, 'webcu_send_email_now_handler']);
+        add_action('wp_ajax_nopriv_webcu_send_email_now', [$this->emailsend, 'webcu_send_email_now_handler']);
 		
 	}
 	
@@ -218,7 +225,9 @@ class Ultimate_Events_Manager {
 			
 			wp_enqueue_script( 'uem-admin', UEM_PLUGIN_URL . 'assets/js/admin.js',  array('jquery'), time(), true);
 			wp_localize_script('uem-admin', 'ajax_ob', array(
-			  'counter'  => $counter ? $counter : 1,
+			   'ajax_url' => admin_url('admin-ajax.php'),
+               'nonce' => wp_create_nonce('webcu_nonce'),	
+			   'counter'  => $counter ? $counter : 1,
 			) );      
 	}
 	

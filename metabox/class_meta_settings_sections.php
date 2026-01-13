@@ -80,39 +80,7 @@ public function __construct() {}
             </label>
             </div>
         </div>
-
-        <!-- Row 5: Member Only Event? + multi-select -->
-        <div class="webcu_setting_row">
-            <div class="webcu_setting_col-left">
-            <div class="label"><?php echo esc_html__('Member Only Event?', 'mega-events-manager') ?></div>
-            </div>
-            <div class="webcu_setting_col-right">
-            <label class="webcu_setting_toggle">
-                <input type="checkbox" id="webcu_setting_toggleStatus" name="webcu_setting_toggleStatus" value="1"
-                            <?php checked(get_post_meta($post->ID, 'webcu_setting_toggleStatus', true), '1');?> >
-                <span class="webcu_setting_slider"><span class="webcu_setting_knob"></span></span>
-            </label>
-
-                <?php 
-                  $saved_roles = get_post_meta($post->ID, 'webcu_setting_roles', true);
-                    if (!is_array($saved_roles)) {
-                        $saved_roles = [];
-                  }
-                   $roles = ['Administrator','Editor','Author','Contributor','Subscriber','Customer','Shop manager']; 
-                ?>
-                <select multiple name="webcu_setting_roles[]" id="webcu_setting_roles" style="width:100%; height:120px;">
-                    <?php foreach ($roles as $role): ?>
-                        <option value="<?php echo esc_attr($role); ?>" 
-                            <?php echo in_array($role, $saved_roles) ? 'selected' : ''; ?>>
-                            <?php echo esc_html($role); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-
-               
-            </div>
-        </div>
-    </div>
+     </div>
     <?php 
     }
         public function webcu_save_meta_settings($post_id){
@@ -132,4 +100,3 @@ public function __construct() {}
                   }
         }  
 }
-

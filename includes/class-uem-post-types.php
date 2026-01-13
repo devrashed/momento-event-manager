@@ -119,48 +119,6 @@ class UEM_Post_Types {
 
 	
 
-	public static function webcu_get_product_sold_qty___222( $product_id ) {
-
-		global $wpdb;
-
-		if ( empty( $product_id ) ) {
-			return 0;
-		}
-
-		// Only FINAL booked seats
-		$allowed_statuses = array(
-			'wc-processing',
-			'wc-completed',
-		);
-
-		$placeholders = implode( ',', array_fill( 0, count( $allowed_statuses ), '%s' ) );
-		
-
-		$sql = "
-			SELECT COALESCE( SUM(qty_meta.meta_value), 0 )
-			FROM {$wpdb->prefix}woocommerce_order_items AS order_items
-			INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS product_meta
-				ON order_items.order_item_id = product_meta.order_item_id
-			INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS qty_meta
-				ON order_items.order_item_id = qty_meta.order_item_id
-			INNER JOIN {$wpdb->posts} AS posts
-				ON order_items.order_id = posts.ID
-			WHERE order_items.order_item_type = 'line_item'
-			AND product_meta.meta_key = '_product_id'
-			AND product_meta.meta_value = %d
-			AND qty_meta.meta_key = '_qty'
-			AND posts.post_status IN ($placeholders)
-		";
-
-		$params = array_merge(
-			array( (int) $product_id ),
-			$allowed_statuses
-		);
-		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $params ) );
-	}
-
-
-
 	public static function webcu_get_product_sold_qty( $product_id ) {
 
 		global $wpdb;
@@ -185,41 +143,6 @@ class UEM_Post_Types {
 		return (int) $qty;
 	}
 
-
-
-	public static function webcu_get_single_order_qty_if_released___111( $order_id, $product_id ) {
-
-		if ( empty( $order_id ) || empty( $product_id ) ) {
-			return 0;
-		}
-
-		$order = wc_get_order( $order_id );
-	
-		if ( ! $order ) {
-			return 0;
-		}
-
-		$released_statuses = array(
-			'cancelled',
-			'refunded',
-			'on-hold',
-		);
-
-		if ( ! in_array( $order->get_status(), $released_statuses, true ) ) {
-			return 0; // Seat not released
-		}
-
-		$qty = 0;
-
-		foreach ( $order->get_items() as $item ) {
-
-			if ( (int) $item->get_product_id() === (int) $product_id ) {
-				$qty += (int) $item->get_quantity();
-			}
-		}
-
-		return (int) $qty;
-	}
 
 	public static function webcu_get_product_refunded_qty($product_id) {
 		global $wpdb;
@@ -346,6 +269,36 @@ class UEM_Post_Types {
 		return $wpdb->get_col( $wpdb->prepare( $query, $product_ids ) );
 
 	}
+
+	//only completed order
+	public static function webcu_get_product_sold_qty_product( $product_id ) {
+		if ( empty( $product_id ) || ! function_exists( 'wc_get_orders' ) ) {
+			return 0;
+		}
+	    $total_qty = 0;
+		// Get completed and processing orders containing this product.
+		$orders = wc_get_orders( array(
+			'status' => array( 'completed', 'processing' ),
+			'limit'  => -1,
+			'return' => 'ids',
+		) );
+		
+		foreach ( $orders as $order_id ) {
+			$order = wc_get_order( $order_id );
+			if ( ! $order ) {
+				continue;
+			}
+			
+			foreach ( $order->get_items() as $item ) {
+				if ( $item->get_product_id() == $product_id || $item->get_variation_id() == $product_id ) {
+					$total_qty += $item->get_quantity();
+				}
+			}
+		}
+		
+		return (int) $total_qty;
+	}
+
 
 	//CSV download
 	public static function download_attendee_csv() {
@@ -498,267 +451,6 @@ class UEM_Post_Types {
 		exit;
 	}
 
-
-
-
-	public static function download_attendee_csv____111() {
-
-		if ( ! ini_get( 'safe_mode' ) ) {
-			set_time_limit( 0 );
-		}
-
-		if ( empty( $_GET['product_ids'] ) ) {
-			wp_die( 'Invalid Product IDs' );
-		}
-
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_die( 'Unauthorized access' );
-		}
-
-		// Normalize product IDs
-		$product_ids = array_map( 'absint', explode( ',', wp_unslash( $_GET['product_ids'] ) ) );
-		$product_ids = array_filter( $product_ids );
-
-		if ( empty( $product_ids ) ) {
-			wp_die( 'Invalid product list' );
-		}
-
-		// Verify nonce
-		if (
-			empty( $_GET['_wpnonce'] ) ||
-			! wp_verify_nonce(
-				$_GET['_wpnonce'],
-				'webcu_attendee_csv_' . md5( implode( ',', $product_ids ) )
-			)
-		) {
-			wp_die( 'Security check failed' );
-		}
-
-		$order_ids = self::webcu_get_order_ids_by_products( $product_ids );
-
-		if ( empty( $order_ids ) ) {
-			wp_die( 'No orders found for selected products.' );
-		}
-
-
-		header( 'Content-Type: text/csv; charset=utf-8' );
-		header(
-			'Content-Disposition: attachment; filename=attendees-products-' .
-			implode( '-', $product_ids ) .
-			'.csv'
-		);
-		header( 'Pragma: no-cache' );
-		header( 'Expires: 0' );
-
-		$output = fopen( 'php://output', 'w' );
-
-		// CSV headings
-		fputcsv( $output, array(
-			'Order ID',
-			'Order Date',
-			'Product ID',
-			'Product Name',
-			'Attendee #',
-			'First Name',
-			'Last Name',
-			'Email',
-		) );
-
-		/* ----------------------------------------------------
-		* 4. Export attendees
-		* ---------------------------------------------------- */
-		$attendee_index = 0;
-
-		foreach ( $order_ids as $order_id ) {
-
-			$order = wc_get_order( $order_id );
-			if ( ! $order ) {
-				continue;
-			}
-
-			foreach ( $order->get_items() as $item ) {
-
-				// Support simple + variation products
-				$item_product_id   = (int) $item->get_product_id();
-				$item_variation_id = (int) $item->get_variation_id();
-
-				if (
-					! in_array( $item_product_id, $product_ids, true ) &&
-					! in_array( $item_variation_id, $product_ids, true )
-				) {
-					continue;
-				}
-
-				// Normalize attendee meta
-				$attendees = $item->get_meta( '_uem_attendees', true );
-
-				if ( is_string( $attendees ) ) {
-					$attendees = maybe_unserialize( $attendees );
-				}
-
-				if ( empty( $attendees ) || ! is_array( $attendees ) ) {
-					continue;
-				}
-
-				foreach ( $attendees as $attendee ) {
-
-					$attendee_index++;
-
-					fputcsv( $output, array(
-						$order_id,
-						$order->get_date_created()
-							? $order->get_date_created()->date( 'Y-m-d' )
-							: '',
-						$item_product_id,
-						$item->get_name(),
-						$attendee_index,
-						$attendee['first_name'] ?? '',
-						$attendee['last_name'] ?? '',
-						$attendee['email'] ?? '',
-					) );
-				}
-			}
-		}
-
-		fclose( $output );
-		exit;
-	}
-
-	public static function download_attendee_csv___222() {
-
-       if ( ! ini_get( 'safe_mode' ) ) {
-			set_time_limit( 0 );
-		}
-
-		wp_suspend_cache_addition( true );
-
-		if ( empty( $_GET['product_ids'] ) ) {
-			wp_die( 'Invalid Product IDs' );
-		}
-
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_die( 'Unauthorized access' );
-		}
-
-		$product_ids = array_map(
-			'absint',
-			explode( ',', wp_unslash( $_GET['product_ids'] ) )
-		);
-		$product_ids = array_filter( $product_ids );
-
-		if ( empty( $product_ids ) ) {
-			wp_die( 'Invalid product list' );
-		}
-
-		if (
-			empty( $_GET['_wpnonce'] ) ||
-			! wp_verify_nonce(
-				$_GET['_wpnonce'],
-				'webcu_attendee_csv_' . md5( implode( ',', $product_ids ) )
-			)
-		) {
-			wp_die( 'Security check failed' );
-		}
-
-		$order_ids = self::webcu_get_order_ids_by_products( $product_ids );
-
-
-
-		if ( empty( $order_ids ) ) {
-			wp_die( 'No orders found for selected products.' );
-		}
-
-		header( 'Content-Type: text/csv; charset=utf-8' );
-		header(
-			'Content-Disposition: attachment; filename=attendees-products-' .
-			implode( '-', $product_ids ) .
-			'.csv'
-		);
-		header( 'Pragma: no-cache' );
-		header( 'Expires: 0' );
-
-		$output = fopen( 'php://output', 'w' );
-
-		fputcsv( $output, array(
-			'Order ID',
-			'Order Date',
-			'Product ID',
-			'Product Name',
-			'Attendee #',
-			'First Name',
-			'Last Name',
-			'Email',
-		) );
-
-		$attendee_index = 0;
-		$order_counter  = 0;
-
-		foreach ( $order_ids as $order_id ) {
-
-			$order = wc_get_order( $order_id );
-
-			if ( ! $order ) {
-				continue;
-			}
-
-			foreach ( $order->get_items() as $item ) {
-
-				 error_log( "Data log:". print_r($item, true));
-
-				$item_product_id   = (int) $item->get_product_id();
-				$item_variation_id = (int) $item->get_variation_id();
-
-				if (
-					! in_array( $item_product_id, $product_ids, true ) &&
-					! in_array( $item_variation_id, $product_ids, true )
-				) {
-					continue;
-				}
-
-				$attendees = $item->get_meta( '_uem_attendees', true );
-
-
-				if ( is_string( $attendees ) ) {
-					$attendees = maybe_unserialize( $attendees );
-				}
-				
-
-				if ( empty( $attendees ) || ! is_array( $attendees ) ) {
-					continue;
-				}
-
-				foreach ( $attendees as $attendee ) {
-
-					$attendee_index++;
-
-					fputcsv( $output, array(
-						$order_id,
-						$order->get_date_created()
-							? $order->get_date_created()->date( 'Y-m-d' )
-							: '',
-						$item_product_id,
-						$item->get_name(),
-						$attendee_index,
-						$attendee['first_name'] ?? '',
-						$attendee['last_name'] ?? '',
-						$attendee['email'] ?? '',
-					) );
-				}
-			}
-
-			$order_counter++;
-
-			if ( $order_counter % 50 === 0 ) {
-				wp_cache_flush();
-			}
-
-			unset( $order );
-		}
-
-		fclose( $output );
-		exit;
-	}
-
 	public static function webcu_all_event_columns( $columns ) {
 		$new = array();
 
@@ -774,7 +466,7 @@ class UEM_Post_Types {
 				$new['booking_seat']   = __( 'Booking seat', 'mega-events-manager' );
 				$new['available_seat']   = __( 'Available Seat', 'mega-events-manager' );
 				$new['atteende_data']   = __( 'Atteende Data', 'mega-events-manager' );
-				$new['short_code']   = __( 'Short Code', 'mega-events-manager' );				
+						
 			}
 		}
 
@@ -888,79 +580,40 @@ class UEM_Post_Types {
 			
 		} if ( $column == 'booking_seat' ) {
 
-			$products = get_post_meta( $post_id, '_uem_wc_products', true );
-			
 			$total_sold = 0;
-			$cancelled_orders = 0;
-		
+			$products = get_post_meta( $post_id, '_uem_wc_products', true );
 				if ( is_array( $products ) ) {
 					foreach ( $products as $product_id ) {
-						$total_sold += self::webcu_get_product_sold_qty( (int) $product_id );
-		    			//$refund_ids = self::webcu_get_order_ids_by_product_id( (int) $product_id );
-						//$refund_ids = self::webcu_get_refunded_order_ids_by_product_id( (int) $product_id);
-
-						$cancelled_orders = self::get_cancelled_refunded_orders_by_product($product_id);
-						
+						$total_sold += self::webcu_get_product_sold_qty_product( (int) $product_id );						
+					
 					}
 				}
-
-			/* $total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
-			$net_sales = $total_sold - count($cancelled_orders);
-            echo esc_html( $net_sales ); */ 
-
-			/* $total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
-			$cancelled  = isset( $cancelled_orders ) ? (int) count( $cancelled_orders ) : 0;
-			$net_sales = $total_sold - $cancelled;
-			echo esc_html( $net_sales ); */
-			
-			$total_sold = isset( $total_sold ) ? (int) $total_sold : 0;
-			$cancelled_count = 0;
-
-			if ( isset( $cancelled_orders ) ) {
-				if ( is_array( $cancelled_orders ) ) {
-					$cancelled_count = count( $cancelled_orders );
-				} else {
-					$cancelled_count = (int) $cancelled_orders;
-				}
-			}
-			$net_sales = max( 0, $total_sold - $cancelled_count );
-
-			echo esc_html( $net_sales );
+			echo esc_html( $total_sold );
 
 				
 		 } if($column == 'available_seat') {
 
 			$totalseat = 0;
 			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
-			$ticket    = is_array( $totalseat ) ? reset( $totalseat ) : [];
-			$quantity  = isset( $ticket['quantity'] ) ? absint( $ticket['quantity'] ) : 0;
 			$reseverd  = isset( $ticket['reserve_qty'] ) ? absint( $ticket['reserve_qty'] ) : 0;
-
-			$products    = get_post_meta( $post_id, '_uem_wc_products', true );
+            $products    = get_post_meta( $post_id, '_uem_wc_products', true );
 			$total_sold  = 0;
 			
 			if ( is_array( $products ) ) {
 				foreach ( $products as $product_id ) {
 					$total_sold += absint(
-						self::webcu_get_product_sold_qty( (int) $product_id )
+						self::webcu_get_product_sold_qty_product( (int) $product_id )
 						
 					);
-					$cancelled_orders = self::get_cancelled_refunded_orders_by_product($product_id);
 				}
 			}
-
-    		if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
+			/* echo esc_html( 'sold' ) . ': ' . esc_html( $total_sold ) . '<br>';
+			echo esc_html( 'reserved' ) . ': ' . esc_html( $reseverd ) . '<br>'; */
+			if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
 				$ticket   = reset( $totalseat );
-				$quantity = isset( $ticket['capacity'] ) ? (int) $ticket['capacity'] : 0;
-			} else {
-				$quantity = 0;
+				$quantity = isset( $ticket['capacity'] ) ? $ticket['capacity'] : 0;
 			}
-
-			$cancelled_orders = is_array( $cancelled_orders ) ? $cancelled_orders : [];
-			$available_qty = max(0, $quantity - ( (int) $total_sold - (int) count( $cancelled_orders ) ) );
-			$total_sold_ticket = (int) $available_qty - (int) $reseverd;
-
-			echo esc_html( $total_sold_ticket );
+			echo esc_html( $quantity - $total_sold - $reseverd )	 . '<br>';
 			
 
 		} 
@@ -998,12 +651,7 @@ class UEM_Post_Types {
 			echo '<a href="' . esc_url( $url ) . '" class="button button-small">
 					CSV Export
 				</a>';
-        } if ( $column === 'short_code' ) {	
-
-			echo esc_html( '[event-add-cart-section event="' . $post_id . '"]' );
-
-		}
-
+        } 
 
     }
 

@@ -14,9 +14,22 @@ class Class_meta_faq_section {
     public function webcu_faq_fields($post) {
         
         $saved = get_post_meta($post->ID, $this->meta_key, true);
+
+
+        $display_faq = get_post_meta($post->ID, 'display_faq', true);
+        $display_faq_chked = $display_faq ? 'checked' : '';
+  
         ?>
 
+        <label><strong><?php echo esc_html__('Display FAQ?', 'mega-events-manager') ?></strong></label> 
+        <input type="checkbox" name="display_faq" id="display_faq" <?php echo $display_faq_chked; ?>>
+        <?php echo esc_html__('Yes', 'mega-events-manager') ?>
+        
+        <p><?php echo esc_html__('If you want to display FAQ please check this Yes', 'mega-events-manager') ?></p>
+
         <div class="faq_wrapper">
+
+     
             <ul class="faq_timeline-list" id="faq_timelineList">
                 <?php
                 if (!empty($saved)) {
@@ -93,6 +106,10 @@ class Class_meta_faq_section {
 
     // Save meta
     public function webcu_save_meta_faq_details($post_id) {
+        
+        $display_value = isset($_POST['display_faq']) ? 1 : 0;
+        update_post_meta($post_id, 'display_faq', $display_value);     
+
         if (isset($_POST['faq_faq'])) {
             update_post_meta($post_id, $this->meta_key, wp_unslash($_POST['faq_faq'])); // phpcs:ignore
         }      
