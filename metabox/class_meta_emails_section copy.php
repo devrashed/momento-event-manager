@@ -7,16 +7,6 @@
 
 class Class_meta_emails_section { 
 
-    public function __construct() {
-
-        add_action('wp_ajax_webcu_send_email_now', [$this,'webcu_send_email_now_handler']);
-        add_action('wp_ajax_nopriv_webcu_send_email_now', [$this,'webcu_send_email_now_handler']);
-        add_action('admin_notices', [$this, 'webcu_show_scheduled_emails_notice']);
-        add_action('webcu_send_scheduled_email', [$this, 'webcu_handle_scheduled_email'] , 10, 3);
-        add_action('save_post', [$this, 'webcu_schedule_emails_on_save'], 20, 2);
-
-    }
-
     Public function webcu_meta_emails_field($post) {
             wp_enqueue_editor();
 
@@ -230,6 +220,7 @@ class Class_meta_emails_section {
                 wp_die('Security check failed');
             }
             
+
             $post_id = intval($_POST['post_id']);
             $index = intval($_POST['index']);
             $timing = intval($_POST['timing']);
@@ -237,10 +228,12 @@ class Class_meta_emails_section {
             $receiver = sanitize_text_field($_POST['receiver']);
             $subject = sanitize_text_field($_POST['subject']);
             $content = wp_kses_post($_POST['content']);
+            
             $event_start = sanitize_text_field($_POST['event_start']);
             $event_end = sanitize_text_field($_POST['event_end']);
             
             // Calculate when the email should have been sent based on timing
+            
             $send_time = null;
             
             if ($timecount === 'before') {
@@ -288,72 +281,107 @@ class Class_meta_emails_section {
                 'scheduled_time' => $send_time ? date('Y-m-d H:i:s', $send_time) : null
             ]);
         }
-
-
-        // Helper function to get recipients by type
+       
+         // Helper function to get recipients by type
         public function webcu_get_recipients_by_type($type, $post_id) {
-            $recipients = [];
+             $emails = [];
             
-            switch ($type) {
-                case 'organizer':
-                    // Get organizer email from event meta
-                   $orga_ids = get_post_meta( get_the_ID(), '_uem_organizers', true );
-                   $recipients = [];
-
-                    if ( is_array( $orga_ids ) ) {
-                        foreach ( $orga_ids as $orga_id ) {
-                            $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
-                            if ( $email ) {
-                                $recipients[] = $email;
-                            }
-                        }
-                    }
-                    break;
-                    
-                case 'sponsor':
-                    // Get sponsor emails (assuming multiple sponsors)
-                    $sponsors_id = get_post_meta(get_the_ID(), '_uem_sponsors', true);
-                    $recipients = [];
-                    if ( is_array( $sponsors_id ) ) {
-                        foreach ( $sponsors_id as $spons_id ) {
-                            $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
-                            if ( $spos_email ) {
-                                $recipients[] = $spos_email;
-                            }
-                        }
-                    }
-                break;
-                    
-                case 'volunteer':
-                    // Get volunteer emails (assuming multiple volunteers) 
-                    $volun_id = get_post_meta(get_the_ID(), '_uem_volunteers', true);
-
-                    $recipients = [];
-                    if ( is_array( $volun_id ) ) {
-                        foreach ( $volun_id as $vol_id ) {
-                            $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
-                            if ( $vol_email ) {
-                                $recipients[] = $vol_email;
-                            }
-                        }
-                    }
-
-                   break;
-                    
-                case 'attendee':
-                    // Get attendee emails from bookings/registrations
-                    $attendees = get_post_meta($post_id, '_uem_volunteers', true);
-                    if (is_array($attendees)) {
-                        foreach ($attendees as $attendee) {
-                            if (isset($attendee['email']) && is_email($attendee['email'])) {
-                                $recipients[] = $attendee['email'];
-                            }
-                        }
-                    }
-                    break;
+            // For testing - always include admin email
+            $admin_email = get_option('admin_email');
+            if ($admin_email && is_email($admin_email)) {
+                $emails[] = $admin_email;
             }
             
-            return array_unique($recipients);
+            switch ($type) {
+               // Get organizer email from event meta
+                    case 'organizer':
+                        $orga_ids = get_post_meta( $post_id, '_uem_organizers', true );
+                                $emails = [];
+
+                                if ( is_array( $orga_ids ) ) {
+                                    foreach ( $orga_ids as $orga_id ) {
+
+                                        error_log( 'Organizer ID: ' . $orga_id );
+
+                                        $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
+
+                                        if ( $email ) {
+                                            $emails[] = $email;
+                                        } 
+                                    }
+                                }
+
+                    break;
+                            
+                    case 'sponsor':
+                            // Get sponsor emails (assuming multiple sponsors)
+                            $sponsors_id = get_post_meta($post_id, '_uem_sponsors', true);
+                            //$recipients = [];
+                            if ( is_array( $sponsors_id ) ) {
+                                foreach ( $sponsors_id as $spons_id ) {
+                                    $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
+                                    if ( $spos_email ) {
+                                        $emails[] = $spos_email;
+                                    }
+                                }
+                            }
+                    break;
+                            
+                    case 'volunteer':
+                            // Get volunteer emails (assuming multiple volunteers) 
+                            $volun_id = get_post_meta($post_id, '_uem_volunteers', true);
+
+                            //$recipients = [];
+                            if ( is_array( $volun_id ) ) {
+                                foreach ( $volun_id as $vol_id ) {
+                                    $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
+                                    if ( $vol_email ) {
+                                        $emails[] = $vol_email;
+                                    }
+                                }
+                            }
+
+                            break;
+                    
+                    case 'attendee':
+
+                            $product_ids = get_post_meta($post_id, '_uem_wc_products', true );
+                            $product_ids = array_map( 'intval', (array) $product_ids );
+                            $orders = wc_get_orders( array(
+                                'status' => array( 'completed', 'processing' ),
+                                'limit'  => -1,
+                            ) );
+
+                            foreach ( $orders as $order ) {
+                                foreach ( $order->get_items() as $item ) {
+                                    $order_product_id = (int) $item->get_product_id();
+                                    // product match
+                                    if ( in_array( $order_product_id, $product_ids, true ) ) {
+                                        $attendees = $item->get_meta( '_uem_attendees', true );
+                                        // attendees safety check
+                                        if ( ! empty( $attendees ) && is_array( $attendees ) ) {
+
+                                            foreach ( $attendees as $attendee ) {
+
+                                                if ( ! empty( $attendee['email'] && is_email($attendee['email']) ) ) {
+                                                // echo esc_html( $attendee['email'] ) . '<br>';
+                                                    $emails[] = $attendee['email'];
+                                                
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }                        
+                    break;
+
+
+            }
+            
+            // Remove duplicates
+            $emails = array_unique($emails);
+        
+            return $emails;
         }
 
         // Helper function to log email sent
@@ -377,7 +405,7 @@ class Class_meta_emails_section {
             update_post_meta($post_id, '_webcu_email_logs', $logs);
         }
 
-            // 1. Clear scheduled emails function
+        // 1. Clear scheduled emails function
         public function webcu_clear_scheduled_emails($post_id) {
             // Get all scheduled cron jobs
             $crons = _get_cron_array();

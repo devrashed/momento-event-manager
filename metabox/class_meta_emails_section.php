@@ -13,13 +13,7 @@ class Class_meta_emails_section {
 
     public function webcu_meta_emails_field($post) {
         wp_enqueue_editor();
-       /*  
-        wp_enqueue_script('webcu-email-script', plugin_dir_url(__FILE__) . 'js/webcu-email-script.js', ['jquery'], '1.0', true);
-        wp_localize_script('webcu-email-script', 'webcu_ajax', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('webcu_email_nonce')
-        ]); */
-
+ 
         // Load saved reminders (JSON decoded)
         $saved = get_post_meta($post->ID, '_webcu_meta_reminders_email', true);
         $saved = !empty($saved) ? json_decode($saved, true) : [];
@@ -248,411 +242,496 @@ class Class_meta_emails_section {
         }
     }
 
-
     
-    public function webcu_send_email_now_handler() {
-        // Set header for JSON response
-        header('Content-Type: application/json');
-        
-        try {
-            // Check if it's an AJAX request
-            if (!defined('DOING_AJAX') || !DOING_AJAX) {
-                throw new Exception('Invalid request');
+    /* =========================================== 
+                   Email functionality send 
+           ======================================== */
+
+
+        public function webcu_send_email_now_handler_____old() {
+            // Verify nonce
+            if (!wp_verify_nonce($_POST['nonce'], 'webcu_send_email_nonce')) {
+                wp_die('Security check failed');
             }
             
+            $eventdate = get_post_meta( get_the_ID(), 'webcu_event_dates', true );
+
+            $post_id = intval($_POST['post_id']);
+            $index = intval($_POST['index']);
+            $timing = intval($_POST['timing']);
+            $timecount = sanitize_text_field($_POST['timecount']);
+            $receiver = sanitize_text_field($_POST['receiver']);
+            $subject = sanitize_text_field($_POST['subject']);
+            $content = wp_kses_post($_POST['content']);
+            
+            /* $event_start = sanitize_text_field($_POST['event_start']);
+            $event_end = sanitize_text_field($_POST['event_end']); */
+
+            $dates = array_combine(
+                    $eventdate['start_date'],
+                    $eventdate['end_date']
+            );    
+            
+            foreach ( $dates as $start_date => $end_date ) {
+                // Calculate when the email should have been sent based on timing
+                $send_time = null;
+                
+                if ($timecount === 'before') {
+                    // If sending before event start
+                    if ($start_date) {
+                        $event_time = strtotime($start_date);
+                        $send_time = $event_time - ($timing * 60); // Convert hours to seconds
+                    }
+                } else {
+                    // If sending after event end
+                    if ($end_date) {
+                        $event_time = strtotime($end_date);
+                        $send_time = $event_time + ($timing * 3600); // Convert hours to seconds
+                    }
+                }
+            }
+            
+            // Get recipients based on receiver type
+            $recipients = $this->webcu_get_recipients_by_type($receiver, $post_id);
+            
+            if (empty($recipients)) {
+                wp_send_json_error('No recipients found for this type.');
+            }
+            
+            // Prepare email
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            
+            // Send email to each recipient
+            $sent_count = 0;
+            foreach ($recipients as $recipient_email) {
+                if (is_email($recipient_email)) {
+                    $email_sent = wp_mail($recipient_email, $subject, $content, $headers);
+                    if ($email_sent) {
+                        $sent_count++;
+                    }
+                    
+                    // Log the email sent
+                    $this->webcu_log_email_sent($post_id, $index, $recipient_email, $subject, $send_time);
+                }
+            }
+            
+            // Return success response
+            wp_send_json_success([
+                'message' => sprintf(__('Email sent to %d recipients.', 'mega-events-manager'), $sent_count),
+                'sent_count' => $sent_count,
+                'scheduled_time' => $send_time ? date('Y-m-d H:i:s', $send_time) : null
+            ]);
+        }
+
+        public function webcu_send_email_now_handler() {
             // Verify nonce
             if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'webcu_nonce')) {
                 throw new Exception('Security check failed. Please refresh the page and try again.');
             }
             
-            // Get and validate POST data
-            $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-            $receiver = isset($_POST['receiver']) ? sanitize_text_field($_POST['receiver']) : '';
-            $subject = isset($_POST['subject']) ? sanitize_text_field($_POST['subject']) : '';
-            $content = isset($_POST['content']) ? wp_kses_post($_POST['content']) : '';
-            $index = isset($_POST['index']) ? intval($_POST['index']) : 1;
+            $post_id = intval($_POST['post_id']);
+            $index = intval($_POST['index']);
+            $timing = intval($_POST['timing']);
+            $timecount = sanitize_text_field($_POST['timecount']);
+            $receiver = sanitize_text_field($_POST['receiver']);
+            $subject = sanitize_text_field($_POST['subject']);
+            $content = wp_kses_post($_POST['content']);
             
-            // Validation
-            if ($post_id <= 0) {
-                throw new Exception('Invalid post ID');
+            // Correct way to get event dates in AJAX context
+            $eventdate = get_post_meta($post_id, 'webcu_event_dates', true);
+            
+            // Check if dates exist and have proper structure
+            if (empty($eventdate) || !isset($eventdate['start_date']) || !isset($eventdate['end_date'])) {
+                wp_send_json_error('Event dates not found or invalid structure.');
             }
             
-            if (empty($subject)) {
-                throw new Exception('Email subject is required');
-            }
+            // Combine start and end dates
+            $dates = [];
+            $start_dates = (array) $eventdate['start_date'];
+            $end_dates = (array) $eventdate['end_date'];
             
-            if (empty($content)) {
-                throw new Exception('Email content is required');
-            }
+            // Make sure arrays are the same length
+            $count = min(count($start_dates), count($end_dates));
             
-            if (empty($receiver)) {
-                throw new Exception('Email receiver is required');
-            }
-            
-            // Check if post exists
-            $post = get_post($post_id);
-            if (!$post) {
-                throw new Exception('Post not found');
-            }
-            
-            // Get email addresses based on receiver type
-            $email_addresses = $this->get_receiver_emails($post_id, $receiver);
-            
-            error_log('Email Log :'. print_r($email_addresses));
-                
-            if (empty($email_addresses)) {
-                // For testing, use admin email if no emails found
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    $email_addresses = [get_option('admin_email')];
-                } else {
-                    throw new Exception('No email addresses found for ' . ucfirst($receiver) . '. Please check your event settings.');
+            for ($i = 0; $i < $count; $i++) {
+                if (!empty($start_dates[$i]) && !empty($end_dates[$i])) {
+                    $dates[] = [
+                        'start' => $start_dates[$i],
+                        'end' => $end_dates[$i]
+                    ];
                 }
             }
             
-            // Send emails
+            if (empty($dates)) {
+                wp_send_json_error('No valid event dates found.');
+            }
+            
+            // For "Send Now" - we send email immediately
+            // For scheduling - we need to calculate based on each date
+            
+            // Get recipients based on receiver type
+            $recipients = $this->webcu_get_recipients_by_type($receiver, $post_id);
+            
+            if (empty($recipients)) {
+                wp_send_json_error('No recipients found for this type.');
+            }
+            
+            // Prepare email
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            
+            // Send email to each recipient
             $sent_count = 0;
-            $failed_emails = [];
-            
-            foreach ($email_addresses as $email) {
-                $email = sanitize_email($email);
-                
-                if (is_email($email)) {
-                    $headers = ['Content-Type: text/html; charset=UTF-8'];
-                    
-                    // Add From header
-                    $headers[] = 'From: ' . get_bloginfo('name') . ' <' . get_option('admin_email') . '>';
-                    
-                    // Prepare email content with HTML
-                    $email_content = '<!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset="UTF-8">
-                        <title>' . esc_html($subject) . '</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                            .email-container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                            .email-header { background: #f8f8f8; padding: 20px; text-align: center; }
-                            .email-content { padding: 20px; }
-                            .email-footer { background: #f8f8f8; padding: 15px; text-align: center; font-size: 12px; color: #666; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="email-container">
-                            <div class="email-header">
-                                <h1>' . esc_html($subject) . '</h1>
-                            </div>
-                            <div class="email-content">
-                                ' . wpautop($content) . '
-                            </div>
-                            <div class="email-footer">
-                                <p>This email was sent from ' . get_bloginfo('name') . '</p>
-                            </div>
-                        </div>
-                    </body>
-                    </html>';
-                    
-                    // Test email function
-                    add_filter('wp_mail_content_type', function() {
-                        return 'text/html';
-                    });
-                    
-                    $mail_sent = wp_mail($email, $subject, $email_content, $headers);
-                    
-                    remove_filter('wp_mail_content_type', function() {
-                        return 'text/html';
-                    });
-                    
-                    if ($mail_sent) {
+            foreach ($recipients as $recipient_email) {
+                if (is_email($recipient_email)) {
+                    $email_sent = wp_mail($recipient_email, $subject, $content, $headers);
+                    if ($email_sent) {
                         $sent_count++;
-                    } else {
-                        $failed_emails[] = $email;
-                        
-                        // Log the error
-                        error_log('Failed to send email to: ' . $email . ' for post ID: ' . $post_id);
                     }
-                }
-            }
-            
-            // Log the email sending
-            $this->log_email_sending($post_id, $index, $receiver, $sent_count, count($email_addresses) - $sent_count);
-            
-            if ($sent_count > 0) {
-                $message = sprintf(
-                    'Email sent successfully to %d %s(s)',
-                    $sent_count,
-                    ucfirst($receiver)
-                );
-                
-                if (!empty($failed_emails)) {
-                    $message .= sprintf(
-                        '. Failed to send to %d email(s).',
-                        count($failed_emails)
-                    );
-                }
-                
-                wp_send_json_success([
-                    'message' => $message,
-                    'sent_count' => $sent_count,
-                    'total_count' => count($email_addresses)
-                ]);
-            } else {
-                throw new Exception('Failed to send email to any recipients. Please check your email configuration.');
-            }
-            
-        } catch (Exception $e) {
-            error_log('Email sending error: ' . $e->getMessage());
-            
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code' => $e->getCode()
-            ]);
-        }
-        
-        wp_die(); // Always die at the end of AJAX handlers
-    }
-
-
-    private function get_receiver_emails($post_id, $receiver_type) {
-        $emails = [];
-        
-        // For testing, always return admin email
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            return [get_option('admin_email')];
-        }
-        
-        switch ($receiver_type) {
-            case 'organizer':
-                    // Get organizer email from event meta
-                   $orga_ids = get_post_meta( get_the_ID(), '_uem_organizers', true );
-                   $recipients = [];
-
-                    if ( is_array( $orga_ids ) ) {
-                        foreach ( $orga_ids as $orga_id ) {
-                            $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
-                            if ( $email ) {
-                                $recipients[] = $email;
-                            }
-                        }
-                    }
-                    break;
                     
-                case 'sponsor':
-                    // Get sponsor emails (assuming multiple sponsors)
-                    $sponsors_id = get_post_meta(get_the_ID(), '_uem_sponsors', true);
-                    $recipients = [];
-                    if ( is_array( $sponsors_id ) ) {
-                        foreach ( $sponsors_id as $spons_id ) {
-                            $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
-                            if ( $spos_email ) {
-                                $recipients[] = $spos_email;
-                            }
-                        }
-                    }
-                break;
-                    
-                case 'volunteer':
-                    // Get volunteer emails (assuming multiple volunteers) 
-                    $volun_id = get_post_meta(get_the_ID(), '_uem_volunteers', true);
-
-                    $recipients = [];
-                    if ( is_array( $volun_id ) ) {
-                        foreach ( $volun_id as $vol_id ) {
-                            $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
-                            if ( $vol_email ) {
-                                $recipients[] = $vol_email;
-                            }
-                        }
-                    }
-
-                    break;
-                
-            case 'attendee':
-                $attendee_emails = get_post_meta($post_id, '_webcu_attendee_emails', true);
-                if (!empty($attendee_emails)) {
-                    if (is_array($attendee_emails)) {
-                        $emails = $attendee_emails;
-                    } else {
-                        $emails = array_map('trim', explode(',', $attendee_emails));
-                    }
-                }
-                break;
-        }
-        
-        // Filter valid emails
-        $valid_emails = [];
-        foreach ($emails as $email) {
-            $clean_email = sanitize_email($email);
-            if (is_email($clean_email)) {
-                $valid_emails[] = $clean_email;
-            }
-        }
-        
-        // If no valid emails found, use admin email as fallback
-        if (empty($valid_emails)) {
-            $admin_email = get_option('admin_email');
-            if (is_email($admin_email)) {
-                $valid_emails[] = $admin_email;
-            }
-        }
-        
-        return $valid_emails;
-    }           
-
-
-    public function webcu_send_email_now_handler_old() {
-        // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'webcu_nonce')) {
-            wp_die('Security check failed');
-        }
-
-        // Get POST data
-        $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-        $receiver = isset($_POST['receiver']) ? sanitize_text_field($_POST['receiver']) : '';
-        $subject = isset($_POST['subject']) ? sanitize_text_field($_POST['subject']) : '';
-        $content = isset($_POST['content']) ? wp_kses_post($_POST['content']) : '';
-        $index = isset($_POST['index']) ? intval($_POST['index']) : 1;
-
-        // Get post information
-        $post = get_post($post_id);
-        if (!$post) {
-            wp_send_json_error(['message' => 'Post not found']);
-        }
-
-        // Get email addresses based on receiver type
-        $email_addresses = $this->get_receiver_emails($post_id, $receiver);
-        $mailse= print_r($email_addresses);
-        error_log('Email List:', $mailse);
-
-        if (empty($email_addresses)) {
-            wp_send_json_error(['message' => 'No email addresses found for ' . $receiver]);
-        }
-
-        // Send emails
-        $sent_count = 0;
-        foreach ($email_addresses as $email) {
-            if (is_email($email)) {
-                $headers = ['Content-Type: text/html; charset=UTF-8'];
-                
-                // Prepare email content with HTML
-                $email_content = '<!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>' . esc_html($subject) . '</title>
-                </head>
-                <body>
-                    ' . wpautop($content) . '
-                </body>
-                </html>';
-
-                $mail_sent = wp_mail($email, $subject, $email_content, $headers);
-                
-                if ($mail_sent) {
-                    $sent_count++;
+                    // Log the email sent
+                    $this->webcu_log_email_sent($post_id, $index, $recipient_email, $subject, time());
                 }
             }
-        }
-
-        // Log the email sending
-        $this->log_email_sending($post_id, $index, $receiver, $sent_count);
-
-        if ($sent_count > 0) {
+            
+            // If we want to also calculate scheduled times for each date
+            $scheduled_times = [];
+            foreach ($dates as $date_index => $date) {
+                $send_time = null;
+                
+                if ($timecount === 'before') {
+                    // If sending before event start
+                    if ($date['start']) {
+                        $event_time = strtotime($date['start']);
+                        $send_time = $event_time - ($timing * 3600); // Convert hours to seconds
+                    }
+                } else {
+                    // If sending after event end
+                    if ($date['end']) {
+                        $event_time = strtotime($date['end']);
+                        $send_time = $event_time + ($timing * 3600); // Convert hours to seconds
+                    }
+                }
+                
+                if ($send_time) {
+                    $scheduled_times[] = [
+                        'date_index' => $date_index,
+                        'start_date' => $date['start'],
+                        'end_date' => $date['end'],
+                        'scheduled_time' => date('Y-m-d H:i:s', $send_time),
+                        'should_have_sent' => $send_time <= time() // If past time, should have sent already
+                    ];
+                }
+            }
+            
+            // Return success response
             wp_send_json_success([
-                'message' => sprintf('Email sent successfully to %d %s(s)', $sent_count, $receiver)
+                'message' => sprintf(__('Email sent to %d recipients.', 'mega-events-manager'), $sent_count),
+                'sent_count' => $sent_count,
+                'actual_sent_time' => date('Y-m-d H:i:s'),
+                'scheduled_times' => $scheduled_times,
+                'dates_count' => count($dates),
+                'timing_info' => [
+                    'timing' => $timing,
+                    'timecount' => $timecount,
+                    'receiver' => $receiver
+                ]
             ]);
-        } else {
-            wp_send_json_error(['message' => 'Failed to send email']);
         }
-    }
+       
+         // Helper function to get recipients by type
+        public function webcu_get_recipients_by_type($type, $post_id) {
+             $emails = [];
+            
+            // For testing - always include admin email
+            $admin_email = get_option('admin_email');
+            if ($admin_email && is_email($admin_email)) {
+                $emails[] = $admin_email;
+            }
+            
+            switch ($type) {
+               // Get organizer email from event meta
+                    case 'organizer':
+                        $orga_ids = get_post_meta( $post_id, '_uem_organizers', true );
+                                $emails = [];
 
-    private function get_receiver_emails_old($post_id, $receiver_type) {
-        $emails = [];
+                                if ( is_array( $orga_ids ) ) {
+                                    foreach ( $orga_ids as $orga_id ) {
+
+                                        error_log( 'Organizer ID: ' . $orga_id );
+
+                                        $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
+
+                                        if ( $email ) {
+                                            $emails[] = $email;
+                                        } 
+                                    }
+                                }
+
+                    break;
+                            
+                    case 'sponsor':
+                            // Get sponsor emails (assuming multiple sponsors)
+                            $sponsors_id = get_post_meta($post_id, '_uem_sponsors', true);
+                            //$recipients = [];
+                            if ( is_array( $sponsors_id ) ) {
+                                foreach ( $sponsors_id as $spons_id ) {
+                                    $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
+                                    if ( $spos_email ) {
+                                        $emails[] = $spos_email;
+                                    }
+                                }
+                            }
+                    break;
+                            
+                    case 'volunteer':
+                            // Get volunteer emails (assuming multiple volunteers) 
+                            $volun_id = get_post_meta($post_id, '_uem_volunteers', true);
+
+                            //$recipients = [];
+                            if ( is_array( $volun_id ) ) {
+                                foreach ( $volun_id as $vol_id ) {
+                                    $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
+                                    if ( $vol_email ) {
+                                        $emails[] = $vol_email;
+                                    }
+                                }
+                            }
+
+                            break;
+                    
+                    case 'attendee':
+
+                            $product_ids = get_post_meta($post_id, '_uem_wc_products', true );
+                            $product_ids = array_map( 'intval', (array) $product_ids );
+                            $orders = wc_get_orders( array(
+                                'status' => array( 'completed', 'processing' ),
+                                'limit'  => -1,
+                            ) );
+
+                            foreach ( $orders as $order ) {
+                                foreach ( $order->get_items() as $item ) {
+                                    $order_product_id = (int) $item->get_product_id();
+                                    // product match
+                                    if ( in_array( $order_product_id, $product_ids, true ) ) {
+                                        $attendees = $item->get_meta( '_uem_attendees', true );
+                                        // attendees safety check
+                                        if ( ! empty( $attendees ) && is_array( $attendees ) ) {
+
+                                            foreach ( $attendees as $attendee ) {
+
+                                                if ( ! empty( $attendee['email'] && is_email($attendee['email']) ) ) {
+                                                // echo esc_html( $attendee['email'] ) . '<br>';
+                                                    $emails[] = $attendee['email'];
+                                                
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }                        
+                    break;
+
+
+            }
+            
+            // Remove duplicates
+            $emails = array_unique($emails);
         
-        switch ($receiver_type) {
-                case 'organizer':
-                    // Get organizer email from event meta
-                   $orga_ids = get_post_meta( get_the_ID(), '_uem_organizers', true );
-                   $recipients = [];
+            return $emails;
+        }
 
-                    if ( is_array( $orga_ids ) ) {
-                        foreach ( $orga_ids as $orga_id ) {
-                            $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
-                            if ( $email ) {
-                                $recipients[] = $email;
-                            }
-                        }
-                    }
-                break;
-                    
-                case 'sponsor':
-                    // Get sponsor emails (assuming multiple sponsors)
-                    $sponsors_id = get_post_meta(get_the_ID(), '_uem_sponsors', true);
-                    $recipients = [];
-                    if ( is_array( $sponsors_id ) ) {
-                        foreach ( $sponsors_id as $spons_id ) {
-                            $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
-                            if ( $spos_email ) {
-                                $recipients[] = $spos_email;
-                            }
-                        }
-                    }
-                break;
-                    
-                case 'volunteer':
-                    // Get volunteer emails (assuming multiple volunteers) 
-                    $volun_id = get_post_meta(get_the_ID(), '_uem_volunteers', true);
+        // Helper function to log email sent
+        public function webcu_log_email_sent($post_id, $index, $recipient, $subject, $scheduled_time) {
+            $log_entry = [
+                'timestamp' => current_time('mysql'),
+                'post_id' => $post_id,
+                'reminder_index' => $index,
+                'recipient' => $recipient,
+                'subject' => $subject,
+                'scheduled_time' => $scheduled_time ? date('Y-m-d H:i:s', $scheduled_time) : 'Immediate',
+                'actual_sent_time' => current_time('mysql')
+            ];
+            
+            $logs = get_post_meta($post_id, '_webcu_email_logs', true);
+            if (empty($logs) || !is_array($logs)) {
+                $logs = [];
+            }
+            
+            $logs[] = $log_entry;
+            update_post_meta($post_id, '_webcu_email_logs', $logs);
+        }
 
-                    $recipients = [];
-                    if ( is_array( $volun_id ) ) {
-                        foreach ( $volun_id as $vol_id ) {
-                            $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
-                            if ( $vol_email ) {
-                                $recipients[] = $vol_email;
-                            }
+        // 1. Clear scheduled emails function
+        public function webcu_clear_scheduled_emails($post_id) {
+            // Get all scheduled cron jobs
+            $crons = _get_cron_array();
+            
+            if (empty($crons)) {
+                return;
+            }
+            
+            // Find and remove scheduled emails for this post
+            foreach ($crons as $timestamp => $cron) {
+                if (isset($cron['webcu_send_scheduled_email'])) {
+                    foreach ($cron['webcu_send_scheduled_email'] as $key => $scheduled) {
+                        // Check if this scheduled email belongs to our post
+                        if (isset($scheduled['args'][0]) && $scheduled['args'][0] == $post_id) {
+                            // Unschedule this specific email
+                            wp_unschedule_event($timestamp, 'webcu_send_scheduled_email', $scheduled['args']);
                         }
-                    }
-
-                break;
-                
-            case 'attendee':
-                // Get attendee emails (you might need to query from registrations)
-                $attendee_emails = get_post_meta($post_id, '_webcu_attendee_emails', true);
-                if (!empty($attendee_emails)) {
-                    if (is_array($attendee_emails)) {
-                        $emails = $attendee_emails;
-                    } else {
-                        $emails = array_map('trim', explode(',', $attendee_emails));
                     }
                 }
-                break;
-        }
-        
-        // Filter valid emails
-        $valid_emails = [];
-        foreach ($emails as $email) {
-            if (is_email($email)) {
-                $valid_emails[] = $email;
             }
         }
-        
-        return $valid_emails;
-    }
 
-    private function log_email_sending($post_id, $index, $receiver_type, $sent_count) {
-        $log = get_post_meta($post_id, '_webcu_email_logs', true);
-        if (empty($log) || !is_array($log)) {
-            $log = [];
+        // 2. Schedule emails for event
+        public function webcu_schedule_emails_for_event($post_id) {
+            // Clear existing scheduled emails for this event
+            $this->webcu_clear_scheduled_emails($post_id);
+            
+            $saved = get_post_meta($post_id, '_webcu_meta_reminders_email', true);
+            $saved = !empty($saved) ? json_decode($saved, true) : [];
+            
+            if (empty($saved)) {
+                return;
+            }
+            
+            $event_start = get_post_meta($post_id, '_event_start_date', true);
+            $event_end = get_post_meta($post_id, '_event_end_date', true);
+            
+            foreach ($saved as $index => $data) {
+                if (empty($data['timing']) || empty($data['subject']) || empty($data['content'])) {
+                    continue;
+                }
+                
+                $timing = intval($data['timing']);
+                $timecount = $data['timecount'];
+                
+                // Calculate when to send
+                $send_timestamp = null;
+                
+                if ($timecount === 'before' && $event_start) {
+                    $event_time = strtotime($event_start);
+                    $send_timestamp = $event_time - ($timing * 3600);
+                } elseif ($timecount === 'after' && $event_end) {
+                    $event_time = strtotime($event_end);
+                    $send_timestamp = $event_time + ($timing * 3600);
+                }
+                
+                if ($send_timestamp && $send_timestamp > time()) {
+                    // Schedule the email
+                    wp_schedule_single_event(
+                        $send_timestamp,
+                        'webcu_send_scheduled_email',
+                        [$post_id, $index, $data]
+                    );
+                    
+                    error_log("Scheduled email for post {$post_id}, index {$index} at " . date('Y-m-d H:i:s', $send_timestamp));
+                }
+            }
         }
-        
-        $log_entry = [
-            'timestamp' => current_time('mysql'),
-            'index' => $index,
-            'receiver' => $receiver_type,
-            'sent_count' => $sent_count,
-            'status' => $sent_count > 0 ? 'success' : 'failed'
-        ];
-        
-        $log[] = $log_entry;
-        update_post_meta($post_id, '_webcu_email_logs', $log);
-    }
+
+        // 3. Handle scheduled email when it's time
+        public function webcu_handle_scheduled_email($post_id, $index, $data) {
+            error_log("Processing scheduled email for post {$post_id}, index {$index}");
+            
+            // Get the email data
+            $subject = isset($data['subject']) ? $data['subject'] : '';
+            $content = isset($data['content']) ? $data['content'] : '';
+            $receiver = isset($data['email_reciever']) ? $data['email_reciever'] : 'organizer';
+            
+            if (empty($subject) || empty($content)) {
+                error_log("Email subject or content is empty for post {$post_id}");
+                return;
+            }
+            
+            // Get recipients
+            $recipients = webcu_get_recipients_by_type($receiver, $post_id);
+            
+            if (empty($recipients)) {
+                error_log("No recipients found for type {$receiver} in post {$post_id}");
+                return;
+            }
+            
+            // Prepare email
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            
+            // Send email to each recipient
+            $sent_count = 0;
+            foreach ($recipients as $recipient_email) {
+                if (is_email($recipient_email)) {
+                    $email_sent = wp_mail($recipient_email, $subject, $content, $headers);
+                    
+                    if ($email_sent) {
+                        $sent_count++;
+                        // Log the email sent
+                        webcu_log_email_sent($post_id, $index, $recipient_email, $subject, time());
+                        error_log("Sent email to: {$recipient_email}");
+                    } else {
+                        error_log("Failed to send email to: {$recipient_email}");
+                    }
+                }
+            }
+            
+            error_log("Total emails sent for post {$post_id}, index {$index}: {$sent_count}");
+        }
+
+        // 4. Hook to save post - schedule emails when event is saved
+        public function webcu_schedule_emails_on_save($post_id, $post) {
+            // Check if this is your event post type (change 'event' to your actual post type)
+            if (get_post_type($post_id) != 'event') {
+                return;
+            }
+            
+            // Check if it's not an autosave
+            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+                return;
+            }
+            
+            // Check permissions
+            if (!current_user_can('edit_post', $post_id)) {
+                return;
+            }
+            
+            // Check if email reminders meta exists
+            $saved = get_post_meta($post_id, '_webcu_meta_reminders_email', true);
+            if (empty($saved)) {
+                return;
+            }
+            
+            // Schedule emails
+            $this->webcu_schedule_emails_for_event($post_id);
+        }
+
+        // 5. Optional: Add admin notice to show scheduled emails
+        public function webcu_show_scheduled_emails_notice() {
+            global $post;
+            
+            if (!is_admin() || !$post || get_post_type($post->ID) != 'event') {
+                return;
+            }
+            $crons = _get_cron_array();
+            $scheduled_count = 0;
+            
+            if (!empty($crons)) {
+                foreach ($crons as $timestamp => $cron) {
+                    if (isset($cron['webcu_send_scheduled_email'])) {
+                        foreach ($cron['webcu_send_scheduled_email'] as $key => $scheduled) {
+                            if (isset($scheduled['args'][0]) && $scheduled['args'][0] == $post->ID) {
+                                $scheduled_count++;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if ($scheduled_count > 0) {
+                ?>
+                <div class="notice notice-info">
+                    <p><?php echo sprintf(__('%d email reminder(s) scheduled for this event.', 'mega-events-manager'), $scheduled_count); ?></p>
+                </div>
+                <?php
+            }
+        }  
+
 }

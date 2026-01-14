@@ -16,7 +16,6 @@ function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 		return;
 	}
-	
 	$cart_items = WC()->cart->get_cart();
 	?>
 	<div class="uem-woocommerce-registration" data-event-id="<?php echo esc_attr( $event_id ); ?>">

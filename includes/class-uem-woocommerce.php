@@ -950,6 +950,8 @@ class UEM_WooCommerce {
 	public static function webcu_save_attendee_data_to_as_order_item( $item, $cart_item_key, $values, $order ) {
 		
 		// Check if this item has an event ID
+		$order_id = $order->get_id();
+
 		$event_id = $item->get_meta( '_uem_event_id' );
 		if ( ! $event_id ) {
 			// Try to get event ID from cart item data
@@ -1117,7 +1119,7 @@ class UEM_WooCommerce {
 		}
 		
 		// Save attendees to order item meta
-		if ( ! empty( $item_attendees ) ) {
+			if ( ! empty( $item_attendees ) ) {
 			$item->update_meta_data( '_uem_attendees', $item_attendees );
 			$item->update_meta_data( '_uem_attendees_count', count( $item_attendees ) );
 			
@@ -1146,11 +1148,6 @@ class UEM_WooCommerce {
 		
 		// Get attendee data from item meta
 		$attendees = $item->get_meta( '_uem_attendees' );
-
-		/* echo "<pre>";
-		print_r($attendees);
-		echo "</pre>"; */
-
 		
 		if ( ! empty( $attendees ) && is_array( $attendees ) ) {
 			echo '<div class="uem-attendee-data" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border: 1px solid #ddd;">';

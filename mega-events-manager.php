@@ -87,6 +87,7 @@ class Ultimate_Events_Manager {
 		new class_mem_registration_shortcode();
 
 		$this->emailsend = new Class_meta_emails_section();
+
 		
 		// Initialize WooCommerce integration if enabled
 		// Register AJAX handlers early
@@ -128,6 +129,7 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'settings/class-uem-woocommerce-inte.php';
 		require_once UEM_PLUGIN_DIR . 'settings/class-mem-event-template.php';
 		require_once UEM_PLUGIN_DIR . 'settings/class-google-map.php';
+		require_once UEM_PLUGIN_DIR . 'settings/class_all_attendee.php';
 	
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-organizer-metabox.php';
 		require_once UEM_PLUGIN_DIR . 'metabox/class-uem-volenteers-metabox.php';
@@ -159,7 +161,6 @@ class Ultimate_Events_Manager {
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-template-loader.php';
 		require_once UEM_PLUGIN_DIR . 'includes/uem-template-functions.php';
 		require_once UEM_PLUGIN_DIR . 'includes/class-uem-shortcode.php';
-
 
 	}
 	

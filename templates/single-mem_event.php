@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
+
+require_once __DIR__ . '/google_map_location.php';
+
 $plugin = Ultimate_Events_Manager::get_instance();
 $is_woocommerce = $plugin->webcu_is_woocommerce_enabled() && class_exists( 'WooCommerce' );
 
@@ -190,9 +193,7 @@ while ( have_posts() ) :
 
 							<?php } ?>	
                     
-					
-
-					
+				
 					<!-- FAQ section -->
 
 					<div class="container">	
@@ -273,89 +274,13 @@ while ( have_posts() ) :
 
 					<?php 
 
-					    $show_gmap = get_post_meta($post->ID, 'webcu_ve_googleMap', true); 
+					$show_gmap = get_post_meta($post->ID, 'webcu_ve_googleMap', true); 
 						if ( $show_gmap === '1') : 
-						?>		
-						<div class="container">	
-                         <h3><?php echo esc_html('Event Location on google Map', 'mega_events_manager')?> </h3>
-							
-						<?php       
-							$post_id= get_the_ID(); 
-
-							$address=get_post_meta($post_id,'webcu_ve_street',true);
-							$city=get_post_meta($post_id,'webcu_ve_city',true);
-							$state=get_post_meta($post_id,'webcu_ve_state',true);
-							$zip=get_post_meta($post_id,'webcu_ve_postcocde',true);
-							$country=get_post_meta($post_id,'webcu_ve_country',true);
-
-							$apiKey=get_option('google_map_api');
-					
-							$full_address = implode( ', ', array_filter( array(
-								$address,
-								$city,
-								$state,
-								$zip,
-								$country
-							) ) );  
-							
-							$encodedAddress = urlencode($full_address);
-							$geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?address={$encodedAddress}&key={$apiKey}";      
-							$response = file_get_contents($geocodeUrl);
-							$data = json_decode($response, true);
-							$locations = [];
-							if ($data['status'] === 'OK') {
-								$lat = $data['results'][0]['geometry']['location']['lat'];
-								$lng = $data['results'][0]['geometry']['location']['lng'];
-								$locations[] = [
-									'title' => 'My Event Location',
-									'lat'   => $lat,
-									'lng'   => $lng,
-								];
-							} else {
-								echo "Geocoding failed: " . $data['status'];
-							}
-
-						if ( ! empty( $locations ) ) {  
-
-							?>
-							<div id="map" style="height: 400px; width: 100%;"></div>
-							<script>
-
-								function initMap() {
-									var map = new google.maps.Map(document.getElementById('map'), {
-										zoom: 12,
-										center: {lat: <?php echo $locations[0]['lat']; ?>, lng: <?php echo $locations[0]['lng']; ?>}
-									});
-
-									<?php foreach ( $locations as $location ) : ?>
-									var marker = new google.maps.Marker({
-										position: {lat: <?php echo $location['lat']; ?>, lng: <?php echo $location['lng']; ?>},
-										map: map,
-										title: '<?php echo esc_js( $location['title'] ); ?>'
-									});
-									<?php endforeach; ?>
-								}
-								
-							</script>
-							<script async defer
-								src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=initMap">
-							</script>
-							<?php
-						}
-						?>   
-											
-						</div> 
+					     google_map_location();
+						?>			
 					<?php endif; ?>	
-
-		
-										
-
-      			</div>
-
-
-				  
-
-
+				
+     			</div>
 
 				<!-- ===== Event associates Section ======-->
 				<h3> <?php echo esc_html__( 'Associate of the event', 'mega-events-manager' ).'<br>';?> </h3>
@@ -475,22 +400,38 @@ while ( have_posts() ) :
 
 				</div> <!-- END uem-event-associates -->
 			
-			
-			
-			
-		
-		</div>	<!-- end of event content -->									
+	    </div>	<!-- end of event content -->									
 
 				 <!-- ===== checkout Registration Section ======-->
+				
+			    <?php foreach ($tickets as $ticket_id => $ticket): 
+					$sale_start_date = $ticket['sale_start_date'];
+					$sale_end_date   = $ticket['sale_end_date'];
+					$sale_start_time = $ticket['sale_start_time'];
+					$sale_end_time   = $ticket['sale_end_time'];
+					
+					// Current date and time
+					$current_date = date('Y-m-d');
+					$current_time = date('H:i:s');
+					
+					// Convert times to comparable format
+					$current_timestamp = strtotime($current_date . ' ' . $current_time);
+					$start_timestamp = strtotime($sale_start_date . ' ' . $sale_start_time);
+					$end_timestamp = strtotime($sale_end_date . ' ' . $sale_end_time);
+					
+					// Check if current time is within the sale period
+					$show_registration = ($current_timestamp >= $start_timestamp && 
+					$current_timestamp <= $end_timestamp);
+
+					if ($show_registration):
+                ?>
+			
 
 					<?php if ( ! empty( $tickets ) ) : ?>
 						<div class="uem-event-registration">
 
-
 							<div class="ticket_container">
-
-							 
-
+						 
 								<div class="item"> 
 									<?php echo esc_html__( 'Ticket Sales Start Date & Time', 'mega-events-manager' ).'<br>';
 
@@ -573,8 +514,6 @@ while ( have_posts() ) :
 
 								<div class="clear"></div>
 							</div>
-
-
 								<h2><?php echo esc_html__( 'Register for this Event', 'mega-events-manager' ); ?></h2>
 
 								<?php if ( $is_woocommerce ) : ?>
@@ -582,13 +521,15 @@ while ( have_posts() ) :
 								<?php else : ?>
 									<?php webcu_uem_render_simple_registration( $event_id, $tickets ); ?>
 								<?php endif; ?>
+	  					</div>
 
-							</div>
-					<?php endif; ?>		
+				    <?php 
+					   endif;
+					endif; 
+				endforeach;	
+				?>		
+
 				<!-- ===== End checkout Registration Section ======-->
-		
-				
-
 			</main>
 
 				<?php
@@ -609,7 +550,6 @@ while ( have_posts() ) :
 
 	    </div>					
 	</div>
-
 
 <?php
 endwhile;

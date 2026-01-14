@@ -97,7 +97,29 @@ class Class_meta_venue_location {
                         <?php checked(get_post_meta($post->ID, 'webcu_ve_googleMap', true), '1'); ?>>
                         <label for="webcu_ve_googleMap">Show Google Map</label>
                     </div>                                      
-                </div>       
+                </div>  
+               <?php 
+                    /* global $wpdb;
+                  $meta_data = $wpdb->get_results("
+                        SELECT order_item_id, meta_value 
+                        FROM {$wpdb->prefix}woocommerce_order_itemmeta 
+                        WHERE meta_key = '_uem_attendees'
+                    ");
+
+                    foreach ($meta_data as $data) {
+                        $attendees = maybe_unserialize($data->meta_value);
+                        
+                        if (is_array($attendees)) {
+                            foreach ($attendees as $attendee) {
+                                echo 'Name: ' . $attendee['name'] . '<br>';
+                                echo 'Email: ' . $attendee['email'] . '<br>';
+                                echo 'Ticket: ' . $attendee['ticket'] . '<br>';
+                       
+                            }
+                        }
+                    } */
+                                                            
+               ?>                          
             </div>  
         <?php
     }

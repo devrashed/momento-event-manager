@@ -1,6 +1,4 @@
 <?php get_header(); ?>
-
-
 <?php 
 
     $orgatemp = get_option('webcu_organize_template');
