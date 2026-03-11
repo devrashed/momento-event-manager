@@ -1,6 +1,7 @@
 <?php
+namespace Wpcraft\Templates;
 
- function webcu_display_attendee_form() {
+function wtmem_display_attendee_form() {
     global $post;
 
     if ( empty( $post ) ) {
@@ -12,14 +13,14 @@
     $attendee_form = get_post_meta( $post_id, 'attendee_form_data_types', true );
     
     if (!is_array($attendee_form)) {
-        echo '<p>' . esc_html__('No registration form available.', 'mega-events-manager') . '</p>';
+        echo '<p>' . esc_html__('No registration form available.', 'momento-event-manager') . '</p>';
         return;
     }
 
     ?>
-    <div class="webcu-attendee-form">
+    <div class="wtmem-attendee-form">
         
-        <div class="webcu-form-fields">
+        <div class="wtmem-form-fields">
             
             <?php 
             // Display predefined fields
@@ -37,8 +38,8 @@
                     $required_mark = $is_required ? '<span class="required">*</span>' : '';
                     
                     ?>
-                    <div class="webcu-form-group webcu-field-<?php echo esc_attr($field_id); ?>">
-                        <label for="webcu_<?php echo esc_attr($field_id); ?>">
+                    <div class="wtmem-form-group wtmem-field-<?php echo esc_attr($field_id); ?>">
+                        <label for="wtmem_<?php echo esc_attr($field_id); ?>">
                             <?php echo esc_html($field_label); ?> <?php echo $required_mark; ?>
                         </label>
                         
@@ -48,9 +49,9 @@
                             case 'email_address':
                                 ?>
                                 <input type="email" 
-                                       id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -58,9 +59,9 @@
                             case 'phone_number':
                                 ?>
                                 <input type="tel" 
-                                       id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -68,9 +69,9 @@
                             case 'website':
                                 ?>
                                 <input type="url" 
-                                       id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        placeholder="https://" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
@@ -78,9 +79,9 @@
                             
                             case 'address':
                                 ?>
-                                <textarea id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                          name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                          class="webcu-form-control" 
+                                <textarea id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                          name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                          class="wtmem-form-control" 
                                           rows="3" 
                                           <?php echo esc_attr($required_attr); ?>></textarea>
                                 <?php
@@ -88,27 +89,27 @@
                             
                             case 'vegetarian':
                                 ?>
-                                <select id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                        name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                        class="webcu-form-control" 
+                                <select id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                        name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                        class="wtmem-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Option', 'mega-events-manager'); ?></option>
-                                    <option value="yes"><?php echo esc_html__('Yes', 'mega-events-manager'); ?></option>
-                                    <option value="no"><?php echo esc_html__('No', 'mega-events-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Option', 'momento-event-manager'); ?></option>
+                                    <option value="yes"><?php echo esc_html__('Yes', 'momento-event-manager'); ?></option>
+                                    <option value="no"><?php echo esc_html__('No', 'momento-event-manager'); ?></option>
                                 </select>
                                 <?php
                                 break;
                             
                             case 'gender':
                                 ?>
-                                <select id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                        name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                        class="webcu-form-control" 
+                                <select id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                        name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                        class="wtmem-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Gender', 'mega-events-manager'); ?></option>
-                                    <option value="male"><?php echo esc_html__('Male', 'mega-events-manager'); ?></option>
-                                    <option value="female"><?php echo esc_html__('Female', 'mega-events-manager'); ?></option>
-                                    <option value="other"><?php echo esc_html__('Other', 'mega-events-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Gender', 'momento-event-manager'); ?></option>
+                                    <option value="male"><?php echo esc_html__('Male', 'momento-event-manager'); ?></option>
+                                    <option value="female"><?php echo esc_html__('Female', 'momento-event-manager'); ?></option>
+                                    <option value="other"><?php echo esc_html__('Other', 'momento-event-manager'); ?></option>
                                 </select>
                                 <?php
                                 break;
@@ -116,9 +117,9 @@
                             case 'dob':
                                 ?>
                                 <input type="date" 
-                                       id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -127,9 +128,9 @@
                                 // Text input for all other fields
                                 ?>
                                 <input type="text" 
-                                       id="webcu_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_attendee[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_attendee[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -153,8 +154,8 @@
                     $field_options = !empty($custom_field['options']) ? $custom_field['options'] : '';
                     
                     ?>
-                    <div class="webcu-form-group webcu-custom-field webcu-field-<?php echo esc_attr($field_id); ?>">
-                        <label for="webcu_custom_<?php echo esc_attr($field_id); ?>">
+                    <div class="wtmem-form-group wtmem-custom-field wtmem-field-<?php echo esc_attr($field_id); ?>">
+                        <label for="wtmem_custom_<?php echo esc_attr($field_id); ?>">
                             <?php echo esc_html($field_label); ?> <?php echo $required_mark; ?>
                         </label>
                         
@@ -164,9 +165,9 @@
                             case 'email':
                                 ?>
                                 <input type="email" 
-                                       id="webcu_custom_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_custom_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -174,9 +175,9 @@
                             case 'number':
                                 ?>
                                 <input type="number" 
-                                       id="webcu_custom_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_custom_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -184,11 +185,11 @@
                             case 'select':
                                 $options_array = !empty($field_options) ? array_map('trim', explode(',', $field_options)) : [];
                                 ?>
-                                <select id="webcu_custom_<?php echo esc_attr($field_id); ?>" 
-                                        name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
-                                        class="webcu-form-control" 
+                                <select id="wtmem_custom_<?php echo esc_attr($field_id); ?>" 
+                                        name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>]" 
+                                        class="wtmem-form-control" 
                                         <?php echo esc_attr($required_attr); ?>>
-                                    <option value=""><?php echo esc_html__('Select Option', 'mega-events-manager'); ?></option>
+                                    <option value=""><?php echo esc_html__('Select Option', 'momento-event-manager'); ?></option>
                                     <?php foreach ($options_array as $option) : ?>
                                         <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                                     <?php endforeach; ?>
@@ -199,11 +200,11 @@
                             case 'checkbox':
                                 $options_array = !empty($field_options) ? array_map('trim', explode(',', $field_options)) : [];
                                 ?>
-                                <div class="webcu-checkbox-group">
+                                <div class="wtmem-checkbox-group">
                                     <?php foreach ($options_array as $option) : ?>
-                                        <label class="webcu-checkbox-label">
+                                        <label class="wtmem-checkbox-label">
                                             <input type="checkbox" 
-                                                   name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>][]" 
+                                                   name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>][]" 
                                                    value="<?php echo esc_attr($option); ?>" 
                                                    <?php echo esc_attr($required_attr); ?>>
                                             <?php echo esc_html($option); ?>
@@ -216,11 +217,11 @@
                             case 'radio':
                                 $options_array = !empty($field_options) ? array_map('trim', explode(',', $field_options)) : [];
                                 ?>
-                                <div class="webcu-radio-group">
+                                <div class="wtmem-radio-group">
                                     <?php foreach ($options_array as $option) : ?>
-                                        <label class="webcu-radio-label">
+                                        <label class="wtmem-radio-label">
                                             <input type="radio" 
-                                                   name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
+                                                   name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>]" 
                                                    value="<?php echo esc_attr($option); ?>" 
                                                    <?php echo esc_attr($required_attr); ?>>
                                             <?php echo esc_html($option); ?>
@@ -234,9 +235,9 @@
                             default:
                                 ?>
                                 <input type="text" 
-                                       id="webcu_custom_<?php echo esc_attr($field_id); ?>" 
-                                       name="webcu_custom_fields[<?php echo esc_attr($field_id); ?>]" 
-                                       class="webcu-form-control" 
+                                       id="wtmem_custom_<?php echo esc_attr($field_id); ?>" 
+                                       name="wtmem_custom_fields[<?php echo esc_attr($field_id); ?>]" 
+                                       class="wtmem-form-control" 
                                        <?php echo esc_attr($required_attr); ?>>
                                 <?php
                                 break;
@@ -254,5 +255,5 @@
     <?php
 }
 
-webcu_display_attendee_form();
+wtmem_display_attendee_form();
 ?>

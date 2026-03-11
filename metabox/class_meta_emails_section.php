@@ -1,24 +1,26 @@
 <?php 
 /**
  *
- *  Webcartisan reminder section
+ *  Wpcraft reminder section
  *
  **/
 
-class Class_meta_emails_section { 
+ namespace Wpcraft\Metabox;
+
+class class_meta_emails_section { 
 
     public function __construct() {
    
     }
 
-    public function webcu_meta_emails_field($post) {
+    public function wtmem_meta_emails_field($post) {
         wp_enqueue_editor();
  
         // Load saved reminders (JSON decoded)
-        $saved = get_post_meta($post->ID, '_webcu_meta_reminders_email', true);
+        $saved = get_post_meta($post->ID, '_wtmem_meta_reminders_email', true);
         $saved = !empty($saved) ? json_decode($saved, true) : [];
 
-        $saved_data = get_post_meta($post->ID, 'webcu_event_dates', true);
+        $saved_data = get_post_meta($post->ID, 'wtmem_event_dates', true);
         $event_start = isset($saved_data['start_date']) ? $saved_data['start_date'] : '';
         $event_end = isset($saved_data['end_date']) ? $saved_data['end_date'] : '';
 
@@ -29,17 +31,17 @@ class Class_meta_emails_section {
                 <?php foreach ($saved as $index => $data): 
                     $counter = $index;
                 ?>
-                <div class="webcu_re_box webcu_re_email-block" data-index="<?php echo esc_attr($index); ?>">
-                    <div class="webcu_re_expand-remove">
-                        <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand', 'mega-events-manager'); ?> </button>
-                        <button type="button" class="webcu_re_remove-btn"><?php echo esc_html__('Remove', 'mega-events-manager'); ?> </button>
+                <div class="wtmem_re_box wtmem_re_email-block" data-index="<?php echo esc_attr($index); ?>">
+                    <div class="wtmem_re_expand-remove">
+                        <button type="button" class="wtmem_re_expand-btn"><?php echo esc_html__('Expand', 'momento-event-manager'); ?> </button>
+                        <button type="button" class="wtmem_re_remove-btn"><?php echo esc_html__('Remove', 'momento-event-manager'); ?> </button>
                     </div>
 
-                    <div class="webcu_re_header-row">
-                        <div class="webcu_re_title"><?php echo esc_html__('Event email reminder', 'mega-events-manager'); ?> <?php echo esc_html($index); ?></div>
-                        <div class="webcu_re_top-actions">
+                    <div class="wtmem_re_header-row">
+                        <div class="wtmem_re_title"><?php echo esc_html__('Event email reminder', 'momento-event-manager'); ?> <?php echo esc_html($index); ?></div>
+                        <div class="wtmem_re_top-actions">
                             <div class="info-icon" title="Info">i</div>
-                            <button class="webcu_re_send-now"
+                            <button class="wtmem_re_send-now"
                                     data-post-id="<?php echo esc_attr($post->ID); ?>"
                                     data-index="<?php echo esc_attr($index); ?>"
                                     data-timing="<?php echo esc_attr($data['timing'] ?? ''); ?>"
@@ -49,63 +51,63 @@ class Class_meta_emails_section {
                                     data-content="<?php echo esc_attr(wp_strip_all_tags($data['content'] ?? '')); ?>"
                                     data-event-start="<?php echo esc_attr($event_start); ?>"
                                     data-event-end="<?php echo esc_attr($event_end); ?>">
-                                <?php echo esc_html__('Send Now', 'mega-events-manager'); ?>
+                                <?php echo esc_html__('Send Now', 'momento-event-manager'); ?>
                             </button>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="webcu_re_label"><?php echo esc_html__('Email Timing:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="wtmem_re_label"><?php echo esc_html__('Email Timing:', 'momento-event-manager'); ?></div>
                         <div>
                             <div style="display:flex;align-items:center;gap:10px;">
-                                <input class="webcu_re_timing" name="timing_<?php echo esc_attr($index); ?>" type="text" value="<?php echo esc_attr($data['timing']); ?>" /> 
-                                <span class="webcu_re_hours-label"><?php echo esc_html__('Hours', 'mega-events-manager') ?></span>
+                                <input class="wtmem_re_timing" name="timing_<?php echo esc_attr($index); ?>" type="text" value="<?php echo esc_attr($data['timing']); ?>" /> 
+                                <span class="wtmem_re_hours-label"><?php echo esc_html__('Hours', 'momento-event-manager') ?></span>
                             </div>
-                            <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-events-manager'); ?> </div>
+                            <div class="wtmem_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'momento-event-manager'); ?> </div>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="label"><?php echo esc_html__('Time count:', 'mega-events-manager') ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="label"><?php echo esc_html__('Time count:', 'momento-event-manager') ?></div>
                         <div>
-                            <div class="webcu_re_radios">
-                                <label class="webcu_re_radio-item">
+                            <div class="wtmem_re_radios">
+                                <label class="wtmem_re_radio-item">
                                     <input type="radio" name="timecount_<?php echo esc_attr($index); ?>" value="before" <?php checked($data['timecount'], 'before'); ?>>
-                                    <?php echo esc_html__('Before Event Start', 'mega-events-manager'); ?>
+                                    <?php echo esc_html__('Before Event Start', 'momento-event-manager'); ?>
                                 </label>
-                                <label class="webcu_re_radio-item">
+                                <label class="wtmem_re_radio-item">
                                     <input type="radio" name="timecount_<?php echo esc_attr($index); ?>" value="after" <?php checked($data['timecount'], 'after'); ?>> 
-                                    <?php echo esc_html__('After Event End', 'mega-events-manager'); ?> 
+                                    <?php echo esc_html__('After Event End', 'momento-event-manager'); ?> 
                                 </label>
                             </div>
-                            <div class="webcu_re_small-help"> <?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-events-manager'); ?></div>
+                            <div class="wtmem_re_small-help"> <?php echo esc_html__('Schedule email send before event start or after event end?', 'momento-event-manager'); ?></div>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="label"><?php echo esc_html__('Email Receiver:', 'mega-events-manager') ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="label"><?php echo esc_html__('Email Receiver:', 'momento-event-manager') ?></div>
                         <div>
-                            <div class="webcu_re_radios">
+                            <div class="wtmem_re_radios">
                                 <select name="email_reciever_<?php echo esc_attr($index); ?>">
-                                    <option value="organizer" <?php selected($data['email_reciever'] ?? '', 'organizer'); ?>><?php echo esc_html__('Organizer', 'mega-events-manager') ?></option>
-                                    <option value="sponsor" <?php selected($data['email_reciever'] ?? '', 'sponsor'); ?>><?php echo esc_html__('Sponsor', 'mega-events-manager') ?></option>
-                                    <option value="volunteer" <?php selected($data['email_reciever'] ?? '', 'volunteer'); ?>><?php echo esc_html__('Volunteer', 'mega-events-manager') ?></option>
-                                    <option value="attendee" <?php selected($data['email_reciever'] ?? '', 'attendee'); ?>><?php echo esc_html__('Attendee', 'mega-events-manager') ?></option>
+                                    <option value="organizer" <?php selected($data['email_reciever'] ?? '', 'organizer'); ?>><?php echo esc_html__('Organizer', 'momento-event-manager') ?></option>
+                                    <option value="sponsor" <?php selected($data['email_reciever'] ?? '', 'sponsor'); ?>><?php echo esc_html__('Sponsor', 'momento-event-manager') ?></option>
+                                    <option value="volunteer" <?php selected($data['email_reciever'] ?? '', 'volunteer'); ?>><?php echo esc_html__('Volunteer', 'momento-event-manager') ?></option>
+                                    <option value="attendee" <?php selected($data['email_reciever'] ?? '', 'attendee'); ?>><?php echo esc_html__('Attendee', 'momento-event-manager') ?></option>
                                 </select>
                             </div>
-                            <div class="webcu_re_small-help"> <?php echo esc_html__('Who Receive the email', 'mega-events-manager'); ?></div>
+                            <div class="wtmem_re_small-help"> <?php echo esc_html__('Who Receive the email', 'momento-event-manager'); ?></div>
                         </div>
                     </div>   
 
-                    <div class="webcu_re_form-row">
-                        <div class="label"><?php echo esc_html__('Email Subject line:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="label"><?php echo esc_html__('Email Subject line:', 'momento-event-manager'); ?></div>
                         <div>
-                            <input class="webcu_re_subject" name="subject_<?php echo esc_attr($index); ?>" placeholder="First Reminder email subject line" value="<?php echo esc_attr($data['subject']); ?>" />
+                            <input class="wtmem_re_subject" name="subject_<?php echo esc_attr($index); ?>" placeholder="First Reminder email subject line" value="<?php echo esc_attr($data['subject']); ?>" />
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="label"><?php echo esc_html__('Email Content:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="label"><?php echo esc_html__('Email Content:', 'momento-event-manager'); ?></div>
                         <div>
                             <?php 
                                 wp_editor(
@@ -126,16 +128,16 @@ class Class_meta_emails_section {
                 <?php endforeach; ?>
             <?php else: ?>
                 <!-- Default block if no saved data -->
-                <div class="webcu_re_box webcu_re_email-block" data-index="1">
-                    <div class="webcu_re_expand-remove">
-                        <button type="button" class="webcu_re_expand-btn"><?php echo esc_html__('Expand:', 'mega-events-manager'); ?></button>
-                        <button type="button" class="webcu_re_remove-btn"> <?php echo esc_html__('Remove:', 'mega-events-manager'); ?></button>
+                <div class="wtmem_re_box wtmem_re_email-block" data-index="1">
+                    <div class="wtmem_re_expand-remove">
+                        <button type="button" class="wtmem_re_expand-btn"><?php echo esc_html__('Expand:', 'momento-event-manager'); ?></button>
+                        <button type="button" class="wtmem_re_remove-btn"> <?php echo esc_html__('Remove:', 'momento-event-manager'); ?></button>
                     </div>
 
-                    <div class="webcu_re_header-row">
-                        <div class="webcu_re_title"><?php echo esc_html__('Event email reminder 1', 'mega-events-manager'); ?></div>
-                        <div class="webcu_re_top-actions">
-                            <button class="webcu_re_send-now"
+                    <div class="wtmem_re_header-row">
+                        <div class="wtmem_re_title"><?php echo esc_html__('Event email reminder 1', 'momento-event-manager'); ?></div>
+                        <div class="wtmem_re_top-actions">
+                            <button class="wtmem_re_send-now"
                                     data-post-id="<?php echo esc_attr($post->ID); ?>"
                                     data-index="1"
                                     data-timing="168"
@@ -145,56 +147,56 @@ class Class_meta_emails_section {
                                     data-content=""
                                     data-event-start="<?php echo esc_attr($event_start); ?>"
                                     data-event-end="<?php echo esc_attr($event_end); ?>">
-                                <?php echo esc_html__('Send Now', 'mega-events-manager'); ?>
+                                <?php echo esc_html__('Send Now', 'momento-event-manager'); ?>
                             </button>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="webcu_re_label"><?php echo esc_html__('Time count:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="wtmem_re_label"><?php echo esc_html__('Time count:', 'momento-event-manager'); ?></div>
                         <div>
-                            <div class="webcu_re_radios">
-                                <label class="webcu_re_radio-item"><input type="radio" name="timecount_1" value="before" checked><?php echo esc_html__('Before Event Start', 'mega-events-manager'); ?></label>
-                                <label class="webcu_re_radio-item"><input type="radio" name="timecount_1" value="after"><?php echo esc_html__('After Event End', 'mega-events-manager'); ?></label>
+                            <div class="wtmem_re_radios">
+                                <label class="wtmem_re_radio-item"><input type="radio" name="timecount_1" value="before" checked><?php echo esc_html__('Before Event Start', 'momento-event-manager'); ?></label>
+                                <label class="wtmem_re_radio-item"><input type="radio" name="timecount_1" value="after"><?php echo esc_html__('After Event End', 'momento-event-manager'); ?></label>
                             </div>
-                            <div class="webcu_re_small-help"><?php echo esc_html__('Schedule email send before event start or after event end?', 'mega-events-manager'); ?></div>
+                            <div class="wtmem_re_small-help"><?php echo esc_html__('Schedule email send before event start or after event end?', 'momento-event-manager'); ?></div>
                         </div>
                     </div>  
 
-                    <div class="webcu_re_form-row">
-                        <div class="webcu_re_label"><?php echo esc_html__('Email Timing:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="wtmem_re_label"><?php echo esc_html__('Email Timing:', 'momento-event-manager'); ?></div>
                         <div>
                             <div style="display:flex;align-items:center;gap:10px;">
-                                <input class="webcu_re_timing" name="timing_1" type="text" value="168" /> 
-                                <span class="webcu_re_hours-label"><?php echo esc_html__('Hours', 'mega-events-manager'); ?></span>
+                                <input class="wtmem_re_timing" name="timing_1" type="text" value="168" /> 
+                                <span class="wtmem_re_hours-label"><?php echo esc_html__('Hours', 'momento-event-manager'); ?></span>
                             </div>
-                            <div class="webcu_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'mega-events-manager'); ?></div>
+                            <div class="wtmem_re_small-help"> <?php echo esc_html__('Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.', 'momento-event-manager'); ?></div>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="label"><?php echo esc_html__('Email Receiver:', 'mega-events-manager'); ?></div>
+                    <div class="wtmem_re_form-row">
+                        <div class="label"><?php echo esc_html__('Email Receiver:', 'momento-event-manager'); ?></div>
                         <div>
-                            <div class="webcu_re_radios">
+                            <div class="wtmem_re_radios">
                                 <select name="email_reciever_1">
-                                    <option value="organizer"><?php echo esc_html__('Organizer', 'mega-events-manager') ?></option>
-                                    <option value="sponsor"><?php echo esc_html__('Sponsor', 'mega-events-manager') ?></option>
-                                    <option value="volunteer"><?php echo esc_html__('Volunteer', 'mega-events-manager') ?></option>
-                                    <option value="attendee"><?php echo esc_html__('Attendee', 'mega-events-manager') ?></option>
+                                    <option value="organizer"><?php echo esc_html__('Organizer', 'momento-event-manager') ?></option>
+                                    <option value="sponsor"><?php echo esc_html__('Sponsor', 'momento-event-manager') ?></option>
+                                    <option value="volunteer"><?php echo esc_html__('Volunteer', 'momento-event-manager') ?></option>
+                                    <option value="attendee"><?php echo esc_html__('Attendee', 'momento-event-manager') ?></option>
                                 </select>
                             </div>
-                            <div class="webcu_re_small-help"> <?php echo esc_html__('Who Receive the email', 'mega-events-manager'); ?></div>
+                            <div class="wtmem_re_small-help"> <?php echo esc_html__('Who Receive the email', 'momento-event-manager'); ?></div>
                         </div>
                     </div>
 
-                    <div class="webcu_re_form-row">
-                        <div class="webcu_re_label">Email Subject line:</div>
+                    <div class="wtmem_re_form-row">
+                        <div class="wtmem_re_label">Email Subject line:</div>
                         <div>
-                            <input class="webcu_re_subject" name="subject_1" placeholder="First Reminder email subject line" />
+                            <input class="wtmem_re_subject" name="subject_1" placeholder="First Reminder email subject line" />
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="label"><?php echo esc_html__('Email Content:', 'mega-events-manager'); ?></div>
+                        <div class="label"><?php echo esc_html__('Email Content:', 'momento-event-manager'); ?></div>
                         <div>
                             <?php 
                                 wp_editor('', 'content_1', [
@@ -213,12 +215,12 @@ class Class_meta_emails_section {
 
             
         <div>
-            <button type="button" id="addNewEmail" class="webcu_re_add-new-email"><?php echo esc_html__('Add New Email', 'mega-events-manager') ?></button>
+            <button type="button" id="addNewEmail" class="wtmem_re_add-new-email"><?php echo esc_html__('Add New Email', 'momento-event-manager') ?></button>
         </div>
         <?php
     }
 
-    public function webcu_save_emails_metabox_data($post_id) {
+    public function wtmem_save_emails_metabox_data($post_id) {
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
         if (!current_user_can('edit_post', $post_id)) return;
 
@@ -236,9 +238,9 @@ class Class_meta_emails_section {
         }
 
         if (!empty($reminders)) {
-            update_post_meta($post_id, '_webcu_meta_reminders_email', wp_json_encode($reminders));
+            update_post_meta($post_id, '_wtmem_meta_reminders_email', wp_json_encode($reminders));
         } else {
-            delete_post_meta($post_id, '_webcu_meta_reminders_email');
+            delete_post_meta($post_id, '_wtmem_meta_reminders_email');
         }
     }
 
@@ -248,13 +250,13 @@ class Class_meta_emails_section {
            ======================================== */
 
 
-        public function webcu_send_email_now_handler_____old() {
+        public function wtmem_send_email_now_handler_____old() {
             // Verify nonce
-            if (!wp_verify_nonce($_POST['nonce'], 'webcu_send_email_nonce')) {
+            if (!wp_verify_nonce($_POST['nonce'], 'wtmem_send_email_nonce')) {
                 wp_die('Security check failed');
             }
             
-            $eventdate = get_post_meta( get_the_ID(), 'webcu_event_dates', true );
+            $eventdate = get_post_meta( get_the_ID(), 'wtmem_event_dates', true );
 
             $post_id = intval($_POST['post_id']);
             $index = intval($_POST['index']);
@@ -292,7 +294,7 @@ class Class_meta_emails_section {
             }
             
             // Get recipients based on receiver type
-            $recipients = $this->webcu_get_recipients_by_type($receiver, $post_id);
+            $recipients = $this->wtmem_get_recipients_by_type($receiver, $post_id);
             
             if (empty($recipients)) {
                 wp_send_json_error('No recipients found for this type.');
@@ -311,21 +313,21 @@ class Class_meta_emails_section {
                     }
                     
                     // Log the email sent
-                    $this->webcu_log_email_sent($post_id, $index, $recipient_email, $subject, $send_time);
+                    $this->wtmem_log_email_sent($post_id, $index, $recipient_email, $subject, $send_time);
                 }
             }
             
             // Return success response
             wp_send_json_success([
-                'message' => sprintf(__('Email sent to %d recipients.', 'mega-events-manager'), $sent_count),
+                'message' => sprintf(__('Email sent to %d recipients.', 'momento-event-manager'), $sent_count),
                 'sent_count' => $sent_count,
                 'scheduled_time' => $send_time ? date('Y-m-d H:i:s', $send_time) : null
             ]);
         }
 
-        public function webcu_send_email_now_handler() {
+        public function wtmem_send_email_now_handler() {
             // Verify nonce
-            if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'webcu_nonce')) {
+            if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wtmem_nonce')) {
                 throw new Exception('Security check failed. Please refresh the page and try again.');
             }
             
@@ -338,7 +340,7 @@ class Class_meta_emails_section {
             $content = wp_kses_post($_POST['content']);
             
             // Correct way to get event dates in AJAX context
-            $eventdate = get_post_meta($post_id, 'webcu_event_dates', true);
+            $eventdate = get_post_meta($post_id, 'wtmem_event_dates', true);
             
             // Check if dates exist and have proper structure
             if (empty($eventdate) || !isset($eventdate['start_date']) || !isset($eventdate['end_date'])) {
@@ -370,7 +372,7 @@ class Class_meta_emails_section {
             // For scheduling - we need to calculate based on each date
             
             // Get recipients based on receiver type
-            $recipients = $this->webcu_get_recipients_by_type($receiver, $post_id);
+            $recipients = $this->wtmem_get_recipients_by_type($receiver, $post_id);
             
             if (empty($recipients)) {
                 wp_send_json_error('No recipients found for this type.');
@@ -389,7 +391,7 @@ class Class_meta_emails_section {
                     }
                     
                     // Log the email sent
-                    $this->webcu_log_email_sent($post_id, $index, $recipient_email, $subject, time());
+                    $this->wtmem_log_email_sent($post_id, $index, $recipient_email, $subject, time());
                 }
             }
             
@@ -425,7 +427,7 @@ class Class_meta_emails_section {
             
             // Return success response
             wp_send_json_success([
-                'message' => sprintf(__('Email sent to %d recipients.', 'mega-events-manager'), $sent_count),
+                'message' => sprintf(__('Email sent to %d recipients.', 'momento-event-manager'), $sent_count),
                 'sent_count' => $sent_count,
                 'actual_sent_time' => date('Y-m-d H:i:s'),
                 'scheduled_times' => $scheduled_times,
@@ -439,7 +441,7 @@ class Class_meta_emails_section {
         }
        
          // Helper function to get recipients by type
-        public function webcu_get_recipients_by_type($type, $post_id) {
+        public function wtmem_get_recipients_by_type($type, $post_id) {
              $emails = [];
             
             // For testing - always include admin email
@@ -459,7 +461,7 @@ class Class_meta_emails_section {
 
                                         error_log( 'Organizer ID: ' . $orga_id );
 
-                                        $email = get_post_meta( $orga_id, 'webcu_orga_email', true );
+                                        $email = get_post_meta( $orga_id, 'wtmem_orga_email', true );
 
                                         if ( $email ) {
                                             $emails[] = $email;
@@ -475,7 +477,7 @@ class Class_meta_emails_section {
                             //$recipients = [];
                             if ( is_array( $sponsors_id ) ) {
                                 foreach ( $sponsors_id as $spons_id ) {
-                                    $spos_email = get_post_meta( $spons_id, 'webcu_spon_email', true );
+                                    $spos_email = get_post_meta( $spons_id, 'wtmem_spon_email', true );
                                     if ( $spos_email ) {
                                         $emails[] = $spos_email;
                                     }
@@ -490,7 +492,7 @@ class Class_meta_emails_section {
                             //$recipients = [];
                             if ( is_array( $volun_id ) ) {
                                 foreach ( $volun_id as $vol_id ) {
-                                    $vol_email = get_post_meta( $vol_id, 'webcu_volun_email', true );
+                                    $vol_email = get_post_meta( $vol_id, 'wtmem_volun_email', true );
                                     if ( $vol_email ) {
                                         $emails[] = $vol_email;
                                     }
@@ -541,7 +543,7 @@ class Class_meta_emails_section {
         }
 
         // Helper function to log email sent
-        public function webcu_log_email_sent($post_id, $index, $recipient, $subject, $scheduled_time) {
+        public function wtmem_log_email_sent($post_id, $index, $recipient, $subject, $scheduled_time) {
             $log_entry = [
                 'timestamp' => current_time('mysql'),
                 'post_id' => $post_id,
@@ -552,17 +554,17 @@ class Class_meta_emails_section {
                 'actual_sent_time' => current_time('mysql')
             ];
             
-            $logs = get_post_meta($post_id, '_webcu_email_logs', true);
+            $logs = get_post_meta($post_id, '_wtmem_email_logs', true);
             if (empty($logs) || !is_array($logs)) {
                 $logs = [];
             }
             
             $logs[] = $log_entry;
-            update_post_meta($post_id, '_webcu_email_logs', $logs);
+            update_post_meta($post_id, '_wtmem_email_logs', $logs);
         }
 
         // 1. Clear scheduled emails function
-        public function webcu_clear_scheduled_emails($post_id) {
+        public function wtmem_clear_scheduled_emails($post_id) {
             // Get all scheduled cron jobs
             $crons = _get_cron_array();
             
@@ -572,12 +574,12 @@ class Class_meta_emails_section {
             
             // Find and remove scheduled emails for this post
             foreach ($crons as $timestamp => $cron) {
-                if (isset($cron['webcu_send_scheduled_email'])) {
-                    foreach ($cron['webcu_send_scheduled_email'] as $key => $scheduled) {
+                if (isset($cron['wtmem_send_scheduled_email'])) {
+                    foreach ($cron['wtmem_send_scheduled_email'] as $key => $scheduled) {
                         // Check if this scheduled email belongs to our post
                         if (isset($scheduled['args'][0]) && $scheduled['args'][0] == $post_id) {
                             // Unschedule this specific email
-                            wp_unschedule_event($timestamp, 'webcu_send_scheduled_email', $scheduled['args']);
+                            wp_unschedule_event($timestamp, 'wtmem_send_scheduled_email', $scheduled['args']);
                         }
                     }
                 }
@@ -585,11 +587,11 @@ class Class_meta_emails_section {
         }
 
         // 2. Schedule emails for event
-        public function webcu_schedule_emails_for_event($post_id) {
+        public function wtmem_schedule_emails_for_event($post_id) {
             // Clear existing scheduled emails for this event
-            $this->webcu_clear_scheduled_emails($post_id);
+            $this->wtmem_clear_scheduled_emails($post_id);
             
-            $saved = get_post_meta($post_id, '_webcu_meta_reminders_email', true);
+            $saved = get_post_meta($post_id, '_wtmem_meta_reminders_email', true);
             $saved = !empty($saved) ? json_decode($saved, true) : [];
             
             if (empty($saved)) {
@@ -622,7 +624,7 @@ class Class_meta_emails_section {
                     // Schedule the email
                     wp_schedule_single_event(
                         $send_timestamp,
-                        'webcu_send_scheduled_email',
+                        'wtmem_send_scheduled_email',
                         [$post_id, $index, $data]
                     );
                     
@@ -632,7 +634,7 @@ class Class_meta_emails_section {
         }
 
         // 3. Handle scheduled email when it's time
-        public function webcu_handle_scheduled_email($post_id, $index, $data) {
+        public function wtmem_handle_scheduled_email($post_id, $index, $data) {
             error_log("Processing scheduled email for post {$post_id}, index {$index}");
             
             // Get the email data
@@ -646,7 +648,7 @@ class Class_meta_emails_section {
             }
             
             // Get recipients
-            $recipients = webcu_get_recipients_by_type($receiver, $post_id);
+            $recipients = wtmem_get_recipients_by_type($receiver, $post_id);
             
             if (empty($recipients)) {
                 error_log("No recipients found for type {$receiver} in post {$post_id}");
@@ -665,7 +667,7 @@ class Class_meta_emails_section {
                     if ($email_sent) {
                         $sent_count++;
                         // Log the email sent
-                        webcu_log_email_sent($post_id, $index, $recipient_email, $subject, time());
+                        wtmem_log_email_sent($post_id, $index, $recipient_email, $subject, time());
                         error_log("Sent email to: {$recipient_email}");
                     } else {
                         error_log("Failed to send email to: {$recipient_email}");
@@ -677,7 +679,7 @@ class Class_meta_emails_section {
         }
 
         // 4. Hook to save post - schedule emails when event is saved
-        public function webcu_schedule_emails_on_save($post_id, $post) {
+        public function wtmem_schedule_emails_on_save($post_id, $post) {
             // Check if this is your event post type (change 'event' to your actual post type)
             if (get_post_type($post_id) != 'event') {
                 return;
@@ -694,17 +696,17 @@ class Class_meta_emails_section {
             }
             
             // Check if email reminders meta exists
-            $saved = get_post_meta($post_id, '_webcu_meta_reminders_email', true);
+            $saved = get_post_meta($post_id, '_wtmem_meta_reminders_email', true);
             if (empty($saved)) {
                 return;
             }
             
             // Schedule emails
-            $this->webcu_schedule_emails_for_event($post_id);
+            $this->wtmem_schedule_emails_for_event($post_id);
         }
 
         // 5. Optional: Add admin notice to show scheduled emails
-        public function webcu_show_scheduled_emails_notice() {
+        public function wtmem_show_scheduled_emails_notice() {
             global $post;
             
             if (!is_admin() || !$post || get_post_type($post->ID) != 'event') {
@@ -715,8 +717,8 @@ class Class_meta_emails_section {
             
             if (!empty($crons)) {
                 foreach ($crons as $timestamp => $cron) {
-                    if (isset($cron['webcu_send_scheduled_email'])) {
-                        foreach ($cron['webcu_send_scheduled_email'] as $key => $scheduled) {
+                    if (isset($cron['wtmem_send_scheduled_email'])) {
+                        foreach ($cron['wtmem_send_scheduled_email'] as $key => $scheduled) {
                             if (isset($scheduled['args'][0]) && $scheduled['args'][0] == $post->ID) {
                                 $scheduled_count++;
                             }
@@ -728,7 +730,7 @@ class Class_meta_emails_section {
             if ($scheduled_count > 0) {
                 ?>
                 <div class="notice notice-info">
-                    <p><?php echo sprintf(__('%d email reminder(s) scheduled for this event.', 'mega-events-manager'), $scheduled_count); ?></p>
+                    <p><?php echo sprintf(__('%d email reminder(s) scheduled for this event.', 'momento-event-manager'), $scheduled_count); ?></p>
                 </div>
                 <?php
             }

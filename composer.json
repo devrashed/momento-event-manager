@@ -1,0 +1,22 @@
+{
+    "name": "wpcraft/memonto-event-manager",
+    "description": "A comprehensive event management plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Wpcraft\\Inc\\": "includes/",
+            "Wpcraft\\Metabox\\": "metabox/",
+            "Wpcraft\\Settings\\": "settings/",
+            "Wpcraft\\Templates\\": "templates/",
+            "Wpcraft\\Widget\\": "widget/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rashed khan"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

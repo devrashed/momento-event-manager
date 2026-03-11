@@ -1,11 +1,13 @@
 <?php
+
 /**
  *
- *  upcoming event widget
+ *  Wpcraft event widget
  *
  **/
+namespace Wpcraft\Widget;
 
-Class class_upcoming_event_volunteer_widget extends \WP_Widget{
+class class_upcoming_event_volunteer_widget extends \WP_Widget{
 
     public function __construct() {
         parent::__construct(
@@ -38,9 +40,9 @@ Class class_upcoming_event_volunteer_widget extends \WP_Widget{
             foreach ($events as $event) {
 
                 // Get organizer
-                $organizer = get_post_meta($event->ID, 'webcu_event_volunteer_name', true);
+                $organizer = get_post_meta($event->ID, 'wtmem_event_volunteer_name', true);
 
-                $dates = get_post_meta($event->ID, 'webcu_event_dates', true);
+                $dates = get_post_meta($event->ID, 'wtmem_event_dates', true);
 
                 if (!empty($dates['start_date'][0])) {
 

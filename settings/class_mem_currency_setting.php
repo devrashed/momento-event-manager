@@ -1,4 +1,5 @@
 <?php
+namespace Wpcraft\Settings;
 
 /**
  * 
@@ -6,26 +7,26 @@
  * 
  */
 
-class Class_currency_setting {
+class class_mem_currency_setting {
 
     public function __construct() { 
 
-        add_action('admin_init', [$this, 'webcu_event_save_currency']);
+        add_action('admin_init', [$this, 'wtmem_event_save_currency']);
     }
 
-    public function webcu_event_currency_fields() {
+    public function wtmem_event_currency_fields() {
         // Process save immediately in case constructor hook wasn't registered early enough
         if ( empty( $_POST ) === false ) {
-            $this->webcu_event_save_currency();
+            $this->wtmem_event_save_currency();
         }
         ?>
 
         <div class="my-currency-settings">
             <form method="POST" id="myCurrencyForm">
-                <?php wp_nonce_field('webcu_currency_action', 'webcu_currency_nonce'); ?>
+                <?php wp_nonce_field('wtmem_currency_action', 'wtmem_currency_nonce'); ?>
                 <?php $my_currency =  get_option('my_currency'); ?>
 
-                <label><?php esc_html_e( 'Currency', 'mega-events-manager' ); ?></label>
+                <label><?php esc_html_e( 'Currency', 'momento-event-manager' ); ?></label>
                 <select name="currency" id="currency">
                  <option value="AED" <?php if ($my_currency =='') { echo 'selected'; } ?> >United Arab Emirates dirham (د.إ) — AED</option>
                         <option value="AFN" <?php if ($my_currency=='AFN') { echo 'selected'; } ?> >Afghan afghani (؋) — AFN</option>
@@ -192,26 +193,26 @@ class Class_currency_setting {
                         <option value="ZMW" <?php if ($my_currency=='ZMW') { echo 'selected'; } ?>>Zambian kwacha (ZK) — ZMW</option>
                 </select>
 
-                <label><?php esc_html_e( 'Currency Position', 'mega-events-manager' ); ?></label>
+                <label><?php esc_html_e( 'Currency Position', 'momento-event-manager' ); ?></label>
                 <?php $curr_opsition = get_option('my_currency_position'); ?>
                 <select name="currency_position" id="currency_position">
-                    <option value="left" <?php if ($curr_opsition=='left') { echo 'selected'; } ?>><?php esc_html_e( 'Left', 'mega-events-manager' ); ?></option>
-                    <option value="right" <?php if ($curr_opsition=='right') { echo 'selected'; } ?>> <?php esc_html_e( 'Right', 'mega-events-manager' ); ?></option>
-                    <option value="left_space" <?php if ($curr_opsition=='left_space') { echo 'selected'; } ?>><?php esc_html_e( 'Left Space', 'mega-events-manager' ); ?></option>
-                    <option value="right_space" <?php if ($curr_opsition=='right_space') { echo 'selected'; } ?>><?php esc_html_e( 'Right Space', 'mega-events-manager' ); ?></option>
+                    <option value="left" <?php if ($curr_opsition=='left') { echo 'selected'; } ?>><?php esc_html_e( 'Left', 'momento-event-manager' ); ?></option>
+                    <option value="right" <?php if ($curr_opsition=='right') { echo 'selected'; } ?>> <?php esc_html_e( 'Right', 'momento-event-manager' ); ?></option>
+                    <option value="left_space" <?php if ($curr_opsition=='left_space') { echo 'selected'; } ?>><?php esc_html_e( 'Left Space', 'momento-event-manager' ); ?></option>
+                    <option value="right_space" <?php if ($curr_opsition=='right_space') { echo 'selected'; } ?>><?php esc_html_e( 'Right Space', 'momento-event-manager' ); ?></option>
                 </select>
 
-                <label><?php esc_html_e( 'Thousand Separator', 'mega-events-manager' ); ?></label>
+                <label><?php esc_html_e( 'Thousand Separator', 'momento-event-manager' ); ?></label>
                 <input type="text" name="thousand_separator" id="thousand_separator" value="<?php echo get_option('my_thousand_separator'); ?>" placeholder=",">
 
-                <label><?php esc_html_e( 'Decimal Separator', 'mega-events-manager' ); ?></label>
+                <label><?php esc_html_e( 'Decimal Separator', 'momento-event-manager' ); ?></label>
                 <input type="text" name="decimal_separator" id="decimal_separator" value="<?php echo get_option('my_decimal_separator'); ?>" placeholder=".">
 
-                <label><?php esc_html_e( 'Number of Decimals', 'mega-events-manager' ); ?></label>
+                <label><?php esc_html_e( 'Number of Decimals', 'momento-event-manager' ); ?></label>
                 <input type="number" name="num_decimals" id="num_decimals" value="<?php echo get_option('num_decimals'); ?>"  placeholder="2">
 
-                <button type="submit" name="webcu_currency" class="save-settings">
-                    <?php esc_html_e( 'Save Changes', 'mega-events-manager' ); ?>
+                <button type="submit" name="wtmem_currency" class="save-settings">
+                    <?php esc_html_e( 'Save Changes', 'momento-event-manager' ); ?>
                 </button>
 
             </form>
@@ -221,10 +222,10 @@ class Class_currency_setting {
         <?php
     }
 
-    public function webcu_event_save_currency() {
+    public function wtmem_event_save_currency() {
 
-        if ( isset($_POST['webcu_currency']) ) {
-            if (!isset($_POST['webcu_currency_nonce']) || !wp_verify_nonce($_POST['webcu_currency_nonce'], 'webcu_currency_action')) {
+        if ( isset($_POST['wtmem_currency']) ) {
+            if (!isset($_POST['wtmem_currency_nonce']) || !wp_verify_nonce($_POST['wtmem_currency_nonce'], 'wtmem_currency_action')) {
                 return;
             }
 

@@ -1,11 +1,11 @@
 <?php get_header(); ?>
 <?php 
 
-    $orgatemp = get_option('webcu_organize_template');
+    $orgatemp = get_option('wtmem_organize_template');
 
     if ( 'right' === $orgatemp) {?>
 
-        <div class="webcu-container">
+        <div class="wtmem-container">
 
                 <?php
                 if ( have_posts() ) :
@@ -28,25 +28,25 @@
                         </div>
                             <div class="flexbox_two">
 
-                                <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_name', true )); ?> </div>
-                                <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_desig', true )); ?> </div>
+                                <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_name', true )); ?> </div>
+                                <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_desig', true )); ?> </div>
                         
                             </div>
 
                             <div class="flexbox_three"> 
                                     
                                     <span class="org_addr"> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_street', true )); ?> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_city', true )); ?> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_state', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_street', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_city', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_state', true )); ?> 
                                     </span>  
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_phone', true )); ?>  </div>
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_email', true )); ?>  </div>
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_website', true )); ?>  </div>  
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_phone', true )); ?>  </div>
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_email', true )); ?>  </div>
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_website', true )); ?>  </div>  
                                     <span class="org_info">  
 
                                     <ul>
-                                        <?php $social_link = get_post_meta(get_the_ID(), 'webcu_orga_extras', true); ?> 
+                                        <?php $social_link = get_post_meta(get_the_ID(), 'wtmem_orga_extras', true); ?> 
                                             <?php foreach ($social_link as $item): 
                                             
                                                 if('facebook'=== $item['org_social_media'] ){
@@ -99,9 +99,9 @@
                 endif;
                 ?>
 
-            <div class="webcu-wrapper">
+            <div class="wtmem-wrapper">
 
-                <main class="webcu-content">
+                <main class="wtmem-content">
 
                             <?php
                                 if ( have_posts() ) :
@@ -116,10 +116,10 @@
                                 endif;
                             ?>
 
-                        <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+                        <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
                         <?php 
-                            $gallery_ids = get_post_meta($post->ID, '_webcu_organizer_gallery', true);
+                            $gallery_ids = get_post_meta($post->ID, '_wtmem_organizer_gallery', true);
                                 if (!empty($gallery_ids)) {
                                     $ids = explode(',', $gallery_ids);
                                     foreach ($ids as $id) {
@@ -133,14 +133,14 @@
                         ?>
                         <br>
                         <br>    
-                        <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+                        <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
                         
                         <?php
 
-                        $video_type   = get_post_meta( $post->ID, '_webcu_video_type', true );   
-                        $ownvideo = get_post_meta($post->ID, '_webcu_own_video_id', true);
-                        $youvideo = get_post_meta($post->ID, '_webcu_youtube_url', true);
-                        $vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);   
+                        $video_type   = get_post_meta( $post->ID, '_wtmem_video_type', true );   
+                        $ownvideo = get_post_meta($post->ID, '_wtmem_own_video_id', true);
+                        $youvideo = get_post_meta($post->ID, '_wtmem_youtube_url', true);
+                        $vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);   
 
                         $youvideo_embed = str_replace("watch?v=", "embed/", $youvideo);
 
@@ -160,7 +160,7 @@
                         <?php 
                         } elseif ( 'vimeo' === $video_type) {
 
-                            $vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);
+                            $vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);
                             $video_id = preg_replace('/[^0-9]/', '', $vimeovieo);
                             $vimeo_embed = "https://player.vimeo.com/video/" . $video_id;
                             ?>
@@ -180,7 +180,7 @@
                         <?php 
                         } elseif ( 'ownvideo' === $video_type) {
                             
-                            $ownvideo = get_post_meta($post->ID, '_webcu_own_video_id', true);
+                            $ownvideo = get_post_meta($post->ID, '_wtmem_own_video_id', true);
                             $image_url = wp_get_attachment_url( $ownvideo ); 
                             ?>
                             <video width="560" height="315" controls> 
@@ -192,12 +192,12 @@
                 </main>
 
                 <!-- Sidebar -->
-                <aside class="webcu-sidebar">
+                <aside class="wtmem-sidebar">
                     
                 <?php 
                  
                     if ( is_singular('mem_organizer') ) {
-                        dynamic_sidebar( 'webcu_event_orgnizer_sidebar' );
+                        dynamic_sidebar( 'wtmem_event_orgnizer_sidebar' );
                     }
                                                 
                 ?>                            
@@ -209,7 +209,7 @@
 
     <?php } elseif ( 'left' === $orgatemp ) { ?>
 
-        <div class="webcu-container">
+        <div class="wtmem-container">
                 <?php
                 if ( have_posts() ) :
                     while ( have_posts() ) : the_post();
@@ -231,25 +231,25 @@
                         </div>
                             <div class="flexbox_two">
 
-                                <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_name', true )); ?> </div>
-                                <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_desig', true )); ?> </div>
+                                <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_name', true )); ?> </div>
+                                <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_desig', true )); ?> </div>
                         
                             </div>
 
                             <div class="flexbox_three"> 
                                     
                                     <span class="org_addr"> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_street', true )); ?> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_city', true )); ?> 
-                                            <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_state', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_street', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_city', true )); ?> 
+                                            <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_state', true )); ?> 
                                     </span>  
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_phone', true )); ?>  </div>
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_email', true )); ?>  </div>
-                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_orga_website', true )); ?>  </div>  
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_phone', true )); ?>  </div>
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_email', true )); ?>  </div>
+                                    <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_orga_website', true )); ?>  </div>  
                                     <span class="org_info">  
 
                                     <ul>
-                                        <?php $social_link = get_post_meta(get_the_ID(), 'webcu_orga_extras', true); ?> 
+                                        <?php $social_link = get_post_meta(get_the_ID(), 'wtmem_orga_extras', true); ?> 
                                             <?php foreach ($social_link as $item): 
                                             
                                                 if('facebook'=== $item['org_social_media'] ){
@@ -302,22 +302,22 @@
                 endif;
                 ?>
 
-            <div class="webcu-wrapper">
+            <div class="wtmem-wrapper">
 
             <!-- Sidebar -->
-                <aside class="webcu-sidebar">
+                <aside class="wtmem-sidebar">
                     
                     <?php 
                     
                     if ( is_singular('mem_organizer') ) {
-                        dynamic_sidebar( 'webcu_event_orgnizer_sidebar' );
+                        dynamic_sidebar( 'wtmem_event_orgnizer_sidebar' );
                     }
                                                 
                     ?>                            
                                         
                 </aside>
 
-                <main class="webcu-content">
+                <main class="wtmem-content">
 
                             <?php
                                 if ( have_posts() ) :
@@ -332,10 +332,10 @@
                                 endif;
                             ?>
 
-                        <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+                        <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
                         <?php 
-                            $gallery_ids = get_post_meta($post->ID, '_webcu_organizer_gallery', true);
+                            $gallery_ids = get_post_meta($post->ID, '_wtmem_organizer_gallery', true);
                                 if (!empty($gallery_ids)) {
                                     $ids = explode(',', $gallery_ids);
                                     foreach ($ids as $id) {
@@ -349,14 +349,14 @@
                         ?>
                         <br>
                         <br>    
-                        <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+                        <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
                         
                         <?php
 
-                        $video_type   = get_post_meta( $post->ID, '_webcu_video_type', true );   
-                        $ownvideo = get_post_meta($post->ID, '_webcu_own_video_id', true);
-                        $youvideo = get_post_meta($post->ID, '_webcu_youtube_url', true);
-                        $vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);   
+                        $video_type   = get_post_meta( $post->ID, '_wtmem_video_type', true );   
+                        $ownvideo = get_post_meta($post->ID, '_wtmem_own_video_id', true);
+                        $youvideo = get_post_meta($post->ID, '_wtmem_youtube_url', true);
+                        $vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);   
 
                         $youvideo_embed = str_replace("watch?v=", "embed/", $youvideo);
 
@@ -376,7 +376,7 @@
                         <?php 
                         } elseif ( 'vimeo' === $video_type) {
 
-                            $vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);
+                            $vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);
                             $video_id = preg_replace('/[^0-9]/', '', $vimeovieo);
                             $vimeo_embed = "https://player.vimeo.com/video/" . $video_id;
                             ?>
@@ -396,7 +396,7 @@
                         <?php 
                         } elseif ( 'ownvideo' === $video_type) {
                             
-                            $ownvideo = get_post_meta($post->ID, '_webcu_own_video_id', true);
+                            $ownvideo = get_post_meta($post->ID, '_wtmem_own_video_id', true);
                             $image_url = wp_get_attachment_url( $ownvideo ); 
                             ?>
                             <video width="560" height="315" controls> 

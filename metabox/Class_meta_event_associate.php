@@ -1,28 +1,29 @@
 <?php 
 /**
  *
- *  Webcartisan event Associate
+ *  Wpcraft event Associate
  *
  **/
+namespace Wpcraft\Metabox;
 
-    class Class_meta_event_associate{
+    class class_meta_event_associate{
 
-        public function webcu_event_associate_meta_field($post){
+        public function wtmem_event_associate_meta_field($post){
             ?>
 
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr>
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Organizer', 'mega-events-manager'); ?>
+                            <?php echo esc_html__('Organizer', 'momento-event-manager'); ?>
                         </th>
 
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Volunteer', 'mega-events-manager'); ?>
+                            <?php echo esc_html__('Volunteer', 'momento-event-manager'); ?>
                         </th>
 
                         <th style="width:33%; text-align:left;">
-                            <?php echo esc_html__('Sponsers', 'mega-events-manager'); ?>
+                            <?php echo esc_html__('Sponsers', 'momento-event-manager'); ?>
                         </th>
                     </tr>
                 </thead>
@@ -31,9 +32,9 @@
 
                     <tr>
                         <td>
-                            <select name="webcu_event_orga_name" style="width:100%;">
+                            <select name="wtmem_event_orga_name" style="width:100%;">
                                 <?php 
-                                    $saved_value = get_post_meta($post->ID, 'webcu_event_orga_name', true);
+                                    $saved_value = get_post_meta($post->ID, 'wtmem_event_orga_name', true);
                                     $organizers = get_posts([
                                         'post_type'      => 'mem_organizer',
                                         'posts_per_page' => -1,
@@ -55,9 +56,9 @@
                             </select>
                         </td>
                         <td>
-                        <select name="webcu_event_volunteer_name" style="width:100%;">
+                        <select name="wtmem_event_volunteer_name" style="width:100%;">
                                 <?php 
-                                $saved_value = get_post_meta($post->ID, 'webcu_event_volunteer_name', true);
+                                $saved_value = get_post_meta($post->ID, 'wtmem_event_volunteer_name', true);
                                 $sponsa = get_posts([
                                     'post_type'      => 'mem_volunteer',
                                     'posts_per_page' => -1,
@@ -82,9 +83,9 @@
                     </td>
                         <td> 
                             
-                        <select name="webcu_event_sponsa_name" style="width:100%;">
+                        <select name="wtmem_event_sponsa_name" style="width:100%;">
                                 <?php 
-                                $saved_value = get_post_meta($post->ID, 'webcu_event_sponsa_name', true);
+                                $saved_value = get_post_meta($post->ID, 'wtmem_event_sponsa_name', true);
                                 $volun = get_posts([
                                     'post_type'      => 'mem_sponsor',
                                     'posts_per_page' => -1,
@@ -114,20 +115,20 @@
         <?php   
         }     
 
-        public function webcu_save_event_associated_field($post_id) {
+        public function wtmem_save_event_associated_field($post_id) {
 
-            if (isset($_POST['webcu_event_orga_name'])) {
-                update_post_meta( $post_id, 'webcu_event_orga_name', sanitize_text_field($_POST['webcu_event_orga_name'])
+            if (isset($_POST['wtmem_event_orga_name'])) {
+                update_post_meta( $post_id, 'wtmem_event_orga_name', sanitize_text_field($_POST['wtmem_event_orga_name'])
                 );
             }
 
-            if (isset($_POST['webcu_event_sponsa_name'])) {
-                update_post_meta( $post_id, 'webcu_event_sponsa_name', sanitize_text_field($_POST['webcu_event_sponsa_name'])
+            if (isset($_POST['wtmem_event_sponsa_name'])) {
+                update_post_meta( $post_id, 'wtmem_event_sponsa_name', sanitize_text_field($_POST['wtmem_event_sponsa_name'])
                 );
             }
 
-            if (isset($_POST['webcu_event_volunteer_name'])) {
-                update_post_meta( $post_id, 'webcu_event_volunteer_name', sanitize_text_field($_POST['webcu_event_volunteer_name'])
+            if (isset($_POST['wtmem_event_volunteer_name'])) {
+                update_post_meta( $post_id, 'wtmem_event_volunteer_name', sanitize_text_field($_POST['wtmem_event_volunteer_name'])
                 );
             }
 

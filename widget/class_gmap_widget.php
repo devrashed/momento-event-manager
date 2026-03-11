@@ -1,14 +1,20 @@
-
 <?php
+/**
+ *
+ *  Wpcraft widget
+ *
+ **/
+namespace Wpcraft\Widget;
 
-class webcu_gmap_Info_Widget extends WP_Widget {
+
+class wtmem_gmap_Info_Widget extends WP_Widget {
 
     function __construct() {
         parent::__construct(
             'google_map_widget', // Base ID
-            __('Google Map Widget', 'mega-events-manager'),
+            __('Google Map Widget', 'momento-event-manager'),
             array(
-                'description' => __('A simple widget to display Google Map only use Event sidebar', 'mega-events-manager'),
+                'description' => __('A simple widget to display Google Map only use Event sidebar', 'momento-event-manager'),
             )
         );
     }
@@ -26,11 +32,11 @@ class webcu_gmap_Info_Widget extends WP_Widget {
         <?php       
             $post_id= get_the_ID(); 
 
-            $address=get_post_meta($post_id,'webcu_ve_street',true);
-            $city=get_post_meta($post_id,'webcu_ve_city',true);
-            $state=get_post_meta($post_id,'webcu_ve_state',true);
-            $zip=get_post_meta($post_id,'webcu_ve_postcocde',true);
-            $country=get_post_meta($post_id,'webcu_ve_country',true);
+            $address=get_post_meta($post_id,'wtmem_ve_street',true);
+            $city=get_post_meta($post_id,'wtmem_ve_city',true);
+            $state=get_post_meta($post_id,'wtmem_ve_state',true);
+            $zip=get_post_meta($post_id,'wtmem_ve_postcocde',true);
+            $country=get_post_meta($post_id,'wtmem_ve_country',true);
 
             $apiKey=get_option('google_map_api');
       

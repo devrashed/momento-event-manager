@@ -1,21 +1,23 @@
 <?php
+
 /**
  * Settings
  *
  * @package mega_Events_Manager
  */
+namespace Wpcraft\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class UEM_Settings {
+class class_mem_settings {
 
      /**
 	 * Initialize settings
 	 */
 	public static function init() {
-		add_action( 'admin_init', array( __CLASS__, 'webcu_register_settings' ) );
+		add_action( 'admin_init', array( __CLASS__, 'wtmem_register_settings' ) );
 	}
 	
 	/**
@@ -24,25 +26,25 @@ class UEM_Settings {
 	public static function add_settings_page() {
 		add_submenu_page(
 			'edit.php?post_type=mem_event',
-			__( 'Settings', 'mega-events-manager' ),
-			__( 'Settings', 'mega-events-manager' ),
+			__( 'Settings', 'momento-event-manager' ),
+			__( 'Settings', 'momento-event-manager' ),
 			'manage_options',
 			'mem-settings',
-			array( __CLASS__, 'webcu_admin_event_setting_page' )
+			array( __CLASS__, 'wtmem_admin_event_setting_page' )
 		);
 	}	
 	/**
 	 * Register settings
 	 */
-	public static function webcu_register_settings() {
+	public static function wtmem_register_settings() {
 		register_setting( 'uem_settings', 'uem_registration_method' );
 	}
 	
-	public static function webcu_admin_event_setting_page(){
+	public static function wtmem_admin_event_setting_page(){
      ?>
 
 		<div class="wrap">
-                <h2> <?php echo esc_html__('Settings', 'mega-events-manager') ?></h2>
+                <h2> <?php echo esc_html__('Settings', 'momento-event-manager') ?></h2>
            <?php
 
             if ( ! current_user_can( 'manage_options' ) ) {
@@ -59,68 +61,68 @@ class UEM_Settings {
                 return esc_url( add_query_arg( 'tab', $tab_name, $base_url ) );
             } 
 
-			$woo_inte = get_option('webcu_wooIntegration_status', 'off');
+			$woo_inte = get_option('wtmem_wooIntegration_status', 'off');
 			
 			
 			?>
 		    <div class="van-wrapper">
 
-                    <nav class="van-nav" aria-label="<?php esc_attr_e( 'Plugin navigation', 'mega-events-manager'); ?>">
+                    <nav class="van-nav" aria-label="<?php esc_attr_e( 'Plugin navigation', 'momento-event-manager'); ?>">
                         <ul>
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=woointe" class="<?php echo $tab === 'woointe' ? 'van-active' : ''; ?>" data-tab="woointe"><?php esc_html_e( 'WooCommerce integration', 'mega-events-manager' ); ?></a></li>
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=woointe" class="<?php echo $tab === 'woointe' ? 'van-active' : ''; ?>" data-tab="woointe"><?php esc_html_e( 'WooCommerce integration', 'momento-event-manager' ); ?></a></li>
 
-                            <li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=registration" class="<?php echo $tab === 'registration' ? 'van-active' : ''; ?>" data-tab="registration"><?php esc_html_e( 'Registration Method', 'mega-events-manager' ); ?></a></li>	
-							<?php if( get_option('webcu_wooIntegration_status', 'off') == 'off') {?>
+                            <li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=registration" class="<?php echo $tab === 'registration' ? 'van-active' : ''; ?>" data-tab="registration"><?php esc_html_e( 'Registration Method', 'momento-event-manager' ); ?></a></li>	
+							<?php if( get_option('wtmem_wooIntegration_status', 'off') == 'off') {?>
 
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=currency" class="<?php echo $tab === 'currency' ? 'van-active' : ''; ?>" data-tab="currency"><?php esc_html_e( 'Currency Option', 'mega-events-manager' ); ?></a></li>
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=currency" class="<?php echo $tab === 'currency' ? 'van-active' : ''; ?>" data-tab="currency"><?php esc_html_e( 'Currency Option', 'momento-event-manager' ); ?></a></li>
 							<?php } ?>	
 							
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=dytx" class="<?php echo $tab === 'dytx' ? 'van-active' : ''; ?>" data-tab="dytx"><?php esc_html_e( 'Dynamic Taxonomy', 'mega-events-manager' ); ?></a></li>
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=dytx" class="<?php echo $tab === 'dytx' ? 'van-active' : ''; ?>" data-tab="dytx"><?php esc_html_e( 'Dynamic Taxonomy', 'momento-event-manager' ); ?></a></li>
 
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=template" class="<?php echo $tab === 'template' ? 'van-active' : ''; ?>" data-tab="template"><?php esc_html_e( 'Template', 'mega-events-manager' ); ?></a></li>	
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=template" class="<?php echo $tab === 'template' ? 'van-active' : ''; ?>" data-tab="template"><?php esc_html_e( 'Template', 'momento-event-manager' ); ?></a></li>	
 
-							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=mapg" class="<?php echo $tab === 'mapg' ? 'van-active' : ''; ?>" data-tab="mapg"><?php esc_html_e( 'Google Map Integration', 'mega-events-manager' ); ?></a></li>	
+							<li><a href="edit.php?post_type=mem_event&page=mem-settings&tab=mapg" class="<?php echo $tab === 'mapg' ? 'van-active' : ''; ?>" data-tab="mapg"><?php esc_html_e( 'Google Map Integration', 'momento-event-manager' ); ?></a></li>	
 						</ul>		
                     </nav>              
 
                     <section class="van-content" role="main">
 
 						<div id="van-tab-woointe" class="van-tab" style="<?php echo $tab === 'woointe' ? '' : 'display:none;'; ?>">
-                            <h2><?php esc_html_e( 'Woocommerce Integration', 'mega-events-manager' ); ?></h2>   
+                            <h2><?php esc_html_e( 'Woocommerce Integration', 'momento-event-manager' ); ?></h2>   
                              <?php 
 							    $wooIntegration = new Class_uem_woocommerce_inte();
-							 	$wooIntegration->webcu_woo_inte_page()
+							 	$wooIntegration->wtmem_woo_inte_page()
 							 ?>
                         </div>
 
     					<div id="van-tab-woointe" class="van-tab" style="<?php echo $tab === 'registration' ? '' : 'display:none;'; ?>">
-                            <h2><?php esc_html_e( 'Registration Method', 'mega-events-manager' ); ?></h2>   
-                            <?php self::webcu_render_settings_page()?>
+                            <h2><?php esc_html_e( 'Registration Method', 'momento-event-manager' ); ?></h2>   
+                            <?php self::wtmem_render_settings_page()?>
                         </div>
 
 					    <div id="van-tab-dytx" class="van-tab" style="<?php echo $tab === 'dytx' ? '' : 'display:none;'; ?>">
-                            <h2><?php esc_html_e( 'Dynamic Taxonomy', 'mega-events-manager' ); ?></h2>   
+                            <h2><?php esc_html_e( 'Dynamic Taxonomy', 'momento-event-manager' ); ?></h2>   
                             <?php 
 								$taxonomy = new Class_create_dynamic_taxonomy();
-								$taxonomy->webcu_taxonomy_settings_page();
+								$taxonomy->wtmem_taxonomy_settings_page();
 							?>
                         </div>
 
                         <div id="van-tab-currency" class="van-tab" style="<?php echo $tab === 'currency' ? '' : 'display:none;'; ?>">
-                             <h2><?php esc_html_e( 'Currency Options', 'mega-events-manager' ); ?></h2>   
+                             <h2><?php esc_html_e( 'Currency Options', 'momento-event-manager' ); ?></h2>   
                              <?php 
 							    $currency = new Class_currency_setting();
-								$currency->webcu_event_currency_fields();
+								$currency->wtmem_event_currency_fields();
 
 							 ?>
                         </div>
 
 
 						<div id="van-tab-mapg" class="van-tab" style="<?php echo $tab === 'mapg' ? '' : 'display:none;'; ?>">	
-							<h2><?php esc_html_e( 'Google Map Integration', 'mega-events-manager' ); ?></h2>  							
+							<h2><?php esc_html_e( 'Google Map Integration', 'momento-event-manager' ); ?></h2>  							
 								<?php 
 								$google = new class_google_map();
-								$google->webcu_google_map_integration();
+								$google->wtmem_google_map_integration();
 								?>
 						</div>
 								
@@ -128,7 +130,7 @@ class UEM_Settings {
 						<div id="van-tab-template" class="van-tab" style="<?php echo $tab === 'template' ? '' : 'display:none;'; ?>">								
 								<?php 
 								$temp = new Class_mem_event_template();
-								$temp->webcu_event_web_template(); 
+								$temp->wtmem_event_web_template(); 
 								?>
 						</div>
 
@@ -142,7 +144,7 @@ class UEM_Settings {
      /**
 	 * Render settings page
 	 */
-	public static function webcu_render_settings_page() {
+	public static function wtmem_render_settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -151,7 +153,7 @@ class UEM_Settings {
 		if ( isset( $_POST['uem_save_settings'] ) && check_admin_referer( 'uem_settings_nonce' ) ) {
 			$registration_method = isset( $_POST['uem_registration_method'] ) ? sanitize_text_field( $_POST['uem_registration_method'] ) : 'woocommerce';
 			update_option( 'uem_registration_method', $registration_method );
-			echo '<div class="notice notice-success"><p>' . __( 'Settings saved successfully!', 'mega-events-manager' ) . '</p></div>';
+			echo '<div class="notice notice-success"><p>' . __( 'Settings saved successfully!', 'momento-event-manager' ) . '</p></div>';
 		}
 		
 		$registration_method = get_option( 'uem_registration_method', 'woocommerce' );
@@ -165,36 +167,36 @@ class UEM_Settings {
 					<tbody>
 						<tr>
 							<th scope="row">
-								<label for="uem_registration_method"><?php echo esc_html( 'Registration Method', 'mega-events-manager' ); ?></label>
+								<label for="uem_registration_method"><?php echo esc_html( 'Registration Method', 'momento-event-manager' ); ?></label>
 							</th>
 							<td>
 								<select name="uem_registration_method" id="uem_registration_method">
 
-									<?php if( get_option('webcu_wooIntegration_status', 'on') == 'on') {?>
+									<?php if( get_option('wtmem_wooIntegration_status', 'on') == 'on') {?>
 
 										<option value="woocommerce" <?php selected( $registration_method, 'woocommerce' ); ?>>
-											<?php echo esc_html( 'WooCommerce', 'mega-events-manager' ); ?>
+											<?php echo esc_html( 'WooCommerce', 'momento-event-manager' ); ?>
 										</option>
 
 									<?php } ?>
 
 									<option value="simple" <?php selected( $registration_method, 'simple' ); ?>>
-										<?php echo esc_html( 'Simple Registration (Without WooCommerce)', 'mega-events-manager' ); ?>
+										<?php echo esc_html( 'Simple Registration (Without WooCommerce)', 'momento-event-manager' ); ?>
 									</option>
 								</select>
 								<?php if ( ! $woocommerce_active && $registration_method === 'woocommerce' ) : ?>
 									<p class="description" style="color: #d63638;">
-										<?php echo esc_html( 'Warning: WooCommerce is not active. Please install and activate WooCommerce to use this registration method.', 'mega-events-manager' ); ?>
+										<?php echo esc_html( 'Warning: WooCommerce is not active. Please install and activate WooCommerce to use this registration method.', 'momento-event-manager' ); ?>
 									</p>
 								<?php endif; ?>
 								<p class="description">
-									<?php echo esc_html( 'Choose how event registrations will be processed.', 'mega-events-manager'); ?>
+									<?php echo esc_html( 'Choose how event registrations will be processed.', 'momento-event-manager'); ?>
 								</p>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<?php submit_button( __( 'Save Settings', 'mega-events-manager'), 'primary', 'uem_save_settings' ); ?>
+				<?php submit_button( __( 'Save Settings', 'momento-event-manager'), 'primary', 'uem_save_settings' ); ?>
 			</form>
 		</div>
 		<?php

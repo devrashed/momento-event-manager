@@ -1,38 +1,39 @@
 <?php
+namespace Wpcraft\Settings;
 /**
  *
  *  woocommerce intgration check
  *
  **/
 
-class Class_uem_woocommerce_inte {
+class class_mem_woocommerce_inte {
 
     public function __construct() {
-        add_action( 'admin_init', array( $this, 'webcu_save_woo_integration_settings' ) );
-        add_action( 'admin_notices', array( $this, 'webcu_display_save_notice' ) );
+        add_action( 'admin_init', array( $this, 'wtmem_save_woo_integration_settings' ) );
+        add_action( 'admin_notices', array( $this, 'wtmem_display_save_notice' ) );
     }
   
-    public function webcu_woo_inte_page() {
+    public function wtmem_woo_inte_page() {
 
         // Ensure any POST from this form is processed immediately (hook may be added too late)
         if ( ! empty( $_POST ) ) {
-            $this->webcu_save_woo_integration_settings();
+            $this->wtmem_save_woo_integration_settings();
         }
 
-        $woo_inte = get_option('webcu_wooIntegration_status');
+        $woo_inte = get_option('wtmem_wooIntegration_status');
         $checked = ($woo_inte == 'on') ? 'checked' : '';
         var_dump($checked);
 
         ?>
 
         <div class="wrap">
-            <h1><?php echo esc_html__('Ultimate Event - WooCommerce Integration', 'mega-events-manager'); ?></h1>
+            <h1><?php echo esc_html__('Ultimate Event - WooCommerce Integration', 'momento-event-manager'); ?></h1>
 
             <form method="post" action="<?php echo esc_url( admin_url( 'edit.php?post_type=mem_event&page=mem-settings' ) ); ?>">
                 <?php wp_nonce_field('save_woo_integration_settings'); ?>
 
                 <label class="switch-label">
-                    <?php echo esc_html__('WooCommerce Integration', 'mega-events-manager'); ?>
+                    <?php echo esc_html__('WooCommerce Integration', 'momento-event-manager'); ?>
                     <label class="switch">
 
                     <?php 
@@ -40,11 +41,11 @@ class Class_uem_woocommerce_inte {
 
                         if (!is_plugin_active('woocommerce/woocommerce.php')) {
                             ?>
-                            <input type="checkbox" name="webcu_wooIntegration_status" value="on" disabled />
+                            <input type="checkbox" name="wtmem_wooIntegration_status" value="on" disabled />
                             <?php
                         } else {
                             ?>
-                            <input type="checkbox" name="webcu_wooIntegration_status" value="on" <?php echo esc_attr($checked); ?> />
+                            <input type="checkbox" name="wtmem_wooIntegration_status" value="on" <?php echo esc_attr($checked); ?> />
                             <?php
                         }
                     ?>
@@ -53,7 +54,7 @@ class Class_uem_woocommerce_inte {
                 </label>
 
                 <br><br>
-               <input type="submit" name="webcu_woo_inte_save" id="webcu_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'mega-events-manager'); ?>" />
+               <input type="submit" name="wtmem_woo_inte_save" id="wtmem_woo_inte_save" class="button button-primary" value="<?php echo esc_attr__('Save Settings', 'momento-event-manager'); ?>" />
             </form>
 
            <?php 
@@ -67,17 +68,17 @@ class Class_uem_woocommerce_inte {
         <?php
     }
     
-    public function webcu_save_woo_integration_settings() {
-        if ( isset( $_POST['webcu_woo_inte_save'] ) ) {
+    public function wtmem_save_woo_integration_settings() {
+        if ( isset( $_POST['wtmem_woo_inte_save'] ) ) {
 
             if ( ! check_admin_referer( 'save_woo_integration_settings' ) ) {
                 return;
             }
 
-            if ( isset( $_POST['webcu_wooIntegration_status'] ) ) {
-                update_option( 'webcu_wooIntegration_status', 'on' );
+            if ( isset( $_POST['wtmem_wooIntegration_status'] ) ) {
+                update_option( 'wtmem_wooIntegration_status', 'on' );
             } else {
-                update_option( 'webcu_wooIntegration_status', 'off' );
+                update_option( 'wtmem_wooIntegration_status', 'off' );
             }
 
             // Redirect to refresh the page so Currency option visibility updates immediately.
@@ -89,10 +90,10 @@ class Class_uem_woocommerce_inte {
     /**
      * Display admin notice after settings are saved.
      */
-    public function webcu_display_save_notice() {
+    public function wtmem_display_save_notice() {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only displaying notice, no data processing.
         if ( isset( $_GET['woo_saved'] ) && '1' === $_GET['woo_saved'] ) {
-            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'mega-events-manager' ) . '</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'momento-event-manager' ) . '</p></div>';
         }
     }
 } 

@@ -63,7 +63,7 @@
 				url: uemData.ajaxUrl,
 				type: 'POST',
 				data: {
-					action: 'webcu_uem_update_cart',
+					action: 'wtmem_uem_update_cart',
 					nonce: uemData.nonce,
 					cart_item_key: cartItemKey || '',
 					quantity: quantity,
@@ -774,16 +774,16 @@
 
 	jQuery(document).ready(function ($) {
 		// Clone the first attendee form for duplication
-		var originalAttendeeForm = $('.webcu-attendee-form-section:first').clone();
+		var originalAttendeeForm = $('.wtmem-attendee-form-section:first').clone();
 
 		// Function to update attendee forms based on quantity
 		function updateAttendeeForms(quantity) {
-			var formsContainer = $('.webcu-attendee-forms-wrapper');
-			var currentForms = formsContainer.children('.webcu-attendee-form-section').length;
+			var formsContainer = $('.wtmem-attendee-forms-wrapper');
+			var currentForms = formsContainer.children('.wtmem-attendee-form-section').length;
 
 			// Remove extra forms if quantity decreased
 			if (currentForms > quantity) {
-				formsContainer.children('.webcu-attendee-form-section:gt(' + (quantity - 1) + ')').remove();
+				formsContainer.children('.wtmem-attendee-form-section:gt(' + (quantity - 1) + ')').remove();
 			}
 			// Add new forms if quantity increased
 			else if (currentForms < quantity) {
@@ -834,7 +834,7 @@
 			}
 
 			// Update the note about number of attendees
-			$('.webcu-attendee-note').text('Please fill information for all ' + quantity + ' attendee(s).');
+			$('.wtmem-attendee-note').text('Please fill information for all ' + quantity + ' attendee(s).');
 		}
 
 		// Monitor quantity changes

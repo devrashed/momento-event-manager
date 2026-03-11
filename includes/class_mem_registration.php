@@ -5,28 +5,30 @@
  * @package Ultimate_Events_Manager
  */
 
+namespace Wpcraft\Inc;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class UEM_Registration {
+class class_mem_registration {
 	
 	/**
 	 * Initialize registration
 	 */
 	public static function init() {
 		// Handle form submission
-		add_action( 'wp', array( __CLASS__, 'webcu_handle_registration_submission' ) );
+		add_action( 'wp', array( __CLASS__, 'wtmem_handle_registration_submission' ) );
 		
 		// AJAX handler for registration
-		add_action( 'wp_ajax_uem_submit_registration', array( __CLASS__, 'webcu_ajax_submit_registration' ) );
-		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( __CLASS__, 'webcu_ajax_submit_registration' ) );
+		add_action( 'wp_ajax_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
+		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
 	}
 	
 	/**
 	 * Handle registration submission (non-AJAX fallback)
 	 */
-	public static function webcu_handle_registration_submission() {
+	public static function wtmem_handle_registration_submission() {
 		if ( ! isset( $_POST['uem_registration_submit'] ) ) {
 			return;
 		}
@@ -54,7 +56,7 @@ class UEM_Registration {
 	/**
 	 * AJAX submit registration
 	 */
-	public static function webcu_ajax_submit_registration() {
+	public static function wtmem_ajax_submit_registration() {
 		check_ajax_referer( 'uem_nonce', 'nonce' );
 		
 		$event_id = isset( $_POST['event_id'] ) ? intval( $_POST['event_id'] ) : 0;
@@ -80,7 +82,7 @@ class UEM_Registration {
 	/**
 	 * Create registration
 	 */
-	private static function webcu_create_registration( $event_id, $data ) {
+	private static function wtmem_create_registration( $event_id, $data ) {
 		// Get registration data
 		$name = isset( $data['uem_registration_name'] ) ? sanitize_text_field( $data['uem_registration_name'] ) : '';
 		$phone = isset( $data['uem_registration_phone'] ) ? sanitize_text_field( $data['uem_registration_phone'] ) : '';
@@ -88,7 +90,7 @@ class UEM_Registration {
 		$address = isset( $data['uem_registration_address'] ) ? sanitize_textarea_field( $data['uem_registration_address'] ) : '';
 		
 		// Get ticket quantities
-		$tickets = get_post_meta( $event_id, '_webcu_tk_tickets', true );
+		$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
 		if ( ! is_array( $tickets ) ) {
 			$tickets = array();
 		}

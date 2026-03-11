@@ -112,7 +112,7 @@ jQuery('.js-searchBox').searchBox({ elementWidth: '250' });
 /* === Google Map API key toggle ====*/
 
 /* document.addEventListener('DOMContentLoaded', function () {
-	const checkbox = document.getElementById('webcu_ve_googleMap');
+	const checkbox = document.getElementById('wtmem_ve_googleMap');
 	const textField = document.getElementById('mapTextField');
 
 	// Show/hide on page load based on checkbox state
@@ -134,110 +134,110 @@ jQuery('.js-searchBox').searchBox({ elementWidth: '250' });
 // ==== ticket price ===
 
 jQuery(function ($) {
-	var $tbody = $('#webcu_tk_ticketTable tbody');
+	var $tbody = $('#wtmem_tk_ticketTable tbody');
 
-	jQuery('#webcu_tk_registrationToggle').on('click', function () {
-		jQuery(this).toggleClass('webcu_tk_on');
-		jQuery('#webcu_tk_registrationSection').toggle(jQuery(this).hasClass('webcu_tk_on'));
-		jQuery('#webcu_tk_registration_enabled').val(jQuery(this).hasClass('webcu_tk_on') ? '1' : '0');
+	jQuery('#wtmem_tk_registrationToggle').on('click', function () {
+		jQuery(this).toggleClass('wtmem_tk_on');
+		jQuery('#wtmem_tk_registrationSection').toggle(jQuery(this).hasClass('wtmem_tk_on'));
+		jQuery('#wtmem_tk_registration_enabled').val(jQuery(this).hasClass('wtmem_tk_on') ? '1' : '0');
 	});
-	jQuery('#webcu_tk_advancedToggle').on('click', function () {
-		jQuery(this).toggleClass('webcu_tk_on');
-		var isOn = jQuery(this).hasClass('webcu_tk_on');
-		jQuery('#webcu_tk_advanced_toggle').val(isOn ? '1' : '0');
+	jQuery('#wtmem_tk_advancedToggle').on('click', function () {
+		jQuery(this).toggleClass('wtmem_tk_on');
+		var isOn = jQuery(this).hasClass('wtmem_tk_on');
+		jQuery('#wtmem_tk_advanced_toggle').val(isOn ? '1' : '0');
 		if (isOn) {
-			jQuery('.webcu_tk_advanced').show();
+			jQuery('.wtmem_tk_advanced').show();
 		} else {
-			jQuery('.webcu_tk_advanced').hide();
+			jQuery('.wtmem_tk_advanced').hide();
 		}
 	});
 	function updateDraggables() {
-		jQuery('#webcu_tk_ticketTable tbody tr').removeClass('webcu_tk_draggable-top');
-		var first = jQuery('#webcu_tk_ticketTable tbody tr.webcu_tk_ticket-row');
-		if (first.length) { first.addClass('webcu_tk_draggable-top'); }
+		jQuery('#wtmem_tk_ticketTable tbody tr').removeClass('wtmem_tk_draggable-top');
+		var first = jQuery('#wtmem_tk_ticketTable tbody tr.wtmem_tk_ticket-row');
+		if (first.length) { first.addClass('wtmem_tk_draggable-top'); }
 	}
 
 
-		jQuery('#webcu_tk_addTicket').on('click', function (e) {
+		jQuery('#wtmem_tk_addTicket').on('click', function (e) {
 			e.preventDefault();
 
 			var timestamp = Date.now();
 
-			var row = '<tr class="webcu_tk_ticket-row">' +
-				'<td><input type="text" name="webcu_tk_regular_tickets[' + timestamp + '][name]" placeholder="Ticket"></td>' +
-				'<td><input type="text" name="webcu_tk_regular_tickets[' + timestamp + '][desc]" placeholder="Short description"></td>' +
-				'<td><input type="number" name="webcu_tk_regular_tickets[' + timestamp + '][price]" value="0"></td>' +
-				'<td><input type="number" name="webcu_tk_regular_tickets[' + timestamp + '][capacity]" value="0"></td>' +
+			var row = '<tr class="wtmem_tk_ticket-row">' +
+				'<td><input type="text" name="wtmem_tk_regular_tickets[' + timestamp + '][name]" placeholder="Ticket"></td>' +
+				'<td><input type="text" name="wtmem_tk_regular_tickets[' + timestamp + '][desc]" placeholder="Short description"></td>' +
+				'<td><input type="number" name="wtmem_tk_regular_tickets[' + timestamp + '][price]" value="0"></td>' +
+				'<td><input type="number" name="wtmem_tk_regular_tickets[' + timestamp + '][capacity]" value="0"></td>' +
 
-				'<td class="webcu_tk_advanced"><input type="number" name="webcu_tk_regular_tickets[' + timestamp + '][default_qty]" placeholder="Ex:1"></td>' +
-				'<td class="webcu_tk_advanced"><input type="number" name="webcu_tk_regular_tickets[' + timestamp + '][reserve_qty]" placeholder="Ex:1"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="number" name="wtmem_tk_regular_tickets[' + timestamp + '][default_qty]" placeholder="Ex:1"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="number" name="wtmem_tk_regular_tickets[' + timestamp + '][reserve_qty]" placeholder="Ex:1"></td>' +
 
-				'<td class="webcu_tk_advanced"><input type="date" name="webcu_tk_regular_tickets[' + timestamp + '][sale_start_date]"></td>' +
-				'<td class="webcu_tk_advanced"><input type="time" name="webcu_tk_regular_tickets[' + timestamp + '][sale_start_time]"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="date" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_start_date]"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="time" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_start_time]"></td>' +
 
-				'<td class="webcu_tk_advanced"><input type="date" name="webcu_tk_regular_tickets[' + timestamp + '][sale_end_date]"></td>' +
-				'<td class="webcu_tk_advanced"><input type="time" name="webcu_tk_regular_tickets[' + timestamp + '][sale_end_time]"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="date" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_end_date]"></td>' +
+				'<td class="wtmem_tk_advanced"><input type="time" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_end_time]"></td>' +
 
 				'<td>' +
-					'<select name="webcu_tk_regular_tickets[' + timestamp + '][qty_box]">' +
+					'<select name="wtmem_tk_regular_tickets[' + timestamp + '][qty_box]">' +
 						'<option value="Input Box">Input Box</option>' +
 						'<option value="Dropdown">Dropdown</option>' +
 					'</select>' +
 				'</td>' +
 
-				'<td class="webcu_tk_action-icons">' +
-					'<button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove-row">✖</button>' +
-					'<button type="button" class="webcu_tk_btn webcu_tk_btn-outline webcu_tk_btn-small webcu_tk_move-row">☰</button>' +
+				'<td class="wtmem_tk_action-icons">' +
+					'<button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_tk_remove-row">✖</button>' +
+					'<button type="button" class="wtmem_tk_btn wtmem_tk_btn-outline wtmem_tk_btn-small wtmem_tk_move-row">☰</button>' +
 				'</td>' +
 			'</tr>';
 
-			jQuery('#webcu_tk_ticketTable tbody').append(row);
+			jQuery('#wtmem_tk_ticketTable tbody').append(row);
 
 			updateDraggables();
 
-			if (jQuery('#webcu_tk_advancedToggle').hasClass('webcu_tk_on')) {
-				jQuery('.webcu_tk_advanced').show();
+			if (jQuery('#wtmem_tk_advancedToggle').hasClass('wtmem_tk_on')) {
+				jQuery('.wtmem_tk_advanced').show();
 			}
 		});
 	
-		jQuery('#webcu_tk_addExtra').on('click', function (e) {
+		jQuery('#wtmem_tk_addExtra').on('click', function (e) {
 			e.preventDefault();
 
-			jQuery('#webcu_tk_extraTable .webcu_tk_empty-row').remove();
+			jQuery('#wtmem_tk_extraTable .wtmem_tk_empty-row').remove();
 
 			var timestamp = Date.now();
 
 			var row = '<tr>' +
-				'<td><input type="text" name="webcu_tk_extra_tickets[' + timestamp + '][name]" placeholder="Name" /></td>' +
-				'<td><input type="number" name="webcu_tk_extra_tickets[' + timestamp + '][price]" placeholder="Price" /></td>' +
-				'<td><input type="number" name="webcu_tk_extra_tickets[' + timestamp + '][available_qty]" placeholder="Available Qty" /></td>' +
+				'<td><input type="text" name="wtmem_tk_extra_tickets[' + timestamp + '][name]" placeholder="Name" /></td>' +
+				'<td><input type="number" name="wtmem_tk_extra_tickets[' + timestamp + '][price]" placeholder="Price" /></td>' +
+				'<td><input type="number" name="wtmem_tk_extra_tickets[' + timestamp + '][available_qty]" placeholder="Available Qty" /></td>' +
 				'<td>' +
-					'<select name="webcu_tk_extra_tickets[' + timestamp + '][qty_box]">' +
+					'<select name="wtmem_tk_extra_tickets[' + timestamp + '][qty_box]">' +
 						'<option value="Input Box">Input Box</option>' +
 						'<option value="Dropdown">Dropdown</option>' +
 					'</select>' +
 				'</td>' +
-				'<td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_tk_remove_extra_row">✖</button></td>' +
+				'<td><button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_tk_remove_extra_row">✖</button></td>' +
 			'</tr>';
 
-			jQuery('#webcu_tk_extraTable tbody').append(row);
+			jQuery('#wtmem_tk_extraTable tbody').append(row);
 		});
 
 
 
 
 
-	jQuery(document).on('click', '.webcu_tk_remove_extra_row', function () {
+	jQuery(document).on('click', '.wtmem_tk_remove_extra_row', function () {
 
 		if (confirm('Are you sure you want to remove this Field?')) {
 			jQuery(this).closest('tr').remove();
 		}
 
-		if (jQuery('#webcu_tk_extraTable tbody tr').length === 0) {
-			jQuery('#webcu_tk_extraTable tbody').append('<tr class=\"webcu_tk_empty-row\"><td colspan=\"5\">No extra service added yet.</td></tr>');
+		if (jQuery('#wtmem_tk_extraTable tbody tr').length === 0) {
+			jQuery('#wtmem_tk_extraTable tbody').append('<tr class=\"wtmem_tk_empty-row\"><td colspan=\"5\">No extra service added yet.</td></tr>');
 		}
 	});
-	jQuery(document).on('click', '.webcu_tk_remove-row', function () {
+	jQuery(document).on('click', '.wtmem_tk_remove-row', function () {
 
 		if (confirm('Are you sure you want to remove this Ticket & Pricing?')) {
 			jQuery(this).closest('tr').remove();
@@ -247,21 +247,21 @@ jQuery(function ($) {
 	});
 	updateDraggables();
 	var dragging = false, $dragged = null, $placeholder = null;
-	var colCount = jQuery('#webcu_tk_ticketTable thead th').length;
+	var colCount = jQuery('#wtmem_tk_ticketTable thead th').length;
 	function createPlaceholder() {
-		return jQuery('<tr class=\"webcu_tk_placeholder-row\"><td colspan=\"' + colCount + '\"></td></tr>');
+		return jQuery('<tr class=\"wtmem_tk_placeholder-row\"><td colspan=\"' + colCount + '\"></td></tr>');
 	}
-	jQuery(document).on('mousedown', '.webcu_tk_move-row', function (e) {
+	jQuery(document).on('mousedown', '.wtmem_tk_move-row', function (e) {
 		var $tr = jQuery(this).closest('tr');
-		if (!$tr.hasClass('webcu_tk_draggable-top')) {
+		if (!$tr.hasClass('wtmem_tk_draggable-top')) {
 			alert('Only the top row is movable in this demo.');
 			return;
 		}
 		e.preventDefault();
 		e.stopPropagation();
 		dragging = true;
-		$dragged = $tr.addClass('webcu_tk_dragging');
-		jQuery('body').addClass('webcu_tk_no-select');
+		$dragged = $tr.addClass('wtmem_tk_dragging');
+		jQuery('body').addClass('wtmem_tk_no-select');
 		$placeholder = createPlaceholder();
 		$dragged.after($placeholder);
 		jQuery(document).on('mousemove.ticketdrag', function (ev) {
@@ -278,15 +278,15 @@ jQuery(function ($) {
 		});
 		jQuery(document).on('mouseup.ticketdrag', function () {
 			jQuery(document).off('.ticketdrag');
-			jQuery('body').removeClass('webcu_tk_no-select');
+			jQuery('body').removeClass('wtmem_tk_no-select');
 			if ($placeholder && $dragged) { $placeholder.replaceWith($dragged); }
-			$dragged.removeClass('webcu_tk_dragging');
+			$dragged.removeClass('wtmem_tk_dragging');
 			$placeholder = null; $dragged = null; dragging = false;
 			updateDraggables();
 		});
 	});
 	jQuery(document).on('selectstart', function (e) { if (dragging) e.preventDefault(); });
-	jQuery('.webcu_tk_advanced').hide();
+	jQuery('.wtmem_tk_advanced').hide();
 });
 
 
@@ -295,32 +295,32 @@ jQuery(function ($) {
 
 jQuery(document).ready(function () {
 	// Add new row
-	jQuery('#webcu_date_addDate').click(function () {
+	jQuery('#wtmem_date_addDate').click(function () {
 		let newRow = `
-            <tr class="webcu_date_date-row">
-                <td><input type="date" name="webcu_start_date[]" class="start-date"></td>
-                <td><input type="time" name="webcu_start_time[]" class="start-time"></td>
-                <td><input type="date" name="webcu_end_date[]" class="end-date"></td>
-                <td><input type="time" name="webcu_end_time[]" class="end-time"></td>
-                <td><button type="button" class="webcu_date_remove-row"><span class="dashicons dashicons-no"></span></button></td>
+            <tr class="wtmem_date_date-row">
+                <td><input type="date" name="wtmem_start_date[]" class="start-date"></td>
+                <td><input type="time" name="wtmem_start_time[]" class="start-time"></td>
+                <td><input type="date" name="wtmem_end_date[]" class="end-date"></td>
+                <td><input type="time" name="wtmem_end_time[]" class="end-time"></td>
+                <td><button type="button" class="wtmem_date_remove-row"><span class="dashicons dashicons-no"></span></button></td>
             </tr>`;
-		jQuery('#webcu_date_dateTable tbody').append(newRow);
+		jQuery('#wtmem_date_dateTable tbody').append(newRow);
 	});
 
 	// Remove row
-	jQuery(document).on('click', '.webcu_date_remove-row', function () {
+	jQuery(document).on('click', '.wtmem_date_remove-row', function () {
 		if (confirm('Are you sure you want to remove this Date & Time?')) {
 			jQuery(this).closest('tr').remove();
 		}
 	});
 
 	// Toggle format section
-	jQuery('#webcu_date_toggleSwitch').change(function () {
+	jQuery('#wtmem_date_toggleSwitch').change(function () {
 
 		if (jQuery(this).is(':checked')) {
-			jQuery('#webcu_date_formatSection').slideDown();
+			jQuery('#wtmem_date_formatSection').slideDown();
 		} else {
-			jQuery('#webcu_date_formatSection').slideUp();
+			jQuery('#wtmem_date_formatSection').slideUp();
 		}
 	});
 });
@@ -331,13 +331,13 @@ jQuery(document).ready(function () {
 
 jQuery(document).ready(function ($) {
 
-	jQuery('#webcu_setting_roles').hide();
-	jQuery('#webcu_setting_toggleStatus').on('change', function () {
+	jQuery('#wtmem_setting_roles').hide();
+	jQuery('#wtmem_setting_toggleStatus').on('change', function () {
 		if (jQuery(this).is(':checked')) {
-			jQuery('#webcu_setting_roles').show();
+			jQuery('#wtmem_setting_roles').show();
 
 		} else {
-			jQuery('#webcu_setting_roles').hide();
+			jQuery('#wtmem_setting_roles').hide();
 		}
 	});
 
@@ -349,9 +349,9 @@ jQuery(document).ready(function () {
 	jQuery('#rich_text_status').on('change', function () {
 
 		if (jQuery(this).val() === 'enable') {
-			jQuery('#webcu_form_section').slideDown(600);
+			jQuery('#wtmem_form_section').slideDown(600);
 		} else {
-			jQuery('#webcu_form_section').slideUp(600);
+			jQuery('#wtmem_form_section').slideUp(600);
 		}
 	});
 });
@@ -362,12 +362,12 @@ jQuery(document).ready(function () {
 jQuery(function ($) {
 	let counter = ajax_ob.counter || 1;
 	// Expand/Collapse button
-	jQuery(document).on('click', '.webcu_re_expand-btn', function () {
-		const box = jQuery(this).closest('.webcu_re_email-block'); // fixed selector
-		box.toggleClass('webcu_re_collapsed');
+	jQuery(document).on('click', '.wtmem_re_expand-btn', function () {
+		const box = jQuery(this).closest('.wtmem_re_email-block'); // fixed selector
+		box.toggleClass('wtmem_re_collapsed');
 
 		// Toggle button text
-		if (box.hasClass('webcu_re_collapsed')) {
+		if (box.hasClass('wtmem_re_collapsed')) {
 			jQuery(this).text('Expand');
 		} else {
 			$(this).text('Collapse');
@@ -375,10 +375,10 @@ jQuery(function ($) {
 	});
 
 	//Remove button
-	jQuery(document).on('click', '.webcu_re_remove-btn', function () {
+	jQuery(document).on('click', '.wtmem_re_remove-btn', function () {
 
 		if (confirm('Are you sure you want to remove this Emails?')) {
-			jQuery(this).closest('.webcu_re_email-block').remove(); // fixed selector
+			jQuery(this).closest('.wtmem_re_email-block').remove(); // fixed selector
 		}
 
 	});
@@ -387,45 +387,45 @@ jQuery(function ($) {
 	jQuery('#addNewEmail').on('click', function () {
 		counter++;
 		const newBox = `
-        <div class="webcu_re_box webcu_re_email-block" data-index="${counter}">
-            <div class="webcu_re_expand-remove">
-                <button type="button" class="webcu_re_expand-btn">Expand</button>
-                <button type="button" class="webcu_re_remove-btn">Remove</button>
+        <div class="wtmem_re_box wtmem_re_email-block" data-index="${counter}">
+            <div class="wtmem_re_expand-remove">
+                <button type="button" class="wtmem_re_expand-btn">Expand</button>
+                <button type="button" class="wtmem_re_remove-btn">Remove</button>
             </div>
 
-            <div class="webcu_re_header-row">
-                <div class="webcu_re_title">Event email reminder ${counter}</div>
-                <div class="webcu_re_top-actions">
-                    <button class="webcu_re_send-now">Send Now</button>
+            <div class="wtmem_re_header-row">
+                <div class="wtmem_re_title">Event email reminder ${counter}</div>
+                <div class="wtmem_re_top-actions">
+                    <button class="wtmem_re_send-now">Send Now</button>
                 </div>
             </div>
 
-            <div class="webcu_re_form-row">
-                <div class="webcu_re_label">Email Timing:</div>
+            <div class="wtmem_re_form-row">
+                <div class="wtmem_re_label">Email Timing:</div>
                 <div>
                     <div style="display:flex;align-items:center;gap:10px;">
-                        <input class="webcu_re_timing" name="timing_${counter}" type="text" value="72" /> 
-                        <span class="webcu_re_hours-label">Hours</span>
+                        <input class="wtmem_re_timing" name="timing_${counter}" type="text" value="72" /> 
+                        <span class="wtmem_re_hours-label">Hours</span>
                     </div>
-                    <div class="webcu_re_small-help">Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.</div>
+                    <div class="wtmem_re_small-help">Type scheduler time in Hour.<br>This reminder email will be sent when this time will be left for the start of the event.</div>
                 </div>
             </div>
 
-            <div class="webcu_re_form-row">
-                <div class="webcu_re_label">Time count:</div>
+            <div class="wtmem_re_form-row">
+                <div class="wtmem_re_label">Time count:</div>
                 <div>
-                    <div class="webcu_re_radios">
-                        <label class="webcu_re_radio-item"><input type="radio" name="timecount_${counter}" value="before" checked> Before Event Start</label>
-                        <label class="webcu_re_radio-item"><input type="radio" name="timecount_${counter}" value="after"> After Event End</label>
+                    <div class="wtmem_re_radios">
+                        <label class="wtmem_re_radio-item"><input type="radio" name="timecount_${counter}" value="before" checked> Before Event Start</label>
+                        <label class="wtmem_re_radio-item"><input type="radio" name="timecount_${counter}" value="after"> After Event End</label>
                     </div>
-                    <div class="webcu_re_small-help">Schedule email send before event start or after event end?</div>
+                    <div class="wtmem_re_small-help">Schedule email send before event start or after event end?</div>
                 </div>
             </div>
 
-            <div class="webcu_re_form-row">
+            <div class="wtmem_re_form-row">
                 <div class="label">Email Receiver:</div>
                 <div>
-                    <div class="webcu_re_radios">
+                    <div class="wtmem_re_radios">
                         <select name="email_reciever_${counter}">
                             <option value="organizer">organizer</option>
                             <option value="sponsor">Sponsor</option>
@@ -433,27 +433,27 @@ jQuery(function ($) {
                             <option value="attendee">Attendee</option>
                         </select>
                     </div>
-                    <div class="webcu_re_small-help">Who Recieve the email</div>
+                    <div class="wtmem_re_small-help">Who Recieve the email</div>
                 </div>
             </div> 
 
-            <div class="webcu_re_form-row">
-                <div class="webcu_re_label">Email Subject line:</div>
+            <div class="wtmem_re_form-row">
+                <div class="wtmem_re_label">Email Subject line:</div>
                 <div>
-                    <input class="webcu_re_subject" name="subject_${counter}" placeholder="First Reminder email subject line" />
+                    <input class="wtmem_re_subject" name="subject_${counter}" placeholder="First Reminder email subject line" />
                 </div>
             </div>
 
-            <div class="webcu_re_form-row">
-                <div class="webcu_re_label">Email Content:</div>
-                <div id="webcu_re_editor_container_${counter}"></div>
+            <div class="wtmem_re_form-row">
+                <div class="wtmem_re_label">Email Content:</div>
+                <div id="wtmem_re_editor_container_${counter}"></div>
             </div>
         </div>`;
 
 		jQuery('#emailContainer').append(newBox);
 
 		const newId = 'content_' + counter;
-		jQuery('#webcu_re_editor_container_' + counter).html('<textarea id="' + newId + '" name="' + newId + '"></textarea>');
+		jQuery('#wtmem_re_editor_container_' + counter).html('<textarea id="' + newId + '" name="' + newId + '"></textarea>');
 		if (typeof wp !== 'undefined' && wp.editor) {
 			wp.editor.initialize(newId, { tinymce: true, quicktags: true });
 		}
@@ -464,7 +464,7 @@ jQuery(function ($) {
 
 	/* jQuery(document).ready(function ($) {
 		// Handle Send Now button click
-		$(document).on('click', '.webcu_re_send-now', function (e) {
+		$(document).on('click', '.wtmem_re_send-now', function (e) {
 			e.preventDefault();
 
 			const button = $(this);
@@ -519,7 +519,7 @@ jQuery(function ($) {
 				type: 'POST',
 				dataType: 'json',
 				data: {
-					action: 'webcu_send_email_now',
+					action: 'wtmem_send_email_now',
 					nonce: ajax_ob.nonce,
 					post_id: postId,
 					index: index,
@@ -575,15 +575,15 @@ jQuery(function ($) {
 		});
 
 		// Update button data when form fields change
-		$(document).on('change keyup', '.webcu_re_subject, .webcu_re_timing, select[name^="email_reciever_"]', function () {
+		$(document).on('change keyup', '.wtmem_re_subject, .wtmem_re_timing, select[name^="email_reciever_"]', function () {
 			var input = $(this);
 			var name = input.attr('name');
 			var matches = name.match(/(\d+)$/);
 
 			if (matches && matches[1]) {
 				var index = matches[1];
-				var block = input.closest('.webcu_re_email-block');
-				var button = block.find('.webcu_re_send-now');
+				var block = input.closest('.wtmem_re_email-block');
+				var button = block.find('.wtmem_re_send-now');
 
 				if (button.length) {
 					// Update subject
@@ -612,8 +612,8 @@ jQuery(function ($) {
 
 			if (matches && matches[1]) {
 				var index = matches[1];
-				var block = input.closest('.webcu_re_email-block');
-				var button = block.find('.webcu_re_send-now');
+				var block = input.closest('.wtmem_re_email-block');
+				var button = block.find('.wtmem_re_send-now');
 
 				if (button.length) {
 					button.data('timecount', input.val());
@@ -622,11 +622,11 @@ jQuery(function ($) {
 		});
 	}); */
 
-	jQuery(document).on('click', '.webcu_re_send-now', function (e) {
+	jQuery(document).on('click', '.wtmem_re_send-now', function (e) {
 		e.preventDefault();
 
 		var $button = jQuery(this);
-		var $block = $button.closest('.webcu_re_email-block');
+		var $block = $button.closest('.wtmem_re_email-block');
 		var index = $block.data('index');
 
 		// Get form data
@@ -665,7 +665,7 @@ jQuery(function ($) {
 			dataType: 'json',
 
 			data: {
-				action: 'webcu_send_email_now',
+				action: 'wtmem_send_email_now',
 				nonce: ajax_ob.nonce,
 				post_id: post_id,
 				index: index,
@@ -708,16 +708,16 @@ jQuery(function ($) {
 	jQuery('#addNewEmail').on('click', function () {
 		counter++;
 		const newBox = `
-        <div class="webcu_re_box webcu_re_email-block" data-index="${counter}">
-            <div class="webcu_re_expand-remove">
-                <button type="button" class="webcu_re_expand-btn">Expand</button>
-                <button type="button" class="webcu_re_remove-btn">Remove</button>
+        <div class="wtmem_re_box wtmem_re_email-block" data-index="${counter}">
+            <div class="wtmem_re_expand-remove">
+                <button type="button" class="wtmem_re_expand-btn">Expand</button>
+                <button type="button" class="wtmem_re_remove-btn">Remove</button>
             </div>
 
-            <div class="webcu_re_header-row">
-                <div class="webcu_re_title">Event email reminder ${counter}</div>
-                <div class="webcu_re_top-actions">
-                    <button type="button" class="webcu_re_send-now" 
+            <div class="wtmem_re_header-row">
+                <div class="wtmem_re_title">Event email reminder ${counter}</div>
+                <div class="wtmem_re_top-actions">
+                    <button type="button" class="wtmem_re_send-now" 
                         data-post-id="<?php echo esc_attr(get_the_ID()); ?>"
                         data-index="${counter}"
                         data-timing="72"
@@ -739,7 +739,7 @@ jQuery(function ($) {
 
 		// Initialize editor
 		const newId = 'content_' + counter;
-		jQuery('#webcu_re_editor_container_' + counter).html('<textarea id="' + newId + '" name="' + newId + '"></textarea>');
+		jQuery('#wtmem_re_editor_container_' + counter).html('<textarea id="' + newId + '" name="' + newId + '"></textarea>');
 		if (typeof wp !== 'undefined' && wp.editor) {
 			wp.editor.initialize(newId, { tinymce: true, quicktags: true });
 		}
@@ -1001,11 +1001,11 @@ jQuery(document).ready(function ($) {
 
 (function ($) {
 	function clearTempFaqInputs() {
-		jQuery('#webcu_temp_faq_inputs').remove();
+		jQuery('#wtmem_temp_faq_inputs').remove();
 	}
 	function buildTempFaqInputs() {
 		clearTempFaqInputs();
-		var container = jQuery('<div id="webcu_temp_faq_inputs" style="display:none"></div>');
+		var container = jQuery('<div id="wtmem_temp_faq_inputs" style="display:none"></div>');
 		jQuery('#post').append(container);
 		jQuery('#faq_timelineList .faq_timeline-item').each(function (i) {
 			var $li = jQuery(this);
@@ -1057,26 +1057,26 @@ jQuery(document).ready(function ($) {
 /* ===== Additional Content ====== */
 
 jQuery(function ($) {
-	var list = jQuery("#webcu_timelineList");
+	var list = jQuery("#wtmem_timelineList");
 
 	list.sortable({
-		handle: ".webcu_btn-drag",
-		items: "> li.webcu_timeline-item",
-		placeholder: "webcu_timeline-placeholder",
+		handle: ".wtmem_btn-drag",
+		items: "> li.wtmem_timeline-item",
+		placeholder: "wtmem_timeline-placeholder",
 		forcePlaceholderSize: true,
 		tolerance: "pointer",
 		cancel: ""
 	});
 
 	// Fix drag conflict
-	jQuery(document).on('mousedown', '.webcu_btn-drag', function (e) {
+	jQuery(document).on('mousedown', '.wtmem_btn-drag', function (e) {
 		e.preventDefault();
 	});
 
 	// Expand/Collapse
-	jQuery(document).on('click', '.webcu_btn-expand', function (e) {
+	jQuery(document).on('click', '.wtmem_btn-expand', function (e) {
 		e.preventDefault();
-		var body = jQuery(this).closest('.webcu_timeline-item').find('.webcu_timeline-body');
+		var body = jQuery(this).closest('.wtmem_timeline-item').find('.wtmem_timeline-body');
 		body.slideToggle(160);
 
 		var icon = jQuery(this).find('.dashicons');
@@ -1084,35 +1084,35 @@ jQuery(function ($) {
 	});
 
 	// Remove
-	jQuery(document).on('click', '.webcu_btn-remove', function () {
+	jQuery(document).on('click', '.wtmem_btn-remove', function () {
 		if (confirm('Are you sure you want to remove this additional content?')) {
-			jQuery(this).closest('.webcu_timeline-item').remove();
+			jQuery(this).closest('.wtmem_timeline-item').remove();
 			list.sortable('refresh');
 			updateIndexes();
 		}
 	});
 
 	// Add new timeline
-	jQuery("#webcu_addTimeline").on('click', function () {
-		var index = jQuery("#webcu_timelineList .webcu_timeline-item").length;
-		var editorId = 'webcu_content_' + index;
+	jQuery("#wtmem_addTimeline").on('click', function () {
+		var index = jQuery("#wtmem_timelineList .wtmem_timeline-item").length;
+		var editorId = 'wtmem_content_' + index;
 
 		var newItem = `
-            <li class="webcu_timeline-item">
-                <div class="webcu_timeline-top">
-                    <button type="button" class="webcu_btn webcu_btn-expand"><span class="dashicons dashicons-arrow-down-alt2"></span> Expand</button>
-                    <button type="button" class="webcu_btn webcu_btn-remove"><span class="dashicons dashicons-no"></span></button>
-                    <button type="button" class="webcu_btn webcu_btn-drag"><span class="dashicons dashicons-fullscreen-alt"></span></button>
+            <li class="wtmem_timeline-item">
+                <div class="wtmem_timeline-top">
+                    <button type="button" class="wtmem_btn wtmem_btn-expand"><span class="dashicons dashicons-arrow-down-alt2"></span> Expand</button>
+                    <button type="button" class="wtmem_btn wtmem_btn-remove"><span class="dashicons dashicons-no"></span></button>
+                    <button type="button" class="wtmem_btn wtmem_btn-drag"><span class="dashicons dashicons-fullscreen-alt"></span></button>
                 </div>
-                <div class="webcu_timeline-body" style="display:block;">
+                <div class="wtmem_timeline-body" style="display:block;">
                     <label>Title</label>
-                    <input type="text" name="webcu_timeline[` + index + `][title]" class="webcu_title" placeholder="Enter title">
+                    <input type="text" name="wtmem_timeline[` + index + `][title]" class="wtmem_title" placeholder="Enter title">
                     <label>Content</label>
-                    <textarea id="`+ editorId + `" name="webcu_timeline[` + index + `][content]" rows="5" placeholder="Enter content"></textarea>
+                    <textarea id="`+ editorId + `" name="wtmem_timeline[` + index + `][content]" rows="5" placeholder="Enter content"></textarea>
                 </div>
             </li>`;
 
-		jQuery("#webcu_timelineList").append(newItem);
+		jQuery("#wtmem_timelineList").append(newItem);
 
 		//Initialize WordPress TinyMCE editor dynamically
 		if (typeof wp !== 'undefined' && wp.editor && wp.editor.initialize) {
@@ -1136,9 +1136,9 @@ jQuery(function ($) {
 
 	// Update name indexes after drag/remove
 	function updateIndexes() {
-		jQuery("#webcu_timelineList .webcu_timeline-item").each(function (i) {
-			jQuery(this).find('input.webcu_title').attr('name', 'webcu_timeline[' + i + '][title]');
-			jQuery(this).find('textarea').attr('name', 'webcu_timeline[' + i + '][content]');
+		jQuery("#wtmem_timelineList .wtmem_timeline-item").each(function (i) {
+			jQuery(this).find('input.wtmem_title').attr('name', 'wtmem_timeline[' + i + '][title]');
+			jQuery(this).find('textarea').attr('name', 'wtmem_timeline[' + i + '][content]');
 		});
 	}
 
@@ -1153,18 +1153,18 @@ jQuery(function ($) {
 jQuery(function ($) {
 
 	// Sortable (Drag & Drop)
-	jQuery("#webcu_tc_list").sortable({
-		handle: ".webcu_tc-drag",
-		items: ".webcu_tc-item",
-		placeholder: "webcu_sortable-placeholder",
+	jQuery("#wtmem_tc_list").sortable({
+		handle: ".wtmem_tc-drag",
+		items: ".wtmem_tc-item",
+		placeholder: "wtmem_sortable-placeholder",
 		tolerance: "pointer",
 		axis: "y"
 	}).disableSelection();
 
 	// Expand / Collapse Toggle
 
-	jQuery(document).on('click', '.webcu_tc-expand', function () {
-		var body = jQuery(this).closest('.webcu_tc-item').find('.webcu_tc-body');
+	jQuery(document).on('click', '.wtmem_tc-expand', function () {
+		var body = jQuery(this).closest('.wtmem_tc-item').find('.wtmem_tc-body');
 		body.slideToggle(160);
 		var icon = jQuery(this).find('.dashicons');
 		icon.toggleClass('dashicons-arrow-down-alt2 dashicons-arrow-up-alt2');
@@ -1172,18 +1172,18 @@ jQuery(function ($) {
 
 
 	// Delete Term & Condition Block
-	jQuery(document).on('click', '.webcu_tc-delete', function () {
+	jQuery(document).on('click', '.wtmem_tc-delete', function () {
 
 		if (confirm('Are you sure you want to remove this Term and Condition?')) {
-			jQuery(this).closest('.webcu_tc-item').remove();
+			jQuery(this).closest('.wtmem_tc-item').remove();
 			updateIndexes(); // Re-index after removal
 		}
 
 	});
 
 	// Add New Term & Condition
-	jQuery(document).on('click', '#webcu_add_new_tc', function () {
-		let lastItem = jQuery('.webcu_tc-item:last');
+	jQuery(document).on('click', '#wtmem_add_new_tc', function () {
+		let lastItem = jQuery('.wtmem_tc-item:last');
 		let newIndex = lastItem.length ? parseInt(lastItem.data('index')) + 1 : 0;
 
 		let clone = lastItem.clone();
@@ -1196,15 +1196,15 @@ jQuery(function ($) {
 		clone.find('input[name*="tc_url"]').attr('name', 'tc_url[' + newIndex + ']').val('');
 
 		// Hide content initially
-		clone.find('.webcu_tc-body').hide();
+		clone.find('.wtmem_tc-body').hide();
 
 		// Append to list
-		jQuery('#webcu_tc_list').append(clone);
+		jQuery('#wtmem_tc_list').append(clone);
 	});
 
 	// Function to Keep Indexes Correct After Delete/Reorder
 	function updateIndexes() {
-		jQuery('#webcu_tc_list .webcu_tc-item').each(function (index) {
+		jQuery('#wtmem_tc_list .wtmem_tc-item').each(function (index) {
 			jQuery(this).attr('data-index', index);
 			jQuery(this).find('select[name*="tc_required"]').attr('name', 'tc_required[' + index + ']');
 			jQuery(this).find('input[name*="tc_title"]').attr('name', 'tc_title[' + index + ']');
@@ -1220,7 +1220,7 @@ jQuery(function ($) {
 jQuery(document).ready(function ($) {
 	var mediaUploader;
 
-	jQuery('#webcu_add_gallery_images').on('click', function (e) {
+	jQuery('#wtmem_add_gallery_images').on('click', function (e) {
 		e.preventDefault();
 		if (mediaUploader) {
 			mediaUploader.open();
@@ -1236,38 +1236,38 @@ jQuery(document).ready(function ($) {
 
 		mediaUploader.on('select', function () {
 			var attachments = mediaUploader.state().get('selection').toJSON();
-			var ids = jQuery('#webcu_gallery_ids').val();
+			var ids = jQuery('#wtmem_gallery_ids').val();
 			var idsArray = ids ? ids.split(',') : [];
 
 			attachments.forEach(function (attachment) {
 				if (idsArray.indexOf(attachment.id.toString()) === -1) {
 					idsArray.push(attachment.id);
 
-					var imgHtml = '<div class="webcu-gallery-item" data-id="' + attachment.id + '">';
+					var imgHtml = '<div class="wtmem-gallery-item" data-id="' + attachment.id + '">';
 					imgHtml += '<img src="' + attachment.sizes.thumbnail.url + '" />';
-					imgHtml += '<span class="webcu-remove-image" title="Remove">&times;</span>';
+					imgHtml += '<span class="wtmem-remove-image" title="Remove">&times;</span>';
 					imgHtml += '</div>';
 
-					jQuery('#webcu-gallery-images').append(imgHtml);
+					jQuery('#wtmem-gallery-images').append(imgHtml);
 				}
 			});
 
-			jQuery('#webcu_gallery_ids').val(idsArray.join(','));
+			jQuery('#wtmem_gallery_ids').val(idsArray.join(','));
 		});
 
 		mediaUploader.open();
 	});
 
-	jQuery('#webcu-gallery-images').on('click', '.webcu-remove-image', function () {
+	jQuery('#wtmem-gallery-images').on('click', '.wtmem-remove-image', function () {
 		var item = jQuery(this).parent();
 		var id = item.data('id').toString();
-		var ids = jQuery('#webcu_gallery_ids').val().split(',');
+		var ids = jQuery('#wtmem_gallery_ids').val().split(',');
 
 		ids = ids.filter(function (val) {
 			return val !== id;
 		});
 
-		jQuery('#webcu_gallery_ids').val(ids.join(','));
+		jQuery('#wtmem_gallery_ids').val(ids.join(','));
 		item.remove();
 	});
 });
@@ -1277,10 +1277,10 @@ jQuery(document).ready(function ($) {
 
 (function ($) {
 	// synchronize checkboxes and hidden enabled input, and handle UI
-	jQuery('.webcu_regi_field-row').each(function () {
+	jQuery('.wtmem_regi_field-row').each(function () {
 		var row = jQuery(this);
-		var cb = row.find('.webcu_regi_checkbox');
-		var enabledInp = row.find('.webcu_regi_enabled_input');
+		var cb = row.find('.wtmem_regi_checkbox');
+		var enabledInp = row.find('.wtmem_regi_enabled_input');
 
 		// initialization: if checked set enabled input
 		cb.on('change', function () {
@@ -1292,19 +1292,19 @@ jQuery(document).ready(function ($) {
 	var customFields = [];
 	// initialize from hidden input if present
 	try {
-		var existing = jQuery('#webcu_regi_custom_fields_input').val();
+		var existing = jQuery('#wtmem_regi_custom_fields_input').val();
 		if (existing) customFields = JSON.parse(existing);
 	} catch (e) { customFields = []; }
 
 
 	function refreshCustomFieldsUI() {
-		var container = jQuery('#webcu_regi_custom_fields');
-		var type = jQuery('#webcu_regi_field_type').val();
+		var container = jQuery('#wtmem_regi_custom_fields');
+		var type = jQuery('#wtmem_regi_field_type').val();
 		container.empty();
 
 		customFields.forEach(function (cf, index) {
 
-			var row = jQuery('<div class="webcu_regi_custom-field-row" data-index="' + index + '">');
+			var row = jQuery('<div class="wtmem_regi_custom-field-row" data-index="' + index + '">');
 			// Label
 			row.append(
 				'<input type="text" class="cf-input" data-key="label" value="' + cf.label + '">'
@@ -1321,7 +1321,7 @@ jQuery(document).ready(function ($) {
 			}
 			row.append('<select disabled><option>' + cf.type + '</option></select>');
 			row.append('<select disabled><option>' + cf.required + '</option></select>');
-			row.append('<span class="webcu_regi_delete-btn">🗑️</span>');
+			row.append('<span class="wtmem_regi_delete-btn">🗑️</span>');
 
 			container.append(row);
 		});
@@ -1330,7 +1330,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	jQuery(document).on('input', '.cf-input', function () {
-		var rowIndex = jQuery(this).closest('.webcu_regi_custom-field-row').data('index');
+		var rowIndex = jQuery(this).closest('.wtmem_regi_custom-field-row').data('index');
 		var key = jQuery(this).data('key');
 		var value = jQuery(this).val();
 
@@ -1344,19 +1344,19 @@ jQuery(document).ready(function ($) {
 	});
 
 	function updateHiddenInput() {
-		jQuery('#webcu_regi_custom_fields_input')
+		jQuery('#wtmem_regi_custom_fields_input')
 			.val(JSON.stringify(customFields));
 	}
 
 
-	jQuery('#webcu_regi_add_field').on('click', function (e) {
+	jQuery('#wtmem_regi_add_field').on('click', function (e) {
 		e.preventDefault();
 
-		var label = jQuery('#webcu_regi_field_label').val().trim();
-		var id = jQuery('#webcu_regi_unique_id').val().trim();
-		var type = jQuery('#webcu_regi_field_type').val();
-		var required = jQuery('#webcu_regi_field_required').val();
-		var optionsRaw = jQuery('#webcu_regi_options').val().trim();
+		var label = jQuery('#wtmem_regi_field_label').val().trim();
+		var id = jQuery('#wtmem_regi_unique_id').val().trim();
+		var type = jQuery('#wtmem_regi_field_type').val();
+		var required = jQuery('#wtmem_regi_field_required').val();
+		var optionsRaw = jQuery('#wtmem_regi_options').val().trim();
 
 		if (!label || !id) {
 			alert('Field Label and Unique ID must not be empty.');
@@ -1390,17 +1390,17 @@ jQuery(document).ready(function ($) {
 		});
 
 		// reset inputs
-		jQuery('#webcu_regi_field_label').val('');
-		jQuery('#webcu_regi_unique_id').val('');
-		jQuery('#webcu_regi_options').val('');
+		jQuery('#wtmem_regi_field_label').val('');
+		jQuery('#wtmem_regi_unique_id').val('');
+		jQuery('#wtmem_regi_options').val('');
 
 		refreshCustomFieldsUI();
 	});
 
 
 	// Delete custom field (delegate)
-	jQuery(document).on('click', '.webcu_regi_delete-btn', function () {
-		var uid = jQuery(this).closest('.webcu_regi_custom-field-row').data('uid');
+	jQuery(document).on('click', '.wtmem_regi_delete-btn', function () {
+		var uid = jQuery(this).closest('.wtmem_regi_custom-field-row').data('uid');
 		customFields = customFields.filter(function (x) { return x.id !== uid; });
 		refreshCustomFieldsUI();
 	});
@@ -1409,9 +1409,9 @@ jQuery(document).ready(function ($) {
 	// Before form submit (save post) ensure hidden enabled inputs reflect checkbox states:
 
 	jQuery('#post').on('submit', function () {
-		jQuery('.webcu_regi_field-row').each(function () {
-			var cb = jQuery(this).find('.webcu_regi_checkbox');
-			var hidden = jQuery(this).find('.webcu_regi_enabled_input');
+		jQuery('.wtmem_regi_field-row').each(function () {
+			var cb = jQuery(this).find('.wtmem_regi_checkbox');
+			var hidden = jQuery(this).find('.wtmem_regi_enabled_input');
 			hidden.val(cb.is(':checked') ? '1' : '0');
 		});
 		// hidden custom fields JSON already kept in sync on changes
@@ -1422,8 +1422,8 @@ jQuery(document).ready(function ($) {
 /*  === Text Field show/hide===  */
 
 document.addEventListener("DOMContentLoaded", function () {
-	const fieldType = document.getElementById("webcu_regi_field_type");
-	const optionBox = document.getElementById("webcu_regi_option_box");
+	const fieldType = document.getElementById("wtmem_regi_field_type");
+	const optionBox = document.getElementById("wtmem_regi_option_box");
 
 	function toggleOptions() {
 		const value = fieldType.value;
@@ -1448,14 +1448,14 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ===== Organizer  ====*/
 
 jQuery(document).ready(function ($) {
-	jQuery('#webcu_orga_addExtra').on('click', function (e) {
+	jQuery('#wtmem_orga_addExtra').on('click', function (e) {
 		e.preventDefault();
 
 		var timestamp = Date.now(); // Unique key for each row
 
 		var row = '<tr>' +
 			'<td>' +
-			'<select name="webcu_orga_extras[' + timestamp + '][org_social_media]">' +
+			'<select name="wtmem_orga_extras[' + timestamp + '][org_social_media]">' +
 			'<option value="facebook">Facebook</option>' +
 			'<option value="linkedin">Linkedin</option>' +
 			'<option value="X">X (former Twitter)</option>' +
@@ -1464,17 +1464,17 @@ jQuery(document).ready(function ($) {
 			'<option value="tiktok">Tiktok</option>' +
 			'</select>' +
 			'</td>' +
-			'<td><input type="url" name="webcu_orga_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
-			'<td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_remove_extra_row">✖</button>' +
-			'<span class="webcu_orga-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>'
+			'<td><input type="url" name="wtmem_orga_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
+			'<td><button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_remove_extra_row">✖</button>' +
+			'<span class="wtmem_orga-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>'
 		'</td>'
 		'</tr>';
 
-		jQuery('#webcu_orga_extraTable tbody').append(row);
+		jQuery('#wtmem_orga_extraTable tbody').append(row);
 	});
 
 	// Remove row
-	jQuery(document).on('click', '.webcu_remove_extra_row', function () {
+	jQuery(document).on('click', '.wtmem_remove_extra_row', function () {
 		jQuery(this).closest('tr').remove();
 	});
 
@@ -1482,19 +1482,19 @@ jQuery(document).ready(function ($) {
 	/* === organization drag & drop ====*/
 
 	// Enable sortable drag-and-drop for table rows
-	jQuery("#webcu_orga_extraTable tbody").sortable({
-		handle: ".webcu_orga-drag",
+	jQuery("#wtmem_orga_extraTable tbody").sortable({
+		handle: ".wtmem_orga-drag",
 		placeholder: "ui-state-highlight",
 		update: function () {
-			webcu_reindex_extra_rows();
+			wtmem_reindex_extra_rows();
 		}
 	});
 
 	// Reindex rows after drag & drop
-	function webcu_reindex_extra_rows() {
-		jQuery("#webcu_orga_extraTable tbody tr").each(function (i) {
-			jQuery(this).find('select').attr('name', 'webcu_orga_extras[' + i + '][org_social_media]');
-			jQuery(this).find('input').attr('name', 'webcu_orga_extras[' + i + '][url]');
+	function wtmem_reindex_extra_rows() {
+		jQuery("#wtmem_orga_extraTable tbody tr").each(function (i) {
+			jQuery(this).find('select').attr('name', 'wtmem_orga_extras[' + i + '][org_social_media]');
+			jQuery(this).find('input').attr('name', 'wtmem_orga_extras[' + i + '][url]');
 		});
 	}
 
@@ -1544,7 +1544,7 @@ jQuery(document).ready(function ($) {
 jQuery(document).ready(function ($) {
 	var mediaUploader;
 
-	jQuery('#webcu_organizer_gallery_images').on('click', function (e) {
+	jQuery('#wtmem_organizer_gallery_images').on('click', function (e) {
 		e.preventDefault();
 		if (mediaUploader) {
 			mediaUploader.open();
@@ -1560,38 +1560,38 @@ jQuery(document).ready(function ($) {
 
 		mediaUploader.on('select', function () {
 			var attachments = mediaUploader.state().get('selection').toJSON();
-			var ids = jQuery('#webcu_organizer_gallery').val();
+			var ids = jQuery('#wtmem_organizer_gallery').val();
 			var idsArray = ids ? ids.split(',') : [];
 
 			attachments.forEach(function (attachment) {
 				if (idsArray.indexOf(attachment.id.toString()) === -1) {
 					idsArray.push(attachment.id);
 
-					var imgHtml = '<div class="webcu-gallery-item" data-id="' + attachment.id + '">';
+					var imgHtml = '<div class="wtmem-gallery-item" data-id="' + attachment.id + '">';
 					imgHtml += '<img src="' + attachment.sizes.thumbnail.url + '" />';
-					imgHtml += '<span class="webcu-remove-image" title="Remove">&times;</span>';
+					imgHtml += '<span class="wtmem-remove-image" title="Remove">&times;</span>';
 					imgHtml += '</div>';
 
-					jQuery('#webcu-gallery-images').append(imgHtml);
+					jQuery('#wtmem-gallery-images').append(imgHtml);
 				}
 			});
 
-			jQuery('#webcu_organizer_gallery').val(idsArray.join(','));
+			jQuery('#wtmem_organizer_gallery').val(idsArray.join(','));
 		});
 
 		mediaUploader.open();
 	});
 
-	jQuery('#webcu-gallery-images').on('click', '.webcu-remove-image', function () {
+	jQuery('#wtmem-gallery-images').on('click', '.wtmem-remove-image', function () {
 		var item = jQuery(this).parent();
 		var id = item.data('id').toString();
-		var ids = jQuery('#webcu_organizer_gallery').val().split(',');
+		var ids = jQuery('#wtmem_organizer_gallery').val().split(',');
 
 		ids = ids.filter(function (val) {
 			return val !== id;
 		});
 
-		jQuery('#webcu_organizer_gallery').val(ids.join(','));
+		jQuery('#wtmem_organizer_gallery').val(ids.join(','));
 		item.remove();
 	});
 });
@@ -1601,27 +1601,27 @@ jQuery(document).ready(function ($) {
 
 jQuery(document).ready(function ($) {
 	function toggleFields() {
-		const type = jQuery('#webcu-video-type').val();
+		const type = jQuery('#wtmem-video-type').val();
 
-		jQuery('#webcu-youtube-field').hide();
-		jQuery('#webcu-vimeo-field').hide();
-		jQuery('#webcu-ownvideo-field').hide();
+		jQuery('#wtmem-youtube-field').hide();
+		jQuery('#wtmem-vimeo-field').hide();
+		jQuery('#wtmem-ownvideo-field').hide();
 
 		if (type === 'youtube') {
-			jQuery('#webcu-youtube-field').show();
+			jQuery('#wtmem-youtube-field').show();
 		}
 		if (type === 'vimeo') {
-			jQuery('#webcu-vimeo-field').show();
+			jQuery('#wtmem-vimeo-field').show();
 		}
 		if (type === 'ownvideo') {
-			jQuery('#webcu-ownvideo-field').show();
+			jQuery('#wtmem-ownvideo-field').show();
 		}
 	}
 	toggleFields();
-	jQuery('#webcu-video-type').on('change', toggleFields);
+	jQuery('#wtmem-video-type').on('change', toggleFields);
 	// Media Uploader
 	var videoUploader;
-	jQuery('#webcu-upload-video-btn').click(function (e) {
+	jQuery('#wtmem-upload-video-btn').click(function (e) {
 		e.preventDefault();
 
 		if (videoUploader) {
@@ -1638,34 +1638,34 @@ jQuery(document).ready(function ($) {
 		videoUploader.on('select', function () {
 			var file = videoUploader.state().get('selection').first().toJSON();
 
-			jQuery('#webcu-video-preview').attr('src', file.url).show();
-			jQuery('#webcu-video-id').val(file.id);
-			jQuery('#webcu-remove-video-btn').show();
-			jQuery('#webcu-upload-video-btn').text('Change Video');
+			jQuery('#wtmem-video-preview').attr('src', file.url).show();
+			jQuery('#wtmem-video-id').val(file.id);
+			jQuery('#wtmem-remove-video-btn').show();
+			jQuery('#wtmem-upload-video-btn').text('Change Video');
 		});
 
 		videoUploader.open();
 	});
 
-	jQuery('#webcu-remove-video-btn').click(function () {
-		jQuery('#webcu-video-preview').hide();
-		jQuery('#webcu-video-id').val('');
+	jQuery('#wtmem-remove-video-btn').click(function () {
+		jQuery('#wtmem-video-preview').hide();
+		jQuery('#wtmem-video-id').val('');
 		jQuery(this).hide();
-		jQuery('#webcu-upload-video-btn').text('Upload Video');
+		jQuery('#wtmem-upload-video-btn').text('Upload Video');
 	});
 });
 
 /* ======== Sponsers  =========*/
 
 jQuery(document).ready(function ($) {
-	jQuery('#webcu_spon_addExtra').on('click', function (e) {
+	jQuery('#wtmem_spon_addExtra').on('click', function (e) {
 		e.preventDefault();
 
 		var timestamp = Date.now(); // Unique key for each row
 
 		var row = '<tr>' +
 			'<td>' +
-			'<select name="webcu_spon_extras[' + timestamp + '][org_social_media]">' +
+			'<select name="wtmem_spon_extras[' + timestamp + '][org_social_media]">' +
 			'<option value="facebook">Facebook</option>' +
 			'<option value="linkedin">Linkedin</option>' +
 			'<option value="X"></option>' +
@@ -1674,37 +1674,37 @@ jQuery(document).ready(function ($) {
 			'<option value="tiktok">Tiktok</option>' +
 			'</select>' +
 			'</td>' +
-			'<td><input type="url" name="webcu_spon_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
-			'<td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_remove_extra_row">✖</button>' +
-			'<span class="webcu_sponser-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>'
+			'<td><input type="url" name="wtmem_spon_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
+			'<td><button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_remove_extra_row">✖</button>' +
+			'<span class="wtmem_sponser-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>'
 		'</td>' +
 
 			'</tr>';
 
-		jQuery('#webcu_spon_extraTable tbody').append(row);
+		jQuery('#wtmem_spon_extraTable tbody').append(row);
 	});
 
 	// Remove row
-	jQuery(document).on('click', '.webcu_remove_extra_row', function () {
+	jQuery(document).on('click', '.wtmem_remove_extra_row', function () {
 		jQuery(this).closest('tr').remove();
 	});
 
 
 	/* === Sponsers drag & drop ====*/
 
-	jQuery("#webcu_spon_extraTable tbody").sortable({
-		handle: ".webcu_sponser-drag",
+	jQuery("#wtmem_spon_extraTable tbody").sortable({
+		handle: ".wtmem_sponser-drag",
 		placeholder: "ui-state-highlight",
 		update: function () {
-			webcu_reindex_extra_rows();
+			wtmem_reindex_extra_rows();
 		}
 	});
 
 	// Reindex rows after drag & drop
-	function webcu_reindex_extra_rows() {
-		jQuery("#webcu_spon_extraTable tbody tr").each(function (i) {
-			jQuery(this).find('select').attr('name', 'webcu_spon_extras[' + i + '][spon_social_media]');
-			jQuery(this).find('input').attr('name', 'webcu_spon_extras[' + i + '][url]');
+	function wtmem_reindex_extra_rows() {
+		jQuery("#wtmem_spon_extraTable tbody tr").each(function (i) {
+			jQuery(this).find('select').attr('name', 'wtmem_spon_extras[' + i + '][spon_social_media]');
+			jQuery(this).find('input').attr('name', 'wtmem_spon_extras[' + i + '][url]');
 		});
 	}
 
@@ -1753,27 +1753,27 @@ jQuery(document).ready(function ($) {
 
 jQuery(document).ready(function ($) {
 	function toggleFields() {
-		const type = jQuery('#webcu_spon-video-type').val();
+		const type = jQuery('#wtmem_spon-video-type').val();
 
-		jQuery('#webcu_spon-youtube-field').hide();
-		jQuery('#webcu_spon-vimeo-field').hide();
-		jQuery('#webcu_spon-ownvideo-field').hide();
+		jQuery('#wtmem_spon-youtube-field').hide();
+		jQuery('#wtmem_spon-vimeo-field').hide();
+		jQuery('#wtmem_spon-ownvideo-field').hide();
 
 		if (type === 'youtube') {
-			jQuery('#webcu_spon-youtube-field').show();
+			jQuery('#wtmem_spon-youtube-field').show();
 		}
 		if (type === 'vimeo') {
-			jQuery('#webcu_spon-vimeo-field').show();
+			jQuery('#wtmem_spon-vimeo-field').show();
 		}
 		if (type === 'ownvideo') {
-			jQuery('#webcu_spon-ownvideo-field').show();
+			jQuery('#wtmem_spon-ownvideo-field').show();
 		}
 	}
 	toggleFields();
-	jQuery('#webcu_spon-video-type').on('change', toggleFields);
+	jQuery('#wtmem_spon-video-type').on('change', toggleFields);
 	// Media Uploader
 	var videoUploader;
-	jQuery('#webcu_spon-upload-video-btn').click(function (e) {
+	jQuery('#wtmem_spon-upload-video-btn').click(function (e) {
 		e.preventDefault();
 
 		if (videoUploader) {
@@ -1790,20 +1790,20 @@ jQuery(document).ready(function ($) {
 		videoUploader.on('select', function () {
 			var file = videoUploader.state().get('selection').first().toJSON();
 
-			jQuery('#webcu_spon-video-preview').attr('src', file.url).show();
-			jQuery('#webcu_spon-video-id').val(file.id);
-			jQuery('#webcu_spon-remove-video-btn').show();
-			jQuery('#webcu_spon-upload-video-btn').text('Change Video');
+			jQuery('#wtmem_spon-video-preview').attr('src', file.url).show();
+			jQuery('#wtmem_spon-video-id').val(file.id);
+			jQuery('#wtmem_spon-remove-video-btn').show();
+			jQuery('#wtmem_spon-upload-video-btn').text('Change Video');
 		});
 
 		videoUploader.open();
 	});
 
-	jQuery('#webcu_spon-remove-video-btn').click(function () {
-		jQuery('#webcu_spon-video-preview').hide();
-		jQuery('#webcu_spon-video-id').val('');
+	jQuery('#wtmem_spon-remove-video-btn').click(function () {
+		jQuery('#wtmem_spon-video-preview').hide();
+		jQuery('#wtmem_spon-video-id').val('');
 		jQuery(this).hide();
-		jQuery('#webcu_spon-upload-video-btn').text('Upload Video');
+		jQuery('#wtmem_spon-upload-video-btn').text('Upload Video');
 	});
 });
 
@@ -1813,14 +1813,14 @@ jQuery(document).ready(function ($) {
 /* ===== volenteer ======*/
 
 jQuery(document).ready(function ($) {
-	jQuery('#webcu_volun_addExtra').on('click', function (e) {
+	jQuery('#wtmem_volun_addExtra').on('click', function (e) {
 		e.preventDefault();
 
 		var timestamp = Date.now(); // Unique key for each row
 
 		var row = '<tr>' +
 			'<td>' +
-			'<select name="webcu_volun_extras[' + timestamp + '][org_social_media]">' +
+			'<select name="wtmem_volun_extras[' + timestamp + '][org_social_media]">' +
 			'<option value="facebook">Facebook</option>' +
 			'<option value="linkedin">Linkedin</option>' +
 			'<option value="X">X</option>' +
@@ -1829,36 +1829,36 @@ jQuery(document).ready(function ($) {
 			'<option value="tiktok">Tiktok</option>' +
 			'</select>' +
 			'</td>' +
-			'<td><input type="url" name="webcu_volun_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
-			'<td><button type="button" class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_remove_extra_row">✖</button>' +
-			'<span class="webcu_orga-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>' + '</td>' +
+			'<td><input type="url" name="wtmem_volun_extras[' + timestamp + '][url]" placeholder="URL"></td>' +
+			'<td><button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_remove_extra_row">✖</button>' +
+			'<span class="wtmem_orga-drag"> <span class="dashicons dashicons-fullscreen-alt"></span>' + '</td>' +
 
 			'</tr>';
 
-		jQuery('#webcu_volun_extraTable tbody').append(row);
+		jQuery('#wtmem_volun_extraTable tbody').append(row);
 	});
 
 	// Remove row
-	jQuery(document).on('click', '.webcu_remove_extra_row', function () {
+	jQuery(document).on('click', '.wtmem_remove_extra_row', function () {
 		jQuery(this).closest('tr').remove();
 	});
 
 
 	/* === Volenteer drag & drop ====*/
 
-	jQuery("#webcu_volun_extraTable tbody").sortable({
-		handle: ".webcu_volunteer-drag",
+	jQuery("#wtmem_volun_extraTable tbody").sortable({
+		handle: ".wtmem_volunteer-drag",
 		placeholder: "ui-state-highlight",
 		update: function () {
-			webcu_reindex_extra_rows();
+			wtmem_reindex_extra_rows();
 		}
 	});
 
 	// Reindex rows after drag & drop
-	function webcu_reindex_extra_rows() {
-		jQuery("#webcu_volun_extraTable tbody tr").each(function (i) {
-			jQuery(this).find('select').attr('name', 'webcu_volun_extras[' + i + '][volun_social_media]');
-			jQuery(this).find('input').attr('name', 'webcu_volun_extras[' + i + '][url]');
+	function wtmem_reindex_extra_rows() {
+		jQuery("#wtmem_volun_extraTable tbody tr").each(function (i) {
+			jQuery(this).find('select').attr('name', 'wtmem_volun_extras[' + i + '][volun_social_media]');
+			jQuery(this).find('input').attr('name', 'wtmem_volun_extras[' + i + '][url]');
 		});
 	}
 
@@ -1903,27 +1903,27 @@ jQuery(document).ready(function ($) {
 
 jQuery(document).ready(function ($) {
 	function toggleFields() {
-		const type = jQuery('#webcu_volun-video-type').val();
+		const type = jQuery('#wtmem_volun-video-type').val();
 
-		jQuery('#webcu_volun-youtube-field').hide();
-		jQuery('#webcu_volun-vimeo-field').hide();
-		jQuery('#webcu_volun-ownvideo-field').hide();
+		jQuery('#wtmem_volun-youtube-field').hide();
+		jQuery('#wtmem_volun-vimeo-field').hide();
+		jQuery('#wtmem_volun-ownvideo-field').hide();
 
 		if (type === 'youtube') {
-			jQuery('#webcu_volun-youtube-field').show();
+			jQuery('#wtmem_volun-youtube-field').show();
 		}
 		if (type === 'vimeo') {
-			jQuery('#webcu_volun-vimeo-field').show();
+			jQuery('#wtmem_volun-vimeo-field').show();
 		}
 		if (type === 'ownvideo') {
-			jQuery('#webcu_volun-ownvideo-field').show();
+			jQuery('#wtmem_volun-ownvideo-field').show();
 		}
 	}
 	toggleFields();
-	jQuery('#webcu_volun-video-type').on('change', toggleFields);
+	jQuery('#wtmem_volun-video-type').on('change', toggleFields);
 	// Media Uploader
 	var videoUploader;
-	jQuery('#webcu_volun-upload-video-btn').click(function (e) {
+	jQuery('#wtmem_volun-upload-video-btn').click(function (e) {
 		e.preventDefault();
 
 		if (videoUploader) {
@@ -1940,20 +1940,20 @@ jQuery(document).ready(function ($) {
 		videoUploader.on('select', function () {
 			var file = videoUploader.state().get('selection').first().toJSON();
 
-			jQuery('#webcu_volun-video-preview').attr('src', file.url).show();
-			jQuery('#webcu_volun-video-id').val(file.id);
-			jQuery('#webcu_volun-remove-video-btn').show();
-			jQuery('#webcu_volun-upload-video-btn').text('Change Video');
+			jQuery('#wtmem_volun-video-preview').attr('src', file.url).show();
+			jQuery('#wtmem_volun-video-id').val(file.id);
+			jQuery('#wtmem_volun-remove-video-btn').show();
+			jQuery('#wtmem_volun-upload-video-btn').text('Change Video');
 		});
 
 		videoUploader.open();
 	});
 
-	jQuery('#webcu_volun-remove-video-btn').click(function () {
-		jQuery('#webcu_volun-video-preview').hide();
-		jQuery('#webcu_volun-video-id').val('');
+	jQuery('#wtmem_volun-remove-video-btn').click(function () {
+		jQuery('#wtmem_volun-video-preview').hide();
+		jQuery('#wtmem_volun-video-id').val('');
 		jQuery(this).hide();
-		jQuery('#webcu_volun-upload-video-btn').text('Upload Video');
+		jQuery('#wtmem_volun-upload-video-btn').text('Upload Video');
 	});
 });
 
@@ -2025,7 +2025,7 @@ jQuery(document).ready(function ($) {
 jQuery(document).ready(function ($) {
 	var mediaUploader;
 
-	jQuery('#webcu_event_gallery_images').on('click', function (e) {
+	jQuery('#wtmem_event_gallery_images').on('click', function (e) {
 		e.preventDefault();
 		if (mediaUploader) {
 			mediaUploader.open();
@@ -2041,7 +2041,7 @@ jQuery(document).ready(function ($) {
 
 		mediaUploader.on('select', function () {
 			var attachments = mediaUploader.state().get('selection').toJSON();
-			var ids = jQuery('#webcu_event_gallery').val();
+			var ids = jQuery('#wtmem_event_gallery').val();
 			var idsArray = ids ? ids.split(',').filter(function (v) { return v !== ''; }) : [];
 
 			attachments.forEach(function (attachment) {
@@ -2058,32 +2058,32 @@ jQuery(document).ready(function ($) {
 						imgUrl = attachment.url;
 					}
 
-					var imgHtml = '<div class="webcu-event-gallery-item" data-id="' + attachment.id + '">';
+					var imgHtml = '<div class="wtmem-event-gallery-item" data-id="' + attachment.id + '">';
 					imgHtml += '<img src="' + imgUrl + '" />';
-					imgHtml += '<span class="webcu-event-remove-image" title="Remove">&times;</span>';
+					imgHtml += '<span class="wtmem-event-remove-image" title="Remove">&times;</span>';
 					imgHtml += '</div>';
 
-					jQuery('#webcu-event-gallery-images').append(imgHtml);
+					jQuery('#wtmem-event-gallery-images').append(imgHtml);
 				}
 			});
 
-			jQuery('#webcu_event_gallery').val(idsArray.join(','));
+			jQuery('#wtmem_event_gallery').val(idsArray.join(','));
 		});
 
 		mediaUploader.open();
 	});
 
 	// Use same class name as PHP template for consistency.
-	jQuery('#webcu-event-gallery-images').on('click', '.webcu-event-remove-image', function () {
+	jQuery('#wtmem-event-gallery-images').on('click', '.wtmem-event-remove-image', function () {
 		var item = jQuery(this).parent();
 		var id = item.data('id').toString();
-		var ids = jQuery('#webcu_event_gallery').val().split(',');
+		var ids = jQuery('#wtmem_event_gallery').val().split(',');
 
 		ids = ids.filter(function (val) {
 			return val !== id;
 		});
 
-		jQuery('#webcu_event_gallery').val(ids.join(','));
+		jQuery('#wtmem_event_gallery').val(ids.join(','));
 		item.remove();
 	});
 });
@@ -2129,7 +2129,7 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 
 /* jQuery(document).ready(function ($) {
 
-	jQuery('#webcu_woo_inte_save').on('click', function (e) {
+	jQuery('#wtmem_woo_inte_save').on('click', function (e) {
 		location.reload();
 	});
 }); */
@@ -2143,7 +2143,7 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 
 /* jQuery(document).ready(function ($) {
 	// Handle Send Now button click
-	$(document).on('click', '.webcu_re_send-now', function (e) {
+	$(document).on('click', '.wtmem_re_send-now', function (e) {
 		e.preventDefault();
 
 		console.log('dddddddd')
@@ -2186,7 +2186,7 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 			url: ajax_ob.ajax_url,
 			type: 'POST',
 			data: {
-				action: 'webcu_send_email_now',
+				action: 'wtmem_send_email_now',
 				nonce: ajax_ob.nonce,
 				post_id: postId,
 				index: index,
@@ -2220,11 +2220,11 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 	});
 
 	// Update button data when form fields change
-	$(document).on('change keyup', '.webcu_re_subject, .webcu_re_timing, select[name^="email_reciever_"]', function () {
+	$(document).on('change keyup', '.wtmem_re_subject, .wtmem_re_timing, select[name^="email_reciever_"]', function () {
 		var input = $(this);
 		var name = input.attr('name');
 		var index = name.split('_')[1];
-		var button = $('.webcu_re_email-block[data-index="' + index + '"]').find('.webcu_re_send-now');
+		var button = $('.wtmem_re_email-block[data-index="' + index + '"]').find('.wtmem_re_send-now');
 
 		// Update subject
 		if (name.startsWith('subject_')) {
@@ -2247,7 +2247,7 @@ jQuery('#rk-event-remove-btn').on('click', function (e) {
 		var input = $(this);
 		var name = input.attr('name');
 		var index = name.split('_')[1];
-		var button = $('.webcu_re_email-block[data-index="' + index + '"]').find('.webcu_re_send-now');
+		var button = $('.wtmem_re_email-block[data-index="' + index + '"]').find('.wtmem_re_send-now');
 
 		button.data('timecount', input.val());
 	});

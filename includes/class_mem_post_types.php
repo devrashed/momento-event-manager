@@ -2,74 +2,73 @@
 /**
  * Post Types
  *
- * @package Mega_Events_Manager
  */
+namespace Wpcraft\Inc;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class UEM_Post_Types {
-	
+class class_mem_post_types {	
 	/**
 	 * Initialize post types
 	 */
 	public static function init() {
-		self::webcu_register_post_types();
+		self::wtmem_register_post_types();
 	}
 	
 	/**
 	 * Register all custom post types
 	 */
-	public static function webcu_register_post_types() {
-		self::webcu_register_event_post_type();
-		self::webcu_register_organizer_post_type();
-		self::webcu_register_volunteer_post_type();
-		self::webcu_register_sponsor_post_type();
-		self::webcu_register_registration_post_type();
-		add_filter( 'manage_mem_event_posts_columns', [ self::class, 'webcu_all_event_columns' ] );
-		add_action( 'manage_mem_event_posts_custom_column', [self::class, 'webcu_show_event_columns_value'], 10, 2 );
+	public static function wtmem_register_post_types() {
+		self::wtmem_register_event_post_type();
+		self::wtmem_register_organizer_post_type();
+		self::wtmem_register_volunteer_post_type();
+		self::wtmem_register_sponsor_post_type();
+		self::wtmem_register_registration_post_type();
+		add_filter( 'manage_mem_event_posts_columns', [ self::class, 'wtmem_all_event_columns' ] );
+		add_action( 'manage_mem_event_posts_custom_column', [self::class, 'wtmem_show_event_columns_value'], 10, 2 );
 	
-		add_action( 'admin_post_webcu_download_attendee_csv',  [self::class, 'download_attendee_csv']);
+		add_action( 'admin_post_wtmem_download_attendee_csv',  [self::class, 'download_attendee_csv']);
 	}
 	
 	/**
 	 * Register Event post type
 	 */
-	private static function webcu_register_event_post_type() {
+	private static function wtmem_register_event_post_type() {
 		$labels = array(
-			'name'                  => _x( 'Mega Events Manager', 'Post Type General Name', 'mega-events-manager' ),
-			'singular_name'         => _x( 'Mega Events Manager', 'Post Type Singular Name', 'mega-events-manager' ),
-			'menu_name'             => __( 'Mega Events Manager', 'mega-events-manager' ),
-			'name_admin_bar'        => __( 'Mega Events Manager', 'mega-events-manager' ),
-			'archives'              => __( 'Mega Events Manager Archives', 'mega-events-manager' ),
-			'attributes'            => __( 'Mega Events Manager Attributes', 'mega-events-manager' ),
-			'parent_item_colon'     => __( 'Parent Mega Events Manager:', 'mega-events-manager' ),
-			'all_items'             => __( 'Mega Events Manager', 'mega-events-manager' ),
-			'add_new_item'          => __( 'Add New Mega Events Manager', 'mega-events-manager' ),
-			'add_new'               => __( 'Add New', 'mega-events-manager' ),
-			'new_item'              => __( 'New Mega Events Manager', 'mega-events-manager' ),
-			'edit_item'             => __( 'Edit Mega Events Manager', 'mega-events-manager' ),
-			'update_item'           => __( 'Update Mega Events Manager', 'mega-events-manager' ),
-			'view_item'             => __( 'View Mega Events Manager', 'mega-events-manager' ),
-			'view_items'            => __( 'View Mega Events Manager', 'mega-events-manager' ),
-			'search_items'          => __( 'Search Mega Events Manager', 'mega-events-manager' ),
-			'not_found'             => __( 'Not found', 'mega-events-manager' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'mega-events-manager' ),
-			'featured_image'        => __( 'Featured Image', 'mega-events-manager' ),
-			'set_featured_image'    => __( 'Set featured image', 'mega-events-manager' ),
-			'remove_featured_image' => __( 'Remove featured image', 'mega-events-manager' ),
-			'use_featured_image'    => __( 'Use as featured image', 'mega-events-manager' ),
-			'insert_into_item'      => __( 'Insert into event', 'mega-events-manager' ),
-			'uploaded_to_this_item' => __( 'Uploaded to this event', 'mega-events-manager' ),
-			'items_list'            => __( 'Mega Events Manager list', 'mega-events-manager' ),
-			'items_list_navigation' => __( 'Mega Events Manager list navigation', 'mega-events-manager' ),
-			'filter_items_list'     => __( 'Filter events list', 'mega-events-manager' ),
+			'name'                  => _x( 'Mega Events Manager', 'Post Type General Name', 'momento-event-manager' ),
+			'singular_name'         => _x( 'Mega Events Manager', 'Post Type Singular Name', 'momento-event-manager' ),
+			'menu_name'             => __( 'Mega Events Manager', 'momento-event-manager' ),
+			'name_admin_bar'        => __( 'Mega Events Manager', 'momento-event-manager' ),
+			'archives'              => __( 'Mega Events Manager Archives', 'momento-event-manager' ),
+			'attributes'            => __( 'Mega Events Manager Attributes', 'momento-event-manager' ),
+			'parent_item_colon'     => __( 'Parent Mega Events Manager:', 'momento-event-manager' ),
+			'all_items'             => __( 'Mega Events Manager', 'momento-event-manager' ),
+			'add_new_item'          => __( 'Add New Mega Events Manager', 'momento-event-manager' ),
+			'add_new'               => __( 'Add New', 'momento-event-manager' ),
+			'new_item'              => __( 'New Mega Events Manager', 'momento-event-manager' ),
+			'edit_item'             => __( 'Edit Mega Events Manager', 'momento-event-manager' ),
+			'update_item'           => __( 'Update Mega Events Manager', 'momento-event-manager' ),
+			'view_item'             => __( 'View Mega Events Manager', 'momento-event-manager' ),
+			'view_items'            => __( 'View Mega Events Manager', 'momento-event-manager' ),
+			'search_items'          => __( 'Search Mega Events Manager', 'momento-event-manager' ),
+			'not_found'             => __( 'Not found', 'momento-event-manager' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'momento-event-manager' ),
+			'featured_image'        => __( 'Featured Image', 'momento-event-manager' ),
+			'set_featured_image'    => __( 'Set featured image', 'momento-event-manager' ),
+			'remove_featured_image' => __( 'Remove featured image', 'momento-event-manager' ),
+			'use_featured_image'    => __( 'Use as featured image', 'momento-event-manager' ),
+			'insert_into_item'      => __( 'Insert into event', 'momento-event-manager' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this event', 'momento-event-manager' ),
+			'items_list'            => __( 'Mega Events Manager list', 'momento-event-manager' ),
+			'items_list_navigation' => __( 'Mega Events Manager list navigation', 'momento-event-manager' ),
+			'filter_items_list'     => __( 'Filter events list', 'momento-event-manager' ),
 		);
 		
 		$args = array(
-			'label'                 => __( 'Mega Events Manager', 'mega-events-manager' ),
-			'description'           => __( 'Event post type', 'mega-events-manager' ),
+			'label'                 => __( 'Mega Events Manager', 'momento-event-manager' ),
+			'description'           => __( 'Event post type', 'momento-event-manager' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ),
 			'hierarchical'          => false,
@@ -90,21 +89,21 @@ class UEM_Post_Types {
 		);
 		
 		register_post_type( 'mem_event', $args );
-		self::webcu_register_eventCategory_taxonomy();
+		self::wtmem_register_eventCategory_taxonomy();
 	}
 
 	
-	public static function webcu_register_eventCategory_taxonomy() {
+	public static function wtmem_register_eventCategory_taxonomy() {
         $labels = [
-            'name'              => __('Event Category', 'mega-events-manager'),
-            'singular_name'     => __('Event Category', 'mega-events-manager'),
-            'menu_name'         => __('Event Category', 'mega-events-manager'),
-            'search_items'      => __('Search Event Category', 'mega-events-manager'),
-            'all_items'         => __('All Event Category', 'mega-events-manager'),
-            'edit_item'         => __('Edit Event Category', 'mega-events-manager'),
-            'update_item'       => __('Update Event Category', 'mega-events-manager'),
-            'add_new_item'      => __('Add New Event Category', 'mega-events-manager'),
-            'new_item_name'     => __('New Event Category Name', 'mega-events-manager'),
+            'name'              => __('Event Category', 'momento-event-manager'),
+            'singular_name'     => __('Event Category', 'momento-event-manager'),
+            'menu_name'         => __('Event Category', 'momento-event-manager'),
+            'search_items'      => __('Search Event Category', 'momento-event-manager'),
+            'all_items'         => __('All Event Category', 'momento-event-manager'),
+            'edit_item'         => __('Edit Event Category', 'momento-event-manager'),
+            'update_item'       => __('Update Event Category', 'momento-event-manager'),
+            'add_new_item'      => __('Add New Event Category', 'momento-event-manager'),
+            'new_item_name'     => __('New Event Category Name', 'momento-event-manager'),
         ];
 
         register_taxonomy('event_category', ['mem_event'], [
@@ -119,7 +118,7 @@ class UEM_Post_Types {
 
 	
 
-	public static function webcu_get_product_sold_qty( $product_id ) {
+	public static function wtmem_get_product_sold_qty( $product_id ) {
 
 		global $wpdb;
 
@@ -144,7 +143,7 @@ class UEM_Post_Types {
 	}
 
 
-	public static function webcu_get_product_refunded_qty($product_id) {
+	public static function wtmem_get_product_refunded_qty($product_id) {
 		global $wpdb;
 		
 		if (empty($product_id)) {
@@ -173,7 +172,7 @@ class UEM_Post_Types {
 	}
 
 	///order_id
-	public static function webcu_get_order_ids_by_product_id___111($product_id) {
+	public static function wtmem_get_order_ids_by_product_id___111($product_id) {
 		global $wpdb;
 		
 		if (empty($product_id)) {
@@ -195,7 +194,7 @@ class UEM_Post_Types {
 		return $results ?: array();
 	}
 
-	public static function webcu_get_refunded_order_ids_by_product_id____2222($product_id) {
+	public static function wtmem_get_refunded_order_ids_by_product_id____2222($product_id) {
 		global $wpdb;
 		
 		if (empty($product_id)) {
@@ -246,7 +245,7 @@ class UEM_Post_Types {
 	}
 
 	//Get all order IDs by product ID
-	public static function webcu_get_order_ids_by_products( array $product_ids ) {
+	public static function wtmem_get_order_ids_by_products( array $product_ids ) {
 
 		global $wpdb;
 
@@ -271,7 +270,7 @@ class UEM_Post_Types {
 	}
 
 	//only completed order
-	public static function webcu_get_product_sold_qty_product( $product_id ) {
+	public static function wtmem_get_product_sold_qty_product( $product_id ) {
 		if ( empty( $product_id ) || ! function_exists( 'wc_get_orders' ) ) {
 			return 0;
 		}
@@ -330,13 +329,13 @@ class UEM_Post_Types {
 			empty( $_GET['_wpnonce'] ) ||
 			! wp_verify_nonce(
 				$_GET['_wpnonce'],
-				'webcu_attendee_csv_' . md5( implode( ',', $product_ids ) )
+				'wtmem_attendee_csv_' . md5( implode( ',', $product_ids ) )
 			)
 		) {
 			wp_die( 'Security check failed' );
 		}
 
-		$order_ids = self::webcu_get_order_ids_by_products( $product_ids );
+		$order_ids = self::wtmem_get_order_ids_by_products( $product_ids );
 
 		if ( empty( $order_ids ) ) {
 			wp_die( 'No orders found for selected products.' );
@@ -451,7 +450,7 @@ class UEM_Post_Types {
 		exit;
 	}
 
-	public static function webcu_all_event_columns( $columns ) {
+	public static function wtmem_all_event_columns( $columns ) {
 		$new = array();
 
 		foreach ( $columns as $key => $label ) {
@@ -459,13 +458,13 @@ class UEM_Post_Types {
 			$new[ $key ] = $label;
 
 			if ( $key === 'title' ) {
-				$new['start_event_dates'] = __( 'Start Event Dates', 'mega-events-manager' );
-				$new['end_event_dates']   = __( 'End Event Dates', 'mega-events-manager' );
-				$new['total_seat']   = __( 'Total Seat', 'mega-events-manager' );
-				$new['reserved_seat']   = __( 'Reserved Seat', 'mega-events-manager' );
-				$new['booking_seat']   = __( 'Booking seat', 'mega-events-manager' );
-				$new['available_seat']   = __( 'Available Seat', 'mega-events-manager' );
-				$new['atteende_data']   = __( 'Atteende Data', 'mega-events-manager' );
+				$new['start_event_dates'] = __( 'Start Event Dates', 'momento-event-manager' );
+				$new['end_event_dates']   = __( 'End Event Dates', 'momento-event-manager' );
+				$new['total_seat']   = __( 'Total Seat', 'momento-event-manager' );
+				$new['reserved_seat']   = __( 'Reserved Seat', 'momento-event-manager' );
+				$new['booking_seat']   = __( 'Booking seat', 'momento-event-manager' );
+				$new['available_seat']   = __( 'Available Seat', 'momento-event-manager' );
+				$new['atteende_data']   = __( 'Atteende Data', 'momento-event-manager' );
 						
 			}
 		}
@@ -473,9 +472,9 @@ class UEM_Post_Types {
 		return $new;
 	}
 
-	public static function webcu_show_event_columns_value( $column, $post_id ) {
+	public static function wtmem_show_event_columns_value( $column, $post_id ) {
 
-        $dates = get_post_meta($post_id, 'webcu_event_dates', true );
+        $dates = get_post_meta($post_id, 'wtmem_event_dates', true );
 
 	
         $today = strtotime( date('Y-m-d') );
@@ -549,7 +548,7 @@ class UEM_Post_Types {
 
 		if ( $column == 'total_seat' ) {
 
-			$totalseat = get_post_meta($post_id, '_webcu_tk_tickets', true );
+			$totalseat = get_post_meta($post_id, '_wtmem_tk_tickets', true );
 			//print_r($totalseat);
 			/* $ticket = reset( $totalseat );
 			$quantity = $ticket['capacity'];
@@ -567,7 +566,7 @@ class UEM_Post_Types {
 		
 		if ($column == 'reserved_seat') {
 
-			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
+			$totalseat = get_post_meta( $post_id, '_wtmem_tk_tickets', true );
 
 			if ( is_array( $totalseat ) && ! empty( $totalseat ) ) {
 				$ticket      = reset( $totalseat );
@@ -584,7 +583,7 @@ class UEM_Post_Types {
 			$products = get_post_meta( $post_id, '_uem_wc_products', true );
 				if ( is_array( $products ) ) {
 					foreach ( $products as $product_id ) {
-						$total_sold += self::webcu_get_product_sold_qty_product( (int) $product_id );						
+						$total_sold += self::wtmem_get_product_sold_qty_product( (int) $product_id );						
 					
 					}
 				}
@@ -594,7 +593,7 @@ class UEM_Post_Types {
 		 } if($column == 'available_seat') {
 
 			$totalseat = 0;
-			$totalseat = get_post_meta( $post_id, '_webcu_tk_tickets', true );
+			$totalseat = get_post_meta( $post_id, '_wtmem_tk_tickets', true );
 			$reseverd  = isset( $ticket['reserve_qty'] ) ? absint( $ticket['reserve_qty'] ) : 0;
             $products    = get_post_meta( $post_id, '_uem_wc_products', true );
 			$total_sold  = 0;
@@ -602,7 +601,7 @@ class UEM_Post_Types {
 			if ( is_array( $products ) ) {
 				foreach ( $products as $product_id ) {
 					$total_sold += absint(
-						self::webcu_get_product_sold_qty_product( (int) $product_id )
+						self::wtmem_get_product_sold_qty_product( (int) $product_id )
 						
 					);
 				}
@@ -643,9 +642,9 @@ class UEM_Post_Types {
 			
 			$url = wp_nonce_url(
 				admin_url(
-					'admin-post.php?action=webcu_download_attendee_csv&product_ids=' . $product_ids
+					'admin-post.php?action=wtmem_download_attendee_csv&product_ids=' . $product_ids
 				),
-				'webcu_attendee_csv_' . md5( $product_ids )
+				'wtmem_attendee_csv_' . md5( $product_ids )
 			);
 
 			echo '<a href="' . esc_url( $url ) . '" class="button button-small">
@@ -658,28 +657,28 @@ class UEM_Post_Types {
 	/**
 	 * Register Organizer post type
 	 */
-	private static function webcu_register_organizer_post_type() {
+	private static function wtmem_register_organizer_post_type() {
 		$labels = array(
-			'name'                  => _x( 'Event Organizers', 'Post Type General Name', 'mega-events-manager' ),
-			'singular_name'         => _x( 'Event Organizer', 'Post Type Singular Name', 'mega-events-manager' ),
-			'menu_name'             => __( 'Event Organizers', 'mega-events-manager' ),
-			'name_admin_bar'        => __( 'Event Organizer', 'mega-events-manager' ),
-			'archives'              => __( 'Event Organizer Archives', 'mega-events-manager' ),
-			'all_items'             => __( 'Event Organizers', 'mega-events-manager' ),
-			'add_new_item'          => __( 'Add New Event Organizer', 'mega-events-manager' ),
-			'add_new'               => __( 'Add New Event Organizer', 'mega-events-manager' ),
-			'new_item'              => __( 'New Event Organizer', 'mega-events-manager' ),
-			'edit_item'             => __( 'Edit Event Organizer', 'mega-events-manager' ),
-			'update_item'           => __( 'Update Event Organizer', 'mega-events-manager' ),
-			'view_item'             => __( 'View Event Organizer', 'mega-events-manager' ),
-			'search_items'          => __( 'Search Event Organizer', 'mega-events-manager' ),
-			'not_found'             => __( 'Not found', 'mega-events-manager' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'mega-events-manager' ),
+			'name'                  => _x( 'Event Organizers', 'Post Type General Name', 'momento-event-manager' ),
+			'singular_name'         => _x( 'Event Organizer', 'Post Type Singular Name', 'momento-event-manager' ),
+			'menu_name'             => __( 'Event Organizers', 'momento-event-manager' ),
+			'name_admin_bar'        => __( 'Event Organizer', 'momento-event-manager' ),
+			'archives'              => __( 'Event Organizer Archives', 'momento-event-manager' ),
+			'all_items'             => __( 'Event Organizers', 'momento-event-manager' ),
+			'add_new_item'          => __( 'Add New Event Organizer', 'momento-event-manager' ),
+			'add_new'               => __( 'Add New Event Organizer', 'momento-event-manager' ),
+			'new_item'              => __( 'New Event Organizer', 'momento-event-manager' ),
+			'edit_item'             => __( 'Edit Event Organizer', 'momento-event-manager' ),
+			'update_item'           => __( 'Update Event Organizer', 'momento-event-manager' ),
+			'view_item'             => __( 'View Event Organizer', 'momento-event-manager' ),
+			'search_items'          => __( 'Search Event Organizer', 'momento-event-manager' ),
+			'not_found'             => __( 'Not found', 'momento-event-manager' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'momento-event-manager' ),
 		);
 		
 		$args = array(
-			'label'                 => __( 'Organizer', 'mega-events-manager' ),
-			'description'           => __( 'Organizer post type', 'mega-events-manager' ),
+			'label'                 => __( 'Organizer', 'momento-event-manager' ),
+			'description'           => __( 'Organizer post type', 'momento-event-manager' ),
 			'labels'                => $labels,
 			'supports'              => array(  'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
 			'hierarchical'          => false,
@@ -704,28 +703,28 @@ class UEM_Post_Types {
 	/**
 	 * Register Volunteer post type
 	 */
-	private static function webcu_register_volunteer_post_type() {
+	private static function wtmem_register_volunteer_post_type() {
 		$labels = array(
-			'name'                  => _x( 'Event Volunteers', 'Post Type General Name', 'mega-events-manager' ),
-			'singular_name'         => _x( 'Event Volunteer', 'Post Type Singular Name', 'mega-events-manager' ),
-			'menu_name'             => __( 'Event Volunteers', 'mega-events-manager' ),
-			'name_admin_bar'        => __( 'Event Volunteer', 'mega-events-manager' ),
-			'archives'              => __( 'Event Volunteer Archives', 'mega-events-manager' ),
-			'all_items'             => __( 'Event Volunteers', 'mega-events-manager' ),
-			'add_new_item'          => __( 'Add New Event Volunteer', 'mega-events-manager' ),
-			'add_new'               => __( 'Add New Event Volunteer', 'mega-events-manager' ),
-			'new_item'              => __( 'New Event Volunteer', 'mega-events-manager' ),
-			'edit_item'             => __( 'Edit Event Volunteer', 'mega-events-manager' ),
-			'update_item'           => __( 'Update Event Volunteer', 'mega-events-manager' ),
-			'view_item'             => __( 'View Event Volunteer', 'mega-events-manager' ),
-			'search_items'          => __( 'Search Event Volunteer', 'mega-events-manager' ),
-			'not_found'             => __( 'Not found', 'mega-events-manager' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'mega-events-manager' ),
+			'name'                  => _x( 'Event Volunteers', 'Post Type General Name', 'momento-event-manager' ),
+			'singular_name'         => _x( 'Event Volunteer', 'Post Type Singular Name', 'momento-event-manager' ),
+			'menu_name'             => __( 'Event Volunteers', 'momento-event-manager' ),
+			'name_admin_bar'        => __( 'Event Volunteer', 'momento-event-manager' ),
+			'archives'              => __( 'Event Volunteer Archives', 'momento-event-manager' ),
+			'all_items'             => __( 'Event Volunteers', 'momento-event-manager' ),
+			'add_new_item'          => __( 'Add New Event Volunteer', 'momento-event-manager' ),
+			'add_new'               => __( 'Add New Event Volunteer', 'momento-event-manager' ),
+			'new_item'              => __( 'New Event Volunteer', 'momento-event-manager' ),
+			'edit_item'             => __( 'Edit Event Volunteer', 'momento-event-manager' ),
+			'update_item'           => __( 'Update Event Volunteer', 'momento-event-manager' ),
+			'view_item'             => __( 'View Event Volunteer', 'momento-event-manager' ),
+			'search_items'          => __( 'Search Event Volunteer', 'momento-event-manager' ),
+			'not_found'             => __( 'Not found', 'momento-event-manager' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'momento-event-manager' ),
 		);
 		
 		$args = array(
-			'label'                 => __( 'Volunteer', 'mega-events-manager' ),
-			'description'           => __( 'Volunteer post type', 'mega-events-manager' ),
+			'label'                 => __( 'Volunteer', 'momento-event-manager' ),
+			'description'           => __( 'Volunteer post type', 'momento-event-manager' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'editor', 'thumbnail' ),
 			'hierarchical'          => false,
@@ -750,28 +749,28 @@ class UEM_Post_Types {
 	/**
 	 * Register Sponsor post type
 	 */
-	private static function webcu_register_sponsor_post_type() {
+	private static function wtmem_register_sponsor_post_type() {
 		$labels = array(
-			'name'                  => _x( 'Event Sponsors', 'Post Type General Name', 'mega-events-manager' ),
-			'singular_name'         => _x( 'Event Sponsor', 'Post Type Singular Name', 'mega-events-manager' ),
-			'menu_name'             => __( 'Event Sponsors', 'mega-events-manager' ),
-			'name_admin_bar'        => __( 'Event Sponsor', 'mega-events-manager' ),
-			'archives'              => __( 'Event Sponsor Archives', 'mega-events-manager' ),
-			'all_items'             => __( 'Event Sponsors', 'mega-events-manager' ),
-			'add_new_item'          => __( 'Add New Event Sponsor', 'mega-events-manager' ),
-			'add_new'               => __( 'Add New Event Sponsor', 'mega-events-manager' ),
-			'new_item'              => __( 'New Event Sponsor', 'mega-events-manager' ),
-			'edit_item'             => __( 'Edit Event Sponsor', 'mega-events-manager' ),
-			'update_item'           => __( 'Update Event Sponsor', 'mega-events-manager' ),
-			'view_item'             => __( 'View Event Sponsor', 'mega-events-manager' ),
-			'search_items'          => __( 'Search Event Sponsor', 'mega-events-manager' ),
-			'not_found'             => __( 'Not found', 'mega-events-manager' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'mega-events-manager' ),
+			'name'                  => _x( 'Event Sponsors', 'Post Type General Name', 'momento-event-manager' ),
+			'singular_name'         => _x( 'Event Sponsor', 'Post Type Singular Name', 'momento-event-manager' ),
+			'menu_name'             => __( 'Event Sponsors', 'momento-event-manager' ),
+			'name_admin_bar'        => __( 'Event Sponsor', 'momento-event-manager' ),
+			'archives'              => __( 'Event Sponsor Archives', 'momento-event-manager' ),
+			'all_items'             => __( 'Event Sponsors', 'momento-event-manager' ),
+			'add_new_item'          => __( 'Add New Event Sponsor', 'momento-event-manager' ),
+			'add_new'               => __( 'Add New Event Sponsor', 'momento-event-manager' ),
+			'new_item'              => __( 'New Event Sponsor', 'momento-event-manager' ),
+			'edit_item'             => __( 'Edit Event Sponsor', 'momento-event-manager' ),
+			'update_item'           => __( 'Update Event Sponsor', 'momento-event-manager' ),
+			'view_item'             => __( 'View Event Sponsor', 'momento-event-manager' ),
+			'search_items'          => __( 'Search Event Sponsor', 'momento-event-manager' ),
+			'not_found'             => __( 'Not found', 'momento-event-manager' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'momento-event-manager' ),
 		);
 		
 		$args = array(
-			'label'                 => __( 'Sponsor', 'mega-events-manager' ),
-			'description'           => __( 'Sponsor post type', 'mega-events-manager' ),
+			'label'                 => __( 'Sponsor', 'momento-event-manager' ),
+			'description'           => __( 'Sponsor post type', 'momento-event-manager' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'editor', 'thumbnail' ),
 			'hierarchical'          => false,
@@ -796,28 +795,28 @@ class UEM_Post_Types {
 	/**
 	 * Register Event Registration post type
 	 */
-	private static function webcu_register_registration_post_type() {
+	private static function wtmem_register_registration_post_type() {
 		$labels = array(
-			'name'                  => _x( 'Event Registrations', 'Post Type General Name', 'mega-events-manager' ),
-			'singular_name'         => _x( 'Event Registration', 'Post Type Singular Name', 'mega-events-manager' ),
-			'menu_name'             => __( 'Registrations', 'mega-events-manager' ),
-			'name_admin_bar'        => __( 'Event Registration', 'mega-events-manager' ),
-			'archives'              => __( 'Registration Archives', 'mega-events-manager' ),
-			'all_items'             => __( 'All Registrations', 'mega-events-manager' ),
-			'add_new_item'          => __( 'Add New Registration', 'mega-events-manager' ),
-			'add_new'               => __( 'Add New', 'mega-events-manager' ),
-			'new_item'              => __( 'New Registration', 'mega-events-manager' ),
-			'edit_item'             => __( 'Edit Registration', 'mega-events-manager' ),
-			'update_item'           => __( 'Update Registration', 'mega-events-manager' ),
-			'view_item'             => __( 'View Registration', 'mega-events-manager' ),
-			'search_items'          => __( 'Search Registration', 'mega-events-manager' ),
-			'not_found'             => __( 'Not found', 'mega-events-manager' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'mega-events-manager' ),
+			'name'                  => _x( 'Event Registrations', 'Post Type General Name', 'momento-event-manager' ),
+			'singular_name'         => _x( 'Event Registration', 'Post Type Singular Name', 'momento-event-manager' ),
+			'menu_name'             => __( 'Registrations', 'momento-event-manager' ),
+			'name_admin_bar'        => __( 'Event Registration', 'momento-event-manager' ),
+			'archives'              => __( 'Registration Archives', 'momento-event-manager' ),
+			'all_items'             => __( 'All Registrations', 'momento-event-manager' ),
+			'add_new_item'          => __( 'Add New Registration', 'momento-event-manager' ),
+			'add_new'               => __( 'Add New', 'momento-event-manager' ),
+			'new_item'              => __( 'New Registration', 'momento-event-manager' ),
+			'edit_item'             => __( 'Edit Registration', 'momento-event-manager' ),
+			'update_item'           => __( 'Update Registration', 'momento-event-manager' ),
+			'view_item'             => __( 'View Registration', 'momento-event-manager' ),
+			'search_items'          => __( 'Search Registration', 'momento-event-manager' ),
+			'not_found'             => __( 'Not found', 'momento-event-manager' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'momento-event-manager' ),
 		);
 		
 		$args = array(
-			'label'                 => __( 'Event Registration', 'mega-events-manager' ),
-			'description'           => __( 'Event Registration post type', 'mega-events-manager' ),
+			'label'                 => __( 'Event Registration', 'momento-event-manager' ),
+			'description'           => __( 'Event Registration post type', 'momento-event-manager' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title' ),
 			'hierarchical'          => false,

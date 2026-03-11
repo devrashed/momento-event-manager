@@ -1,36 +1,37 @@
 <?php
+namespace Wpcraft\Metabox;
 /**
  *
  *  Sponser custom post type
  *
  **/
 
-class class_volunteer_custom_metabox{
+class class_mem_volenteers_metabox{
 
         private $country;
         public function __construct() { 
         $this->country = new class_country_list();
 
-        add_action('add_meta_boxes', [$this,'webcu_event_volunteer_meta_field']); 
-        add_action('add_meta_boxes', [$this,'webcu_event_volunteer_gallery_meta_box']); 
-        add_action('save_post',  [$this,'webcu_volunteer_social_media_meta']);
+        add_action('add_meta_boxes', [$this,'wtmem_event_volunteer_meta_field']); 
+        add_action('add_meta_boxes', [$this,'wtmem_event_volunteer_gallery_meta_box']); 
+        add_action('save_post',  [$this,'wtmem_volunteer_social_media_meta']);
         add_action('save_post',  [$this,'save_volenteer_gallery_meta']);
     } 
      
-        public function webcu_event_volunteer_meta_field() {
+        public function wtmem_event_volunteer_meta_field() {
             add_meta_box(
-                'webcu_event_volunteer_fields',
-                __('Volunteer Information', 'mega-events-manager'),
-                [$this, 'webcu_volunteer_metabox_field'],
+                'wtmem_event_volunteer_fields',
+                __('Volunteer Information', 'momento-event-manager'),
+                [$this, 'wtmem_volunteer_metabox_field'],
                 'mem_volunteer',
                 'normal',
                 'high'
             );
         }    
 
-        public function webcu_event_volunteer_gallery_meta_box() {
+        public function wtmem_event_volunteer_gallery_meta_box() {
             add_meta_box(
-                'webcu_volun_gallery',
+                'wtmem_volun_gallery',
                 'Volunteer Photo Gallery',
                 [$this, 'volenteer_gallery_meta_box_callback'],
                 'mem_volunteer',
@@ -39,79 +40,79 @@ class class_volunteer_custom_metabox{
             );
         }
 
-        public function webcu_volunteer_metabox_field($post) { 
-            wp_nonce_field('webcu_save_social_media', 'webcu_social_media_nonce');
+        public function wtmem_volunteer_metabox_field($post) { 
+            wp_nonce_field('wtmem_save_social_media', 'wtmem_social_media_nonce');
 
-            $extras = get_post_meta($post->ID, 'webcu_volun_extras', true);
+            $extras = get_post_meta($post->ID, 'wtmem_volun_extras', true);
             $extras = is_array($extras) ? $extras : [];
 
-            $video_type   = get_post_meta( $post->ID, '_webcu_volun_video_type', true );
-            $youtube_url  = get_post_meta( $post->ID, '_webcu_volun_youtube_url', true );
-            $vimeo_url    = get_post_meta( $post->ID, '_webcu_volun_vimeo_url', true );
-            $video_id     = get_post_meta( $post->ID, '_webcu_volun_own_video_id', true );
+            $video_type   = get_post_meta( $post->ID, '_wtmem_volun_video_type', true );
+            $youtube_url  = get_post_meta( $post->ID, '_wtmem_volun_youtube_url', true );
+            $vimeo_url    = get_post_meta( $post->ID, '_wtmem_volun_vimeo_url', true );
+            $video_id     = get_post_meta( $post->ID, '_wtmem_volun_own_video_id', true );
             $video_url    = $video_id ? wp_get_attachment_url( $video_id ) : '';
 
         ?>    
 
-            <div class="webcu_event-location-box">
+            <div class="wtmem_event-location-box">
                 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Volunteer Owner Name', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_name" name="webcu_volun_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_name', true)); ?>"  
+                        <label><?php echo esc_html__('Volunteer Owner Name', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_name" name="wtmem_volun_name" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_name', true)); ?>"  
                         placeholder="Volunteer Name">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Designation', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_spon_desig" name="webcu_spon_desig" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_spon_desig', true)); ?>"  placeholder="Please write your Designation">
+                        <label><?php echo esc_html__('Designation', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_spon_desig" name="wtmem_spon_desig" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_spon_desig', true)); ?>"  placeholder="Please write your Designation">
                     </div>              
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Street:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_street" name="webcu_volun_street" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_street', true)); ?>" 
+                        <label><?php echo esc_html__('Street:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_street" name="wtmem_volun_street" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_street', true)); ?>" 
                         placeholder="Enter Street Address">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('City:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_city" name="webcu_volun_city" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_city', true)); ?>" 
+                        <label><?php echo esc_html__('City:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_city" name="wtmem_volun_city" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_city', true)); ?>" 
                         placeholder="Enter City">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('State:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_state" name="webcu_volun_state" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_state', true)); ?>" 
+                        <label><?php echo esc_html__('State:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_state" name="wtmem_volun_state" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_state', true)); ?>" 
                         placeholder="Ex: NY">
                     </div>
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label> <?php echo esc_html__('Latitude:', 'mega-events-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
-                            <?php esc_html_e( 'Click here for the latitude and longitude', 'mega-events-manager' ); ?> </a> </span> </label>
-                        <input type="text" id="webcu_volun_late" name="webcu_volun_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_late', true)); ?>" placeholder="Type your Latitude">
+                        <label> <?php echo esc_html__('Latitude:', 'momento-event-manager') ?> <span class="latelong"> <a href="<?php echo esc_url('https://www.latlong.net'); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php esc_html_e( 'Click here for the latitude and longitude', 'momento-event-manager' ); ?> </a> </span> </label>
+                        <input type="text" id="wtmem_volun_late" name="wtmem_volun_late" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_late', true)); ?>" placeholder="Type your Latitude">
                     </div>
                     <div class="form-group">
-                        <label><?php echo esc_html__('Longitude:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_long" name="webcu_volun_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_long', true)); ?>" placeholder="Type your longitude">
+                        <label><?php echo esc_html__('Longitude:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_long" name="wtmem_volun_long" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_long', true)); ?>" placeholder="Type your longitude">
                     </div>
                 </div>  
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Postcode:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_postcode" name="webcu_volun_postcode" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_postcode', true)); ?>" 
+                        <label><?php echo esc_html__('Postcode:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_postcode" name="wtmem_volun_postcode" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_postcode', true)); ?>" 
                         placeholder="Enter Postcode">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Country:', 'mega-events-manager') ?></label>
+                        <label><?php echo esc_html__('Country:', 'momento-event-manager') ?></label>
                         <?php 
-                            $saved_country = get_post_meta(get_the_ID(), 'webcu_volun_country', true);
-                            $this->country->webcu_volunteer_country_dropdown($saved_country);
+                            $saved_country = get_post_meta(get_the_ID(), 'wtmem_volun_country', true);
+                            $this->country->wtmem_volunteer_country_dropdown($saved_country);
                         ?>  
 
                     </div>
@@ -119,42 +120,42 @@ class class_volunteer_custom_metabox{
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Phone Number:', 'mega-events-manager') ?></label>
-                        <input type="number" id="webcu_volun_phone" name="webcu_volun_phone" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_phone', true)); ?>" 
+                        <label><?php echo esc_html__('Phone Number:', 'momento-event-manager') ?></label>
+                        <input type="number" id="wtmem_volun_phone" name="wtmem_volun_phone" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_phone', true)); ?>" 
                         placeholder="Enter Phone">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Email:', 'mega-events-manager') ?></label>
-                        <input type="email" id="webcu_volun_email" name="webcu_volun_email" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_email', true)); ?>" 
+                        <label><?php echo esc_html__('Email:', 'momento-event-manager') ?></label>
+                        <input type="email" id="wtmem_volun_email" name="wtmem_volun_email" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_email', true)); ?>" 
                         placeholder="Enter Email Address">
                     </div>
                 </div>
 
                 <div class="two-col">
                     <div class="form-group">
-                        <label><?php echo esc_html__('Website Address:', 'mega-events-manager') ?></label>
-                        <input type="text" id="webcu_volun_website" name="webcu_volun_website" value="<?php echo esc_attr(get_post_meta($post->ID, 'webcu_volun_website', true)); ?>" 
+                        <label><?php echo esc_html__('Website Address:', 'momento-event-manager') ?></label>
+                        <input type="text" id="wtmem_volun_website" name="wtmem_volun_website" value="<?php echo esc_attr(get_post_meta($post->ID, 'wtmem_volun_website', true)); ?>" 
                         placeholder="Enter Website Address">
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo esc_html__('Comment:', 'mega-events-manager') ?></label>
-                        <textarea id="webcu_volun_comment" name="webcu_volun_comment" placeholder="Write a comment" rows="4" cols="50"><?php 
-                        echo esc_textarea(get_post_meta($post->ID, 'webcu_volun_comment', true)); 
+                        <label><?php echo esc_html__('Comment:', 'momento-event-manager') ?></label>
+                        <textarea id="wtmem_volun_comment" name="wtmem_volun_comment" placeholder="Write a comment" rows="4" cols="50"><?php 
+                        echo esc_textarea(get_post_meta($post->ID, 'wtmem_volun_comment', true)); 
                         ?></textarea>
                     </div>
                 </div>
 
 
-                <h3><?php echo esc_html__('Social Network', 'mega-events-manager') ?></h3>
+                <h3><?php echo esc_html__('Social Network', 'momento-event-manager') ?></h3>
                         
-                <table class="webcu_tk_extra-table" id="webcu_volun_extraTable">
+                <table class="wtmem_tk_extra-table" id="wtmem_volun_extraTable">
                     <thead>
                         <tr>
-                            <th><?php echo esc_html__('Social Media', 'mega-events-manager') ?></th>
-                            <th><?php echo esc_html__('URL', 'mega-events-manager') ?></th>
-                            <th><?php echo esc_html__('Action', 'mega-events-manager') ?></th>
+                            <th><?php echo esc_html__('Social Media', 'momento-event-manager') ?></th>
+                            <th><?php echo esc_html__('URL', 'momento-event-manager') ?></th>
+                            <th><?php echo esc_html__('Action', 'momento-event-manager') ?></th>
                         </tr>
                     </thead>
                         
@@ -163,7 +164,7 @@ class class_volunteer_custom_metabox{
                             <?php foreach ($extras as $key => $extra) : ?>
                                 <tr>
                                     <td>
-                                        <select name="webcu_volun_extras[<?php echo esc_attr($key); ?>][volun_social_media]">
+                                        <select name="wtmem_volun_extras[<?php echo esc_attr($key); ?>][volun_social_media]">
                                             <?php
                                             $options = ['facebook', 'linkedin', 'X', 'instagram', 'pinterest', 'youtube', 'tiktok'];
                                             foreach ($options as $option) {
@@ -177,16 +178,16 @@ class class_volunteer_custom_metabox{
 
                                     <td>
                                         <input type="url" 
-                                            name="webcu_volun_extras[<?php echo esc_attr($key); ?>][url]" 
+                                            name="wtmem_volun_extras[<?php echo esc_attr($key); ?>][url]" 
                                             value="<?php echo esc_attr($extra['url']); ?>" />
                                     </td>
 
                                     <td>
                                         <button type="button" 
-                                            class="webcu_tk_btn webcu_tk_btn-danger webcu_tk_btn-small webcu_remove_extra_row">
+                                            class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_remove_extra_row">
                                             ✖
                                         </button>
-                                        <span class="webcu_volunteer-drag"> <span class="dashicons dashicons-fullscreen-alt"></span> 
+                                        <span class="wtmem_volunteer-drag"> <span class="dashicons dashicons-fullscreen-alt"></span> 
                                         
                                     </td>
                                 </tr>
@@ -196,16 +197,16 @@ class class_volunteer_custom_metabox{
                 </table>
 
                 <div style="margin-bottom:18px">
-                    <button type="button" id="webcu_volun_addExtra" class="webcu_tk_btn webcu_tk_btn-primary">
+                    <button type="button" id="wtmem_volun_addExtra" class="wtmem_tk_btn wtmem_tk_btn-primary">
                         <span class="dashicons dashicons-plus"></span>
-                        <?php echo esc_html__('Add Social Media Link', 'mega-events-manager') ?>
+                        <?php echo esc_html__('Add Social Media Link', 'momento-event-manager') ?>
                     </button>
                 </div>  
                 
                         
             <!-- ===== Hero banenr ==== -->                                     
                 
-            <h3><?php echo esc_html__('Hero Banner', 'mega-events-manager') ?></h3>    
+            <h3><?php echo esc_html__('Hero Banner', 'momento-event-manager') ?></h3>    
             
                 <?php 
                 $image_id  = get_post_meta( $post->ID, '_event_volunteer_image_id', true );
@@ -226,7 +227,7 @@ class class_volunteer_custom_metabox{
                                 </button>
 
                                 <button type="button" class="button" id="rk-remove-btn" style="display:<?php echo $image_url ? 'inline-block' : 'none'; ?>;">
-                                <?php echo esc_html__('Remove', 'mega-events-manager') ?>
+                                <?php echo esc_html__('Remove', 'momento-event-manager') ?>
                                 </button>
                             </p>
                         </div>
@@ -235,18 +236,18 @@ class class_volunteer_custom_metabox{
 
                 <!--========= Video upload ========== -->  
 
-                <h3><?php echo esc_html__('Video Upload', 'mega-events-manager') ?></h3>    
+                <h3><?php echo esc_html__('Video Upload', 'momento-event-manager') ?></h3>    
                                 
-                <table class="webcu_volun_tk_extra-table">
+                <table class="wtmem_volun_tk_extra-table">
                 <tr> 
-                        <th><?php echo esc_html__('Select your video type', 'mega-events-manager') ?></th>
-                        <th><?php echo esc_html__('Video link', 'mega-events-manager') ?></th>
+                        <th><?php echo esc_html__('Select your video type', 'momento-event-manager') ?></th>
+                        <th><?php echo esc_html__('Video link', 'momento-event-manager') ?></th>
                 </tr>
                 
                 <tr>                          
                     <td style="width:250px;"> 
 
-                    <select name="webcu_volun_video_type" id="webcu_volun-video-type">
+                    <select name="wtmem_volun_video_type" id="wtmem_volun-video-type">
                             <option value="">Select Type</option>
                             <option value="youtube" <?php selected($video_type, 'youtube'); ?>>YouTube</option>
                             <option value="vimeo" <?php selected($video_type, 'vimeo'); ?>>Vimeo</option>
@@ -257,29 +258,29 @@ class class_volunteer_custom_metabox{
                     <td>
                         
                         <!-- YouTube URL -->
-                        <p id="webcu_volun-youtube-field" style="display:none;">
-                            <label><strong><?php echo esc_html__('YouTube URL:', 'mega-events-manager') ?></strong></label>
-                            <input type="text" name="webcu_volun_youtube_url" value="<?php echo esc_attr($youtube_url); ?>" class="widefat">
+                        <p id="wtmem_volun-youtube-field" style="display:none;">
+                            <label><strong><?php echo esc_html__('YouTube URL:', 'momento-event-manager') ?></strong></label>
+                            <input type="text" name="wtmem_volun_youtube_url" value="<?php echo esc_attr($youtube_url); ?>" class="widefat">
                         </p>
 
                         <!-- Vimeo URL -->
-                        <p id="webcu_volun-vimeo-field" style="display:none;">
-                            <label><strong><?php echo esc_html__('Vimeo URL:', 'mega-events-manager') ?></strong></label>
-                            <input type="text" name="webcu_volun_vimeo_url" value="<?php echo esc_attr($vimeo_url); ?>" class="widefat">
+                        <p id="wtmem_volun-vimeo-field" style="display:none;">
+                            <label><strong><?php echo esc_html__('Vimeo URL:', 'momento-event-manager') ?></strong></label>
+                            <input type="text" name="wtmem_volun_vimeo_url" value="<?php echo esc_attr($vimeo_url); ?>" class="widefat">
                         </p>
 
                         <!-- Own Video Upload -->
-                        <div id="webcu_volun-ownvideo-field" style="display:none;">
-                            <label><strong><?php echo esc_html__('Upload Video:', 'mega-events-manager') ?></strong></label><br>
-                            <video id="webcu_volun-video-preview" src="<?php echo esc_url($video_url); ?>" style="max-width:100%; display:<?php echo $video_url ? 'block' : 'none'; ?>;" controls></video>
-                            <input type="hidden" id="webcu_volun-video-id" name="webcu_volun_own_video_id" value="<?php echo esc_attr($video_id); ?>" />
+                        <div id="wtmem_volun-ownvideo-field" style="display:none;">
+                            <label><strong><?php echo esc_html__('Upload Video:', 'momento-event-manager') ?></strong></label><br>
+                            <video id="wtmem_volun-video-preview" src="<?php echo esc_url($video_url); ?>" style="max-width:100%; display:<?php echo $video_url ? 'block' : 'none'; ?>;" controls></video>
+                            <input type="hidden" id="wtmem_volun-video-id" name="wtmem_volun_own_video_id" value="<?php echo esc_attr($video_id); ?>" />
                             <p>
-                                <button type="button" class="button" id="webcu_volun-upload-video-btn">
+                                <button type="button" class="button" id="wtmem_volun-upload-video-btn">
                                     <?php echo $video_url ? 'Change Video' : 'Upload Video'; ?>
                                 </button>
 
-                                <button type="button" class="button" id="webcu_volun-remove-video-btn" style="display:<?php echo $video_url ? 'inline-block' : 'none'; ?>;">
-                                    <?php echo esc_html__('Remove', 'mega-events-manager') ?>
+                                <button type="button" class="button" id="wtmem_volun-remove-video-btn" style="display:<?php echo $video_url ? 'inline-block' : 'none'; ?>;">
+                                    <?php echo esc_html__('Remove', 'momento-event-manager') ?>
                                 </button>
                             </p>                                                     
                         </div>                                      
@@ -291,10 +292,10 @@ class class_volunteer_custom_metabox{
         <?php 
         }
 
-    public function webcu_volunteer_social_media_meta($post_id) {
+    public function wtmem_volunteer_social_media_meta($post_id) {
 
-        if (!isset($_POST['webcu_social_media_nonce']) || 
-            !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['webcu_social_media_nonce'])), 'webcu_save_social_media')) {
+        if (!isset($_POST['wtmem_social_media_nonce']) || 
+            !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wtmem_social_media_nonce'])), 'wtmem_save_social_media')) {
             return;
         }
 
@@ -303,9 +304,9 @@ class class_volunteer_custom_metabox{
 
 
         $fields = [
-            'webcu_volun_name', 'webcu_spon_desig', 'webcu_volun_street', 'webcu_volun_city', 'webcu_volun_state',
-            'webcu_volun_late', 'webcu_volun_long', 'webcu_volun_postcode', 'webcu_volun_country', 'webcu_volun_phone', 
-            'webcu_volun_email', 'webcu_volun_website', 'webcu_volun_comment'
+            'wtmem_volun_name', 'wtmem_spon_desig', 'wtmem_volun_street', 'wtmem_volun_city', 'wtmem_volun_state',
+            'wtmem_volun_late', 'wtmem_volun_long', 'wtmem_volun_postcode', 'wtmem_volun_country', 'wtmem_volun_phone', 
+            'wtmem_volun_email', 'wtmem_volun_website', 'wtmem_volun_comment'
         ];
 
         foreach ($fields as $field) {
@@ -313,20 +314,20 @@ class class_volunteer_custom_metabox{
             update_post_meta($post_id, $field, $value);
         }
 
-        if (!empty($_POST['webcu_volun_extras']) && is_array($_POST['webcu_volun_extras'])) {
+        if (!empty($_POST['wtmem_volun_extras']) && is_array($_POST['wtmem_volun_extras'])) {
             $sanitized_extras = [];
 
-            foreach ($_POST['webcu_volun_extras'] as $key => $extra) {
+            foreach ($_POST['wtmem_volun_extras'] as $key => $extra) {
                 $sanitized_extras[$key] = [
                     'volun_social_media' => sanitize_text_field($extra['volun_social_media']),
                     'url'                => esc_url_raw($extra['url']),
                 ];
             }
 
-            update_post_meta($post_id, 'webcu_volun_extras', $sanitized_extras);
+            update_post_meta($post_id, 'wtmem_volun_extras', $sanitized_extras);
 
         } else {
-            delete_post_meta($post_id, 'webcu_volun_extras');
+            delete_post_meta($post_id, 'wtmem_volun_extras');
         }
 
 
@@ -338,12 +339,12 @@ class class_volunteer_custom_metabox{
 
         /*========= Video upload ==========*/
 
-        update_post_meta($post_id, '_webcu_volun_video_type', sanitize_text_field($_POST['webcu_volun_video_type'] ?? ''));
-        update_post_meta($post_id, '_webcu_volun_youtube_url', sanitize_text_field($_POST['webcu_volun_youtube_url'] ?? ''));
-        update_post_meta($post_id, '_webcu_volun_vimeo_url', sanitize_text_field($_POST['webcu_volun_vimeo_url'] ?? ''));
+        update_post_meta($post_id, '_wtmem_volun_video_type', sanitize_text_field($_POST['wtmem_volun_video_type'] ?? ''));
+        update_post_meta($post_id, '_wtmem_volun_youtube_url', sanitize_text_field($_POST['wtmem_volun_youtube_url'] ?? ''));
+        update_post_meta($post_id, '_wtmem_volun_vimeo_url', sanitize_text_field($_POST['wtmem_volun_vimeo_url'] ?? ''));
 
-        if (isset($_POST['webcu_volun_own_video_id'])) {
-            update_post_meta($post_id, '_webcu_volun_own_video_id', sanitize_text_field($_POST['webcu_volun_own_video_id']));
+        if (isset($_POST['wtmem_volun_own_video_id'])) {
+            update_post_meta($post_id, '_wtmem_volun_own_video_id', sanitize_text_field($_POST['wtmem_volun_own_video_id']));
         }
       
     }
@@ -376,7 +377,7 @@ class class_volunteer_custom_metabox{
                 value="<?php echo esc_attr($gallery_ids); ?>" />
 
             <button type="button" class="button button-primary" id="volenteer_add_gallery_images">
-                <?php echo esc_html__('Add Images', 'mega-events-manager'); ?>
+                <?php echo esc_html__('Add Images', 'momento-event-manager'); ?>
             </button>
         </div>
 
@@ -405,3 +406,5 @@ class class_volunteer_custom_metabox{
 
 
 }
+
+new class_volunteer_custom_metabox();

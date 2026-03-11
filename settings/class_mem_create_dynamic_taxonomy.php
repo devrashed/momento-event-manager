@@ -1,4 +1,5 @@
 <?php
+namespace Wpcraft\Settings;
 
 /**
  * Dynamic Taxonomy Manager for Ultimate Event
@@ -6,21 +7,21 @@
 
 class Class_create_dynamic_taxonomy {
 
-    private $option_key = 'webcu_dynamic_taxonomies';
+    private $option_key = 'wtmem_dynamic_taxonomies';
     private $slug;
 
     public function __construct() {
-        add_action('init', [$this, 'webcu_register_dynamic_taxonomies']);
-        add_action('admin_menu', [$this, 'webcu_add_taxonomy_submenus']);
-        add_action('admin_head', [$this, 'webcu_active_taxonomy_submenu']);
+        add_action('init', [$this, 'wtmem_register_dynamic_taxonomies']);
+        add_action('admin_menu', [$this, 'wtmem_add_taxonomy_submenus']);
+        add_action('admin_head', [$this, 'wtmem_active_taxonomy_submenu']);
     }
 
      /**
      * Admin page for adding taxonomy
      */
-    public function webcu_taxonomy_settings_page() {
+    public function wtmem_taxonomy_settings_page() {
 
-        if (isset($_POST['webcu_add_taxonomy'])) {
+        if (isset($_POST['wtmem_add_taxonomy'])) {
             
             $tax_name = sanitize_text_field($_POST['taxonomy_name']);
             $tax_slug = sanitize_title($_POST['taxonomy_slug']);
@@ -54,31 +55,31 @@ class Class_create_dynamic_taxonomy {
         ?>
 
         <div class="wrap">
-            <h2> <?php echo esc_html__('Dynamic Taxonomies', 'mega-events-manager') ?></h2>
+            <h2> <?php echo esc_html__('Dynamic Taxonomies', 'momento-event-manager') ?></h2>
 
             <form method="POST">
                 <table class="form-table">
                     <tr>
-                        <th><label><?php echo esc_html__('Taxonomy Name', 'mega-events-manager') ?></label></th>
+                        <th><label><?php echo esc_html__('Taxonomy Name', 'momento-event-manager') ?></label></th>
                         <td><input type="text" name="taxonomy_name" required class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th><label><?php echo esc_html__('Taxonomy Slug', 'mega-events-manager') ?></label></th>
+                        <th><label><?php echo esc_html__('Taxonomy Slug', 'momento-event-manager') ?></label></th>
                         <td><input type="text" name="taxonomy_slug" required class="regular-text"></td>
                     </tr>
                 </table>
 
-                <p><input type="submit" name="webcu_add_taxonomy" class="button button-primary" value="Create Taxonomy"></p>
+                <p><input type="submit" name="wtmem_add_taxonomy" class="button button-primary" value="Create Taxonomy"></p>
             </form>
 
-            <h2> <?php echo esc_html__('Existing Taxonomies', 'mega-events-manager') ?></h2>
+            <h2> <?php echo esc_html__('Existing Taxonomies', 'momento-event-manager') ?></h2>
 
             <table class="widefat">
                 <thead>
                 <tr>
-                    <th><?php echo esc_html__('Label', 'mega-events-manager') ?></th>
-                    <th><?php echo esc_html__('Slug', 'mega-events-manager') ?></th>
-                    <th><?php echo esc_html__('Actions', 'mega-events-manager') ?></th>
+                    <th><?php echo esc_html__('Label', 'momento-event-manager') ?></th>
+                    <th><?php echo esc_html__('Slug', 'momento-event-manager') ?></th>
+                    <th><?php echo esc_html__('Actions', 'momento-event-manager') ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -89,13 +90,13 @@ class Class_create_dynamic_taxonomy {
                         <td><?php echo esc_html($data['slug']); ?></td>
                         <td>
                         <a href="<?php echo admin_url('edit.php?post_type=mem_event&page=mem-settings&tab=dytx&delete_tax=' . esc_attr($slug)
-                            ); ?>" onclick="return confirm('Delete this taxonomy?');"><?php echo esc_html__('Delete', 'mega-events-manager') ?> </a>
+                            ); ?>" onclick="return confirm('Delete this taxonomy?');"><?php echo esc_html__('Delete', 'momento-event-manager') ?> </a>
 
                         </td>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <tr><td colspan="3"> <?php echo esc_html__('No taxonomies found.', 'mega-events-manager') ?></td></tr>
+                    <tr><td colspan="3"> <?php echo esc_html__('No taxonomies found.', 'momento-event-manager') ?></td></tr>
                 <?php endif; ?>
                 </tbody>
             </table>
@@ -107,7 +108,7 @@ class Class_create_dynamic_taxonomy {
     /**
      * Register all dynamic taxonomies
      */
-    public function webcu_register_dynamic_taxonomies() {
+    public function wtmem_register_dynamic_taxonomies() {
 
         $taxonomies = get_option($this->option_key, []);
          
@@ -132,7 +133,7 @@ class Class_create_dynamic_taxonomy {
     }
 
 
-    public function webcu_add_taxonomy_submenus() {
+    public function wtmem_add_taxonomy_submenus() {
 
         // Prevent duplicate submenu creation
         static $added = false;
@@ -159,7 +160,7 @@ class Class_create_dynamic_taxonomy {
 
     }
 
-    public function webcu_active_taxonomy_submenu() {
+    public function wtmem_active_taxonomy_submenu() {
 
         global $parent_file, $submenu_file, $current_screen;
 

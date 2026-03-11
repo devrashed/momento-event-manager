@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Render WooCommerce registration
  */
-function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
+function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 		return;
 	}
@@ -119,7 +119,7 @@ function webcu_uem_render_woocommerce_registration( $event_id, $tickets ) {
 /**
  * Render simple registration form
  */
-function webcu_uem_render_simple_registration( $event_id, $tickets ) {
+function wtmem_uem_render_simple_registration( $event_id, $tickets ) {
 	?>
 	<div class="uem-simple-registration">
 		<form id="uem-registration-form" method="post">

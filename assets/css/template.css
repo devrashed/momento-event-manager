@@ -1,6 +1,6 @@
 /*======== Organizer single page ======== */
 
-.webcu-container {
+.wtmem-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 15px;
@@ -104,7 +104,7 @@
 }
 
 /* Wrapper */
-.webcu-wrapper {
+.wtmem-wrapper {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
@@ -112,7 +112,7 @@
 }
 
 /* Main Content */
-.webcu-content {
+.wtmem-content {
     flex: 1 1 65%;
     background: #fff;
     padding: 25px;
@@ -120,45 +120,45 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-.webcu-title {
+.wtmem-title {
     font-size: 30px;
     margin-bottom: 20px;
     color: #222;
 }
 
 /* Meta Info (Responsive Grid) */
-.webcu-meta {
+.wtmem-meta {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px;
     margin-bottom: 20px;
 }
 
-.webcu-meta div {
+.wtmem-meta div {
     font-size: 15px;
     color: #555;
 }
 
 /* Featured Image */
-.webcu-thumbnail img {
+.wtmem-thumbnail img {
     width: 100%;
     border-radius: 10px;
     margin: 20px 0;
 }
 
 /* Content Body */
-.webcu-description {
+.wtmem-description {
     font-size: 17px;
     line-height: 1.7;
     color: #444;
 }
 
 /* Sidebar */
-.webcu-sidebar {
+.wtmem-sidebar {
     flex: 1 1 30%;
 }
 
-.webcu-box {
+.wtmem-box {
     background: #fff;
     padding: 20px;
     margin-bottom: 25px;
@@ -166,19 +166,19 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-.webcu-box h3 {
+.wtmem-box h3 {
     margin-bottom: 15px;
     font-size: 20px;
     color: #333;
 }
 
-.webcu-social {
+.wtmem-social {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.webcu-social {
+.wtmem-social {
     display: flex;
     flex-wrap: wrap;
     /* optional — keeps items from breaking */
@@ -189,14 +189,14 @@
     list-style: none;
 }
 
-.webcu-social li a {
+.wtmem-social li a {
     text-decoration: none;
     font-weight: 600;
     color: #1a73e8;
     transition: 0.2s;
 }
 
-.webcu-social li a:hover {
+.wtmem-social li a:hover {
     color: #0c4ea3;
 }
 
@@ -246,21 +246,21 @@
     }
 
 
-    .webcu-wrapper {
+    .wtmem-wrapper {
         flex-direction: column;
         gap: 0;
         /* reduce gap */
         margin-top: 0px;
     }
 
-    .webcu-content,
-    .webcu-sidebar {
+    .wtmem-content,
+    .wtmem-sidebar {
         width: 100%;
         flex: none;
         /* remove old flex behavior */
     }
 
-    .webcu-sidebar {
+    .wtmem-sidebar {
         margin-top: 20px;
     }
 
@@ -299,7 +299,7 @@
         font-size: 14px;
     }
 
-    .webcu-content {
+    .wtmem-content {
         width: 100% !important;
         padding: 20px !important;
         box-sizing: border-box;
@@ -313,32 +313,32 @@
         width: 100% !important;
     }
 
-    .webcu-title {
+    .wtmem-title {
         font-size: 22px;
         line-height: 1.3;
     }
 
-    .webcu-meta {
+    .wtmem-meta {
         display: grid;
         grid-template-columns: 1fr;
         /* stack vertically */
         gap: 10px;
     }
 
-    .webcu-box {
+    .wtmem-box {
         padding: 15px;
     }
 
-    .webcu-box h3 {
+    .wtmem-box h3 {
         font-size: 18px;
     }
 
-    .webcu-description {
+    .wtmem-description {
         font-size: 16px;
         line-height: 1.6;
     }
 
-    .webcu-sidebar {
+    .wtmem-sidebar {
         width: 100% !important;
         padding: 15px;
         box-sizing: border-box;
@@ -474,14 +474,14 @@ h4 {
     margin: 15px 0px;
 }
 
-.webcu-event-gallery-grid {
+.wtmem-event-gallery-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
 }
 
-.webcu-event-gallery-item {
+.wtmem-event-gallery-item {
     position: relative;
     border: 1px solid #ddd;
     padding: 5px;
@@ -490,7 +490,7 @@ h4 {
     height: 160px;
 }
 
-.webcu-event-gallery-item img {
+.wtmem-event-gallery-item img {
     width: 100%;
     height: 100%;
     display: block;
@@ -813,73 +813,73 @@ h4 {
 
 /* ======= Attendee Ticket form ======= */
 /* 
-.webcu-form-grid {
+.wtmem-form-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     width: 100%;
 }
 
-.webcu-form-field {
+.wtmem-form-field {
     width: calc(50% - 8px);
     display: flex;
     flex-direction: column;
 }
 
-.webcu-form-field-requird {
+.wtmem-form-field-requird {
     color: red;
     margin-left: 1px;
 }
 
-.webcu-form-field label {
+.wtmem-form-field label {
     margin-bottom: 6px;
     font-weight: 500;
 }
 
-.webcu-form-field input,
-.webcu-form-field select {
+.wtmem-form-field input,
+.wtmem-form-field select {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.webcu-form-item {
+.wtmem-form-item {
     display: flex;
     flex-direction: column;
 }
 
 
-.webcu-extra-form-grid {
+.wtmem-extra-form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px 24px;
 }
 
-.webcu-form-item input,
-.webcu-form-item select {
+.wtmem-form-item input,
+.wtmem-form-item select {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.webcu-form-item {
+.wtmem-form-item {
     display: flex;
     flex-direction: column;
 } */
 
-.webcu-form-field.has-error input,
-.webcu-form-field.has-error select,
-.webcu-form-field.has-error textarea,
-.webcu-form-item.has-error input,
-.webcu-form-item.has-error select,
-.webcu-form-item.has-error textarea {
+.wtmem-form-field.has-error input,
+.wtmem-form-field.has-error select,
+.wtmem-form-field.has-error textarea,
+.wtmem-form-item.has-error input,
+.wtmem-form-item.has-error select,
+.wtmem-form-item.has-error textarea {
     border-color: #dc3545 !important;
     background-color: #fff5f5;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.1);
 }
 
 /* Error Message Styling */
-.webcu-error-message {
+.wtmem-error-message {
     display: block;
     color: #dc3545;
     font-size: 0.875rem;
@@ -902,44 +902,44 @@ h4 {
 }
 
 /* Required Field Indicator */
-.webcu-form-field-requird {
+.wtmem-form-field-requird {
     color: #dc3545;
     font-weight: bold;
     margin-left: 2px;
 }
 
 /* Focus State for Error Fields */
-.webcu-form-field.has-error input:focus,
-.webcu-form-field.has-error select:focus,
-.webcu-form-field.has-error textarea:focus,
-.webcu-form-item.has-error input:focus,
-.webcu-form-item.has-error select:focus,
-.webcu-form-item.has-error textarea:focus {
+.wtmem-form-field.has-error input:focus,
+.wtmem-form-field.has-error select:focus,
+.wtmem-form-field.has-error textarea:focus,
+.wtmem-form-item.has-error input:focus,
+.wtmem-form-item.has-error select:focus,
+.wtmem-form-item.has-error textarea:focus {
     border-color: #dc3545 !important;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
 }
 
 /* Valid State (Optional - adds visual feedback for valid fields) */
-.webcu-form-field.is-valid input,
-.webcu-form-field.is-valid select,
-.webcu-form-field.is-valid textarea,
-.webcu-form-item.is-valid input,
-.webcu-form-item.is-valid select,
-.webcu-form-item.is-valid textarea {
+.wtmem-form-field.is-valid input,
+.wtmem-form-field.is-valid select,
+.wtmem-form-field.is-valid textarea,
+.wtmem-form-item.is-valid input,
+.wtmem-form-item.is-valid select,
+.wtmem-form-item.is-valid textarea {
     border-color: #28a745;
     background-color: #f0fff4;
 }
 
 /* Form Field Spacing */
-.webcu-form-field,
-.webcu-form-item {
+.wtmem-form-field,
+.wtmem-form-item {
     margin-bottom: 1.25rem;
     position: relative;
 }
 
 /* Label Styling */
-.webcu-form-field label,
-.webcu-form-item label {
+.wtmem-form-field label,
+.wtmem-form-item label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
@@ -947,15 +947,15 @@ h4 {
 }
 
 /* Input Field Styling */
-.webcu-form-field input,
-.webcu-form-field select,
-.webcu-form-field textarea,
-.webcu-form-item input[type="text"],
-.webcu-form-item input[type="email"],
-.webcu-form-item input[type="number"],
-.webcu-form-item input[type="url"],
-.webcu-form-item select,
-.webcu-form-item textarea {
+.wtmem-form-field input,
+.wtmem-form-field select,
+.wtmem-form-field textarea,
+.wtmem-form-item input[type="text"],
+.wtmem-form-item input[type="email"],
+.wtmem-form-item input[type="number"],
+.wtmem-form-item input[type="url"],
+.wtmem-form-item select,
+.wtmem-form-item textarea {
     width: 100%;
     padding: 0.625rem 0.875rem;
     border: 1px solid #ddd;
@@ -965,20 +965,20 @@ h4 {
 }
 
 /* Input Focus State */
-.webcu-form-field input:focus,
-.webcu-form-field select:focus,
-.webcu-form-field textarea:focus,
-.webcu-form-item input:focus,
-.webcu-form-item select:focus,
-.webcu-form-item textarea:focus {
+.wtmem-form-field input:focus,
+.wtmem-form-field select:focus,
+.wtmem-form-field textarea:focus,
+.wtmem-form-item input:focus,
+.wtmem-form-item select:focus,
+.wtmem-form-item textarea:focus {
     outline: none;
     border-color: #4a90e2;
     box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.15);
 }
 
 /* Form Grid Layout */
-.webcu-form-grid,
-.webcu-extra-form-grid {
+.wtmem-form-grid,
+.wtmem-extra-form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 0.9rem;
@@ -1003,12 +1003,12 @@ h4 {
 }
 
 /* Radio and Checkbox Error States */
-.webcu-form-item.has-error .ue-inline {
+.wtmem-form-item.has-error .ue-inline {
     color: #dc3545;
 }
 
 /* Submit Button (Optional Enhancement) */
-.webcu-submit-button {
+.wtmem-submit-button {
     background-color: #4a90e2;
     color: white;
     padding: 0.75rem 2rem;
@@ -1020,30 +1020,30 @@ h4 {
     transition: all 0.3s ease;
 }
 
-.webcu-submit-button:hover {
+.wtmem-submit-button:hover {
     background-color: #357abd;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.webcu-submit-button:active {
+.wtmem-submit-button:active {
     transform: translateY(0);
 }
 
-.webcu-submit-button:disabled {
+.wtmem-submit-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
     transform: none;
 }
 
 /* Loading State */
-.webcu-form-loading {
+.wtmem-form-loading {
     opacity: 0.6;
     pointer-events: none;
 }
 
 /* Success Message */
-.webcu-success-message {
+.wtmem-success-message {
     display: block;
     color: #28a745;
     background-color: #d4edda;
@@ -1055,7 +1055,7 @@ h4 {
 }
 
 /* General Error Message (for form-level errors) */
-.webcu-form-error {
+.wtmem-form-error {
     display: block;
     color: #dc3545;
     background-color: #f8d7da;
@@ -1069,8 +1069,8 @@ h4 {
 /* Responsive Design */
 @media (max-width: 768px) {
 
-    .webcu-form-grid,
-    .webcu-extra-form-grid {
+    .wtmem-form-grid,
+    .wtmem-extra-form-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
@@ -1096,8 +1096,8 @@ h4 {
 
 /* === form validation ==== */
 
-.webcu-form-field.error input,
-.webcu-form-field.error select {
+.wtmem-form-field.error input,
+.wtmem-form-field.error select {
     border-color: red;
 }
 

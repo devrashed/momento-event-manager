@@ -5,6 +5,8 @@
  * @package Mege Events Manager
  */
 
+namespace Wpcraft\Inc;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -18,10 +20,10 @@ class class_mem_registration_shortcode {
      */
     public function __construct() {
       // Register [uem_event_registration] shortcode
-        add_shortcode( 'event-add-cart-section', array( $this, 'webcu_event_add_cart_shortcode' ) );
+        add_shortcode( 'event-add-cart-section', array( $this, 'wtmem_event_add_cart_shortcode' ) );
     }
     
-    public function webcu_is_woocommerce_enabled() {
+    public function wtmem_is_woocommerce_enabled() {
 		return get_option( 'uem_registration_method', 'woocommerce' ) === 'woocommerce';
 	}
     
@@ -34,7 +36,7 @@ class class_mem_registration_shortcode {
 
         /* ==== Shortcode register ===== */
 
-	public function webcu_event_add_cart_shortcode( $atts ) {
+	public function wtmem_event_add_cart_shortcode( $atts ) {
 		$atts = shortcode_atts(
 			array(
 				'event' => '',
@@ -58,27 +60,24 @@ class class_mem_registration_shortcode {
 		
 		$is_woocommerce = class_exists( 'WooCommerce' );
 		$tickets = [];
-		$tickets = get_post_meta( $event_id, '_webcu_tk_tickets', true );
+		$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
 
-        $is_woocommerce = $this->webcu_is_woocommerce_enabled();
+        $is_woocommerce = $this->wtmem_is_woocommerce_enabled();
 
         error_log('Registration method - is Woocommerce: ' . ($is_woocommerce ? 'yes' : 'no'));
 
 
 		if ( $is_woocommerce ) {
-			webcu_uem_render_woocommerce_registration( $event_id, $tickets );
+			wtmem_uem_render_woocommerce_registration( $event_id, $tickets );
 		} else {
-			webcu_uem_render_simple_registration( $event_id, $tickets );
+			wtmem_uem_render_simple_registration( $event_id, $tickets );
 		}
 
 		$output = ob_get_clean();
 		
 		return $output;
 	}
-
-    
-
-    
-
 }
+
+new class_mem_registration_shortcode();
 	

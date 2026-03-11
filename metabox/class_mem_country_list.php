@@ -1,14 +1,14 @@
-
 <?php
 /**
  *
  *  country list Hook
  *
  **/
+namespace Wpcraft\Metabox;
 
-Class class_country_list {
+class class_country_list {
 
-    public function webcu_get_country_list() {
+    public function wtmem_get_country_list() {
         return [
             "Afghanistan",
             "Albania",
@@ -220,12 +220,12 @@ Class class_country_list {
 
 
    // event manaegr
-    public function webcu_event_manaegr_country_dropdown($selected_country = '') {
+    public function wtmem_event_manaegr_country_dropdown($selected_country = '') {
 
-        $countries = $this->webcu_get_country_list();
+        $countries = $this->wtmem_get_country_list();
 
         echo '<div class="select-wrap">';
-        echo '<select name="webcu_ve_country" id="webcu_ve_country" class="js-searchBox form-control">';
+        echo '<select name="wtmem_ve_country" id="wtmem_ve_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(
@@ -242,12 +242,12 @@ Class class_country_list {
 
 
     // organizer
-    public function webcu_orga_render_country_dropdown($selected_country = '') {
+    public function wtmem_orga_render_country_dropdown($selected_country = '') {
 
-        $countries = $this->webcu_get_country_list();
+        $countries = $this->wtmem_get_country_list();
 
         echo '<div class="select-wrap">';
-        echo '<select name="webcu_orga_country" id="webcu_orga_country" class="js-searchBox form-control">';
+        echo '<select name="wtmem_orga_country" id="wtmem_orga_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(
@@ -263,11 +263,11 @@ Class class_country_list {
     }
 
     // Sponser
-    public function webcu_sponser_country_dropdown($selected_country = '') {
+    public function wtmem_sponser_country_dropdown($selected_country = '') {
 
-        $countries = $this->webcu_get_country_list();
+        $countries = $this->wtmem_get_country_list();
         echo '<div class="select-wrap">';
-        echo '<select name="webcu_spon_country" id="webcu_spon_country" class="js-searchBox form-control">';
+        echo '<select name="wtmem_spon_country" id="wtmem_spon_country" class="js-searchBox form-control">';
         foreach ($countries as $country) {
             printf(
                 '<option value="%s" %s>%s</option>',
@@ -283,12 +283,12 @@ Class class_country_list {
     
     
     // === Volunteer ====
-    public function webcu_volunteer_country_dropdown($selected_country = '') {
+    public function wtmem_volunteer_country_dropdown($selected_country = '') {
 
-        $countries = $this->webcu_get_country_list();
+        $countries = $this->wtmem_get_country_list();
 
         echo '<div class="select-wrap">';
-        echo '<select name="webcu_volun_country" id="webcu_volun_country" class="js-searchBox form-control">';
+        echo '<select name="wtmem_volun_country" id="wtmem_volun_country" class="js-searchBox form-control">';
 
         foreach ($countries as $country) {
             printf(

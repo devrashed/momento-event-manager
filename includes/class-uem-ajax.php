@@ -5,6 +5,8 @@
  * @package Ultimate_Events_Manager
  */
 
+namespace Wpcraft\Inc;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

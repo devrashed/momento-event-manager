@@ -4,7 +4,7 @@ function event_associate() {
 global $post;
 ?>
 
-<h3> <?php echo esc_html__( 'Associate of the event', 'mega-events-manager' ).'<br>';?> </h3>
+<h3> <?php echo esc_html__( 'Associate of the event', 'momento-event-manager' ).'<br>';?> </h3>
 				<div class="uem-event-associates">
 
 						<!-- Organizer -->
@@ -13,7 +13,7 @@ global $post;
 							if ( ! empty( $selected_volunteers ) && is_array( $selected_volunteers ) ) : ?>
 								
 								<div class="uem-event-volunteers">
-									<h3><?php echo esc_html__( 'Volunteers', 'mega-events-manager' ); ?></h3>
+									<h3><?php echo esc_html__( 'Volunteers', 'momento-event-manager' ); ?></h3>
 									<ul>
 
 									<?php foreach ( $selected_volunteers as $volunteer_id ) :
@@ -49,7 +49,7 @@ global $post;
 							if ( ! empty( $selected_volunteers ) && is_array( $selected_volunteers ) ) : ?>
 								
 								<div class="uem-event-volunteers">
-									<h3><?php echo esc_html__( 'Volunteers', 'mega-events-manager' ); ?></h3>
+									<h3><?php echo esc_html__( 'Volunteers', 'momento-event-manager' ); ?></h3>
 									<ul>
 
 									<?php foreach ( $selected_volunteers as $volunteer_id ) :
@@ -88,7 +88,7 @@ global $post;
 							if ( ! empty( $selected_volunteers ) && is_array( $selected_volunteers ) ) : ?>
 								
 								<div class="uem-event-volunteers">
-									<h3><?php echo esc_html__( 'Volunteers', 'mega-events-manager' ); ?></h3>
+									<h3><?php echo esc_html__( 'Volunteers', 'momento-event-manager' ); ?></h3>
 									<ul>
 
 									<?php foreach ( $selected_volunteers as $volunteer_id ) :

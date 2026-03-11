@@ -2,10 +2,10 @@
 
 
 <?php 
-    $spontempla = get_option('webcu_sponser_template'); 
+    $spontempla = get_option('wtmem_sponser_template'); 
     if( "right" === $spontempla ){
 ?>
-    <div class="webcu-container">
+    <div class="wtmem-container">
 
             <?php
             if ( have_posts() ) :
@@ -28,26 +28,26 @@
                     </div>
                         <div class="flexbox_two">
 
-                            <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_name', true )); ?> </div>
-                            <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_desig', true )); ?> </div>
+                            <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_name', true )); ?> </div>
+                            <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_desig', true )); ?> </div>
                     
                         </div>
 
                         <div class="flexbox_three"> 
                                 
                                 <span class="org_addr"> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_street', true )); ?> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_city', true )); ?> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_state', true )); ?>
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_postcode', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_street', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_city', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_state', true )); ?>
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_postcode', true )); ?> 
                                 </span>  
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_phone', true )); ?>  </div>
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_email', true )); ?>  </div>
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_website', true )); ?>  </div>  
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_phone', true )); ?>  </div>
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_email', true )); ?>  </div>
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_website', true )); ?>  </div>  
                                 <span class="org_info">  
 
                                 <ul>
-                                    <?php $social_link = get_post_meta(get_the_ID(), 'webcu_spon_extras', true); ?> 
+                                    <?php $social_link = get_post_meta(get_the_ID(), 'wtmem_spon_extras', true); ?> 
                                         <?php foreach ($social_link as $item): 
                                         
                                             if('facebook'=== $item['spon_social_media'] ){
@@ -101,16 +101,16 @@
             endif;
             ?> 
 
-        <div class="webcu-wrapper">
+        <div class="wtmem-wrapper">
 
-            <main class="webcu-content">
+            <main class="wtmem-content">
 
                 <?php
                     if ( have_posts() ) :
                         while ( have_posts() ) : the_post();
                     ?>
-                    <h1 class="webcu-title"><?php the_title(); ?></h1>
-                        <div class="webcu-description">
+                    <h1 class="wtmem-title"><?php the_title(); ?></h1>
+                        <div class="wtmem-description">
                             <?php the_content(); ?>
                         </div>
                     <?php
@@ -118,7 +118,7 @@
                     endif;
                 ?>
 
-            <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+            <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
             <?php 
                 $gallery_ids = get_post_meta($post->ID, '_sponser_gallery_ids', true);
@@ -135,14 +135,14 @@
             ?>
             <br>
             <br>    
-            <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+            <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
             
             <?php
 
-            $video_type   = get_post_meta( $post->ID, '_webcu_spon_video_type', true );
-            $youtube_url  = get_post_meta( $post->ID, '_webcu_spon_youtube_url', true );
-            $vimeo_url    = get_post_meta( $post->ID, '_webcu_spon_vimeo_url', true );
-            $ownvideo     = get_post_meta( $post->ID, '_webcu_spon_own_video_id', true );
+            $video_type   = get_post_meta( $post->ID, '_wtmem_spon_video_type', true );
+            $youtube_url  = get_post_meta( $post->ID, '_wtmem_spon_youtube_url', true );
+            $vimeo_url    = get_post_meta( $post->ID, '_wtmem_spon_vimeo_url', true );
+            $ownvideo     = get_post_meta( $post->ID, '_wtmem_spon_own_video_id', true );
 
             $youvideo_embed = str_replace("watch?v=", "embed/", $youtube_url);
             $ext = !empty($ownvideo) ? strtolower(pathinfo($ownvideo, PATHINFO_EXTENSION)) : '';
@@ -162,7 +162,7 @@
             <?php 
             } elseif ( 'vimeo' === $video_type ) {
 
-            $vimeovieo = get_post_meta($post->ID, '_webcu_spon_vimeo_url', true);
+            $vimeovieo = get_post_meta($post->ID, '_wtmem_spon_vimeo_url', true);
             $video_id = preg_replace('/[^0-9]/', '', $vimeovieo);
             $vimeo_embed = "https://player.vimeo.com/video/" . $video_id;
             ?>
@@ -181,7 +181,7 @@
             <?php
             } elseif ('ownvideo' === $video_type ) {
                 
-                $ownvideo = get_post_meta($post->ID, '_webcu_spon_own_video_id', true);
+                $ownvideo = get_post_meta($post->ID, '_wtmem_spon_own_video_id', true);
                 $image_url = wp_get_attachment_url( $ownvideo );  
                 ?>
                 <video width="560" height="315" controls> 
@@ -193,12 +193,12 @@
         </main>
 
             <!-- Sidebar -->
-            <aside class="webcu-sidebar">
+            <aside class="wtmem-sidebar">
            
                 <?php
 
                 if ( is_singular('mem_sponsor') ) {
-                    dynamic_sidebar( 'webcu_event_sponser_sidebar' );
+                    dynamic_sidebar( 'wtmem_event_sponser_sidebar' );
                 }                        
                 ?>
                         
@@ -211,7 +211,7 @@
     <?php } elseif ( "left" === $spontempla ) {?>
 
 
-    <div class="webcu-container">
+    <div class="wtmem-container">
 
             <?php
             if ( have_posts() ) :
@@ -234,26 +234,26 @@
                     </div>
                         <div class="flexbox_two">
 
-                            <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_name', true )); ?> </div>
-                            <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_desig', true )); ?> </div>
+                            <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_name', true )); ?> </div>
+                            <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_desig', true )); ?> </div>
                     
                         </div>
 
                         <div class="flexbox_three"> 
                                 
                                 <span class="org_addr"> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_street', true )); ?> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_city', true )); ?> 
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_state', true )); ?>
-                                        <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_postcode', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_street', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_city', true )); ?> 
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_state', true )); ?>
+                                        <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_postcode', true )); ?> 
                                 </span>  
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_phone', true )); ?>  </div>
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_email', true )); ?>  </div>
-                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_website', true )); ?>  </div>  
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_phone', true )); ?>  </div>
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_email', true )); ?>  </div>
+                                <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_website', true )); ?>  </div>  
                                 <span class="org_info">  
 
                                 <ul>
-                                    <?php $social_link = get_post_meta(get_the_ID(), 'webcu_spon_extras', true); ?> 
+                                    <?php $social_link = get_post_meta(get_the_ID(), 'wtmem_spon_extras', true); ?> 
                                         <?php foreach ($social_link as $item): 
                                         
                                             if('facebook'=== $item['spon_social_media'] ){
@@ -307,26 +307,26 @@
             endif;
             ?> 
 
-        <div class="webcu-wrapper">
+        <div class="wtmem-wrapper">
 
             
             <!-- Sidebar -->
-            <aside class="webcu-sidebar">
+            <aside class="wtmem-sidebar">
                 <?php
                 if ( is_singular('mem_sponsor') ) {
-                    dynamic_sidebar( 'webcu_event_sponser_sidebar' );
+                    dynamic_sidebar( 'wtmem_event_sponser_sidebar' );
                 }                        
                 ?>                    
             </aside>   
 
-            <main class="webcu-content">
+            <main class="wtmem-content">
 
                     <?php
                         if ( have_posts() ) :
                             while ( have_posts() ) : the_post();
                         ?>
-                        <h1 class="webcu-title"><?php the_title(); ?></h1>
-                            <div class="webcu-description">
+                        <h1 class="wtmem-title"><?php the_title(); ?></h1>
+                            <div class="wtmem-description">
                                 <?php the_content(); ?>
                             </div>
                         <?php
@@ -334,7 +334,7 @@
                         endif;
                     ?>
 
-                <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
                 <?php 
                     $gallery_ids = get_post_meta($post->ID, '_sponser_gallery_ids', true);
@@ -351,14 +351,14 @@
                 ?>
                 <br>
                 <br>    
-                <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
                 
                 <?php
 
-                $video_type   = get_post_meta( $post->ID, '_webcu_spon_video_type', true );
-                $youtube_url  = get_post_meta( $post->ID, '_webcu_spon_youtube_url', true );
-                $vimeo_url    = get_post_meta( $post->ID, '_webcu_spon_vimeo_url', true );
-                $ownvideo     = get_post_meta( $post->ID, '_webcu_spon_own_video_id', true );
+                $video_type   = get_post_meta( $post->ID, '_wtmem_spon_video_type', true );
+                $youtube_url  = get_post_meta( $post->ID, '_wtmem_spon_youtube_url', true );
+                $vimeo_url    = get_post_meta( $post->ID, '_wtmem_spon_vimeo_url', true );
+                $ownvideo     = get_post_meta( $post->ID, '_wtmem_spon_own_video_id', true );
 
                 $youvideo_embed = str_replace("watch?v=", "embed/", $youtube_url);
                 $ext = !empty($ownvideo) ? strtolower(pathinfo($ownvideo, PATHINFO_EXTENSION)) : '';
@@ -378,7 +378,7 @@
                 <?php 
                 } elseif ( 'vimeo' === $video_type ) {
 
-                $vimeovieo = get_post_meta($post->ID, '_webcu_spon_vimeo_url', true);
+                $vimeovieo = get_post_meta($post->ID, '_wtmem_spon_vimeo_url', true);
                 $video_id = preg_replace('/[^0-9]/', '', $vimeovieo);
                 $vimeo_embed = "https://player.vimeo.com/video/" . $video_id;
                 ?>
@@ -397,7 +397,7 @@
                 <?php
                 } elseif ('ownvideo' === $video_type ) {
                     
-                    $ownvideo = get_post_meta($post->ID, '_webcu_spon_own_video_id', true);
+                    $ownvideo = get_post_meta($post->ID, '_wtmem_spon_own_video_id', true);
                     $image_url = wp_get_attachment_url( $ownvideo );  
                     ?>
                     <video width="560" height="315" controls> 

@@ -8,11 +8,11 @@
             <?php       
                 $post_id= get_the_ID(); 
 
-                $address=get_post_meta($post_id,'webcu_ve_street',true);
-                $city=get_post_meta($post_id,'webcu_ve_city',true);
-                $state=get_post_meta($post_id,'webcu_ve_state',true);
-                $zip=get_post_meta($post_id,'webcu_ve_postcocde',true);
-                $country=get_post_meta($post_id,'webcu_ve_country',true);
+                $address=get_post_meta($post_id,'wtmem_ve_street',true);
+                $city=get_post_meta($post_id,'wtmem_ve_city',true);
+                $state=get_post_meta($post_id,'wtmem_ve_state',true);
+                $zip=get_post_meta($post_id,'wtmem_ve_postcocde',true);
+                $country=get_post_meta($post_id,'wtmem_ve_country',true);
 
                 $apiKey=get_option('google_map_api');
 

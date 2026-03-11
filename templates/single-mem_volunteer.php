@@ -1,85 +1,85 @@
 <?php get_header(); ?>
 
 
-<?php $webcu_voltem = get_option('webcu_volunteer_template'); 
+<?php $wtmem_voltem = get_option('wtmem_volunteer_template'); 
  
-if ( "right" === $webcu_voltem ){
+if ( "right" === $wtmem_voltem ){
 
 ?>
 
-<div class="webcu-container">
+<div class="wtmem-container">
 
         <?php
         if ( have_posts() ) :
             while ( have_posts() ) : the_post();
-                $webcu_profile = get_the_post_thumbnail_url( get_the_ID(), 'large' );
-                $webcu_image_id  = get_post_meta( $post->ID, '_event_volunteer_image_id', true );
-                $webcu_herobanner = $webcu_image_id ? wp_get_attachment_url( $webcu_image_id ) : '';
+                $wtmem_profile = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+                $wtmem_image_id  = get_post_meta( $post->ID, '_event_volunteer_image_id', true );
+                $wtmem_herobanner = $wtmem_image_id ? wp_get_attachment_url( $wtmem_image_id ) : '';
         ?>
 
-            <?php if ( $webcu_herobanner ) : ?>
-              <div class="top-header" style="background-image:url('<?php echo esc_attr($webcu_herobanner); ?>');object-fit: cover; background-repeat: round;">
+            <?php if ( $wtmem_herobanner ) : ?>
+              <div class="top-header" style="background-image:url('<?php echo esc_attr($wtmem_herobanner); ?>');object-fit: cover; background-repeat: round;">
 
                  <div class="top_heading"> <?php the_title(); ?> </div>
                 
                 <div class="top_container"> 
                     <div class="flexbox_one"> 
-                       <div class="org_logo" style="background-image:url('<?php echo esc_attr($webcu_profile); ?>'); background-size: cover;"> <img src=""></div>                                    
+                       <div class="org_logo" style="background-image:url('<?php echo esc_attr($wtmem_profile); ?>'); background-size: cover;"> <img src=""></div>                                    
                    </div>
                     <div class="flexbox_two">
 
-                        <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_name', true )); ?> </div>
-                        <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_desig', true )); ?> </div>
+                        <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_name', true )); ?> </div>
+                        <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_desig', true )); ?> </div>
                  
                     </div>
 
                     <div class="flexbox_three"> 
                               
                             <span class="org_addr"> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_street', true )); ?> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_city', true )); ?> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_state', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_street', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_city', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_state', true )); ?> 
                             </span>  
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_phone', true )); ?>  </div>
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_email', true )); ?>  </div>
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_website', true )); ?>  </div>  
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_phone', true )); ?>  </div>
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_email', true )); ?>  </div>
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_website', true )); ?>  </div>  
                             <span class="org_info">  
 
                               <ul>
-                                   <?php $webcu_social_link = get_post_meta(get_the_ID(), 'webcu_volun_extras', true); ?> 
-                                    <?php foreach ($webcu_social_link as $webcu_item): 
+                                   <?php $wtmem_social_link = get_post_meta(get_the_ID(), 'wtmem_volun_extras', true); ?> 
+                                    <?php foreach ($wtmem_social_link as $wtmem_item): 
                                     
-                                        if('facebook'=== $webcu_item['volun_social_media'] ){
+                                        if('facebook'=== $wtmem_item['volun_social_media'] ){
                                         ?>    
-                                            <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-facebook"></i> </a><li>
+                                            <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-facebook"></i> </a><li>
                                         <?php    
-                                        }elseif('linkedin'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('linkedin'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
-                                          <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-linkedin"></i> </a><li>   
+                                          <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-linkedin"></i> </a><li>   
                                             
                                         <?php    
-                                        }elseif('X'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('X'=== $wtmem_item['volun_social_media'] ) {
                                         ?> 
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-x-twitter"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-x-twitter"></i> </a><li>   
                                         
                                         <?php    
-                                        }elseif('instagram'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('instagram'=== $wtmem_item['volun_social_media'] ) {
                                         ?> 
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-instagram"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-instagram"></i> </a><li>   
                                         
                                         <?php    
-                                        }elseif('pinterest'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('pinterest'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-pinterest"></i>  </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-pinterest"></i>  </a><li>   
                                         
                                         <?php    
-                                        }elseif('tiktok'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('tiktok'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a><li>   
                                         
                                         <?php } ?>
 
@@ -100,16 +100,16 @@ if ( "right" === $webcu_voltem ){
         endif;
         ?> 
 
-    <div class="webcu-wrapper">
+    <div class="wtmem-wrapper">
 
-        <main class="webcu-content">
+        <main class="wtmem-content">
 
             <?php
                 if ( have_posts() ) :
                     while ( have_posts() ) : the_post();
                 ?>
-                <h1 class="webcu-title"><?php the_title(); ?></h1>
-                    <div class="webcu-description">
+                <h1 class="wtmem-title"><?php the_title(); ?></h1>
+                    <div class="wtmem-description">
                         <?php the_content(); ?>
                     </div>
                 <?php
@@ -117,16 +117,16 @@ if ( "right" === $webcu_voltem ){
                 endif;
             ?>
 
-        <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+        <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
         <?php 
-            $webcu_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
-                if (!empty($webcu_gallery_ids)) {
-                    $webcu_ids = explode(',', $webcu_gallery_ids);
-                    foreach ($webcu_ids as $id) {
-                        $webcu_image = wp_get_attachment_image_src($id, 'thumbnail');
-                    if ($webcu_image) {
-                        echo '<img src="' . esc_url($webcu_image[0]) . '" />';
+            $wtmem_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
+                if (!empty($wtmem_gallery_ids)) {
+                    $wtmem_ids = explode(',', $wtmem_gallery_ids);
+                    foreach ($wtmem_ids as $id) {
+                        $wtmem_image = wp_get_attachment_image_src($id, 'thumbnail');
+                    if ($wtmem_image) {
+                        echo '<img src="' . esc_url($wtmem_image[0]) . '" />';
                 
                     }
                 }
@@ -134,24 +134,24 @@ if ( "right" === $webcu_voltem ){
         ?>
         <br>
         <br>    
-        <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+        <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
         
         <?php
 
         
-         $webcu_ownvideo = get_post_meta($post->ID, '_webcu_video_type', true);
-         $webcu_youvideo = get_post_meta($post->ID, '_webcu_youtube_url', true);
-         $webcu_vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);   
+         $wtmem_ownvideo = get_post_meta($post->ID, '_wtmem_video_type', true);
+         $wtmem_youvideo = get_post_meta($post->ID, '_wtmem_youtube_url', true);
+         $wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);   
 
-         $webcu_youvideo_embed = str_replace("watch?v=", "embed/", $webcu_youvideo);
+         $wtmem_youvideo_embed = str_replace("watch?v=", "embed/", $wtmem_youvideo);
 
-         $webcu_ext = !empty($webcu_ownvideo) ? strtolower(pathinfo($webcu_ownvideo, PATHINFO_EXTENSION)) : '';
+         $wtmem_ext = !empty($wtmem_ownvideo) ? strtolower(pathinfo($wtmem_ownvideo, PATHINFO_EXTENSION)) : '';
 
-         if ( !empty($webcu_youvideo) && strpos($webcu_youvideo, 'youtube') !== false ) {
+         if ( !empty($wtmem_youvideo) && strpos($wtmem_youvideo, 'youtube') !== false ) {
         ?>
         
         <iframe width="560" height="315" 
-            src="<?php echo esc_url($webcu_youvideo_embed); ?>" 
+            src="<?php echo esc_url($wtmem_youvideo_embed); ?>" 
             title="YouTube video player" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -161,17 +161,17 @@ if ( "right" === $webcu_voltem ){
 
        
         <?php 
-        } elseif ( !empty($webcu_vimeovieo) && is_numeric($webcu_vimeovieo) ) {
+        } elseif ( !empty($wtmem_vimeovieo) && is_numeric($wtmem_vimeovieo) ) {
 
-        $webcu_vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);
-        $webcu_video_id = preg_replace('/[^0-9]/', '', $webcu_vimeovieo);
-        $webcu_vimeo_embed = "https://player.vimeo.com/video/" . $webcu_video_id;
+        $wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);
+        $wtmem_video_id = preg_replace('/[^0-9]/', '', $wtmem_vimeovieo);
+        $wtmem_vimeo_embed = "https://player.vimeo.com/video/" . $wtmem_video_id;
         ?>
 
         <iframe 
             width="460" 
             height="315"
-            src="<?php echo esc_url($webcu_vimeo_embed); ?>" 
+            src="<?php echo esc_url($wtmem_vimeo_embed); ?>" 
             frameborder="0" 
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
             referrerpolicy="strict-origin-when-cross-origin"
@@ -183,35 +183,35 @@ if ( "right" === $webcu_voltem ){
         
  
        <?php 
-        } elseif ( ! empty( $webcu_ownvideo ) ) {
-            $webcu_ownvideo = get_post_meta( $post->ID, '_webcu_video_type', true );
-            $webcu_filetype = wp_check_filetype( $webcu_ownvideo );
-            $webcu_mime_type      = $webcu_filetype['type'];
+        } elseif ( ! empty( $wtmem_ownvideo ) ) {
+            $wtmem_ownvideo = get_post_meta( $post->ID, '_wtmem_video_type', true );
+            $wtmem_filetype = wp_check_filetype( $wtmem_ownvideo );
+            $wtmem_mime_type      = $wtmem_filetype['type'];
 
-            if ( ! empty( $webcu_mime_type ) && 0 === strpos( $webcu_mime_type, 'video/' ) ) :
+            if ( ! empty( $wtmem_mime_type ) && 0 === strpos( $wtmem_mime_type, 'video/' ) ) :
                 ?>
                 <video width="560" height="315" controls>
                     <source
-                        src="<?php echo esc_url( $webcu_ownvideo ); ?>"
-                        type="<?php echo esc_attr( $webcu_mime_type ); ?>">
+                        src="<?php echo esc_url( $wtmem_ownvideo ); ?>"
+                        type="<?php echo esc_attr( $wtmem_mime_type ); ?>">
                 </video>
                 <?php
             endif;
         }
     
-        $webcu_video_type = get_post_meta( $post->ID, '_webcu_volun_video_type', true );
-        $webcu_youtube_url  = get_post_meta( $post->ID, '_webcu_volun_youtube_url', true );
-        $webcu_vimeo_url    = get_post_meta( $post->ID, '_webcu_volun_vimeo_url', true );
-        $webcu_video_id = get_post_meta( $post->ID, '_webcu_volun_own_video_id', true );
-        $webcu_video_url    = $webcu_video_id ? wp_get_attachment_url( $webcu_video_id ) : '';
+        $wtmem_video_type = get_post_meta( $post->ID, '_wtmem_volun_video_type', true );
+        $wtmem_youtube_url  = get_post_meta( $post->ID, '_wtmem_volun_youtube_url', true );
+        $wtmem_vimeo_url    = get_post_meta( $post->ID, '_wtmem_volun_vimeo_url', true );
+        $wtmem_video_id = get_post_meta( $post->ID, '_wtmem_volun_own_video_id', true );
+        $wtmem_video_url    = $wtmem_video_id ? wp_get_attachment_url( $wtmem_video_id ) : '';
 
-        $webcu_youvideo_embed = str_replace("watch?v=", "embed/", $webcu_youtube_url);
+        $wtmem_youvideo_embed = str_replace("watch?v=", "embed/", $wtmem_youtube_url);
 
-        if ( 'youtube' === $webcu_video_type ) {
+        if ( 'youtube' === $wtmem_video_type ) {
         ?>
         
         <iframe width="560" height="315" 
-            src="<?php echo esc_url($webcu_youvideo_embed); ?>" 
+            src="<?php echo esc_url($wtmem_youvideo_embed); ?>" 
             title="YouTube video player" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -220,17 +220,17 @@ if ( "right" === $webcu_voltem ){
        </iframe>  
 
        <?php 
-        } elseif ( 'vimeo' === $webcu_video_type ) {
+        } elseif ( 'vimeo' === $wtmem_video_type ) {
 
-        $webcu_vimeovieo = get_post_meta($post->ID, '_webcu_volun_vimeo_url', true);
-        $webcu_video_id = preg_replace('/[^0-9]/', '', $webcu_vimeovieo);
-        $webcu_vimeo_embed = "https://player.vimeo.com/video/" . $webcu_video_id;
+        $wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_volun_vimeo_url', true);
+        $wtmem_video_id = preg_replace('/[^0-9]/', '', $wtmem_vimeovieo);
+        $wtmem_vimeo_embed = "https://player.vimeo.com/video/" . $wtmem_video_id;
         ?>
 
         <iframe 
             width="460" 
             height="315"
-            src="<?php echo esc_url($webcu_vimeo_embed); ?>" 
+            src="<?php echo esc_url($wtmem_vimeo_embed); ?>" 
             frameborder="0" 
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
             referrerpolicy="strict-origin-when-cross-origin"
@@ -239,13 +239,13 @@ if ( "right" === $webcu_voltem ){
 
         
         <?php
-        } elseif ('webcu_ownvideo' === $webcu_video_type ) {
+        } elseif ('wtmem_ownvideo' === $wtmem_video_type ) {
             
-            $webcu_ownvideo = get_post_meta($post->ID, '_webcu_volun_own_video_id', true);
-            $webcu_image_url = wp_get_attachment_url( $webcu_ownvideo );  
+            $wtmem_ownvideo = get_post_meta($post->ID, '_wtmem_volun_own_video_id', true);
+            $wtmem_image_url = wp_get_attachment_url( $wtmem_ownvideo );  
             ?>
             <video width="560" height="315" controls> 
-            <source src="<?php echo esc_url($webcu_image_url); ?>">
+            <source src="<?php echo esc_url($wtmem_image_url); ?>">
             </video> 
 
        <?php } ?> 
@@ -254,11 +254,11 @@ if ( "right" === $webcu_voltem ){
         </main>
 
         <!-- Sidebar -->
-        <aside class="webcu-sidebar">
+        <aside class="wtmem-sidebar">
 
         <?php 
             if ( is_singular('mem_volunteer') ) {
-                dynamic_sidebar( 'webcu_event_volunteer_sidebar' );
+                dynamic_sidebar( 'wtmem_event_volunteer_sidebar' );
             }                        
          ?>                        
             
@@ -267,82 +267,82 @@ if ( "right" === $webcu_voltem ){
     </div>
 </div>
 
-<?php } elseif ( "left" === $webcu_voltem ){?>
+<?php } elseif ( "left" === $wtmem_voltem ){?>
 
 
-    <div class="webcu-container">
+    <div class="wtmem-container">
 
         <?php
         if ( have_posts() ) :
             while ( have_posts() ) : the_post();
-                $webcu_profile = get_the_post_thumbnail_url( get_the_ID(), 'large' );
-                $webcu_image_id  = get_post_meta( $post->ID, '_event_volunteer_image_id', true );
-                $webcu_herobanner = $webcu_image_id ? wp_get_attachment_url( $webcu_image_id ) : '';
+                $wtmem_profile = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+                $wtmem_image_id  = get_post_meta( $post->ID, '_event_volunteer_image_id', true );
+                $wtmem_herobanner = $wtmem_image_id ? wp_get_attachment_url( $wtmem_image_id ) : '';
         ?>
 
-            <?php if ( $webcu_herobanner ) : ?>
-              <div class="top-header" style="background-image:url('<?php echo esc_attr($webcu_herobanner); ?>');object-fit: cover; background-repeat: round;">
+            <?php if ( $wtmem_herobanner ) : ?>
+              <div class="top-header" style="background-image:url('<?php echo esc_attr($wtmem_herobanner); ?>');object-fit: cover; background-repeat: round;">
 
                  <div class="top_heading"> <?php the_title(); ?> </div>
                 
                 <div class="top_container"> 
                     <div class="flexbox_one"> 
-                       <div class="org_logo" style="background-image:url('<?php echo esc_attr($webcu_profile); ?>'); background-size: cover;"> <img src=""></div>                                    
+                       <div class="org_logo" style="background-image:url('<?php echo esc_attr($wtmem_profile); ?>'); background-size: cover;"> <img src=""></div>                                    
                    </div>
                     <div class="flexbox_two">
 
-                        <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_name', true )); ?> </div>
-                        <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_spon_desig', true )); ?> </div>
+                        <div class="org_name"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_name', true )); ?> </div>
+                        <div class="org_desig"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_spon_desig', true )); ?> </div>
                  
                     </div>
 
                     <div class="flexbox_three"> 
                               
                             <span class="org_addr"> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_street', true )); ?> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_city', true )); ?> 
-                                    <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_state', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_street', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_city', true )); ?> 
+                                    <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_state', true )); ?> 
                             </span>  
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_phone', true )); ?>  </div>
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_email', true )); ?>  </div>
-                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'webcu_volun_website', true )); ?>  </div>  
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_phone', true )); ?>  </div>
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_email', true )); ?>  </div>
+                            <div class="org_phone"> <?php echo esc_attr (get_post_meta( $post->ID, 'wtmem_volun_website', true )); ?>  </div>  
                             <span class="org_info">  
 
                               <ul>
-                                   <?php $webcu_social_link = get_post_meta(get_the_ID(), 'webcu_volun_extras', true); ?> 
-                                    <?php foreach ($webcu_social_link as $webcu_item): 
+                                   <?php $wtmem_social_link = get_post_meta(get_the_ID(), 'wtmem_volun_extras', true); ?> 
+                                    <?php foreach ($wtmem_social_link as $wtmem_item): 
                                     
-                                        if('facebook'=== $webcu_item['volun_social_media'] ){
+                                        if('facebook'=== $wtmem_item['volun_social_media'] ){
                                         ?>    
-                                            <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-facebook"></i> </a><li>
+                                            <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-facebook"></i> </a><li>
                                         <?php    
-                                        }elseif('linkedin'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('linkedin'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
-                                          <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-linkedin"></i> </a><li>   
+                                          <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-linkedin"></i> </a><li>   
                                             
                                         <?php    
-                                        }elseif('X'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('X'=== $wtmem_item['volun_social_media'] ) {
                                         ?> 
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-x-twitter"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-x-twitter"></i> </a><li>   
                                         
                                         <?php    
-                                        }elseif('instagram'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('instagram'=== $wtmem_item['volun_social_media'] ) {
                                         ?> 
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-instagram"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-instagram"></i> </a><li>   
                                         
                                         <?php    
-                                        }elseif('pinterest'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('pinterest'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-pinterest"></i>  </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-square-pinterest"></i>  </a><li>   
                                         
                                         <?php    
-                                        }elseif('tiktok'=== $webcu_item['volun_social_media'] ) {
+                                        }elseif('tiktok'=== $wtmem_item['volun_social_media'] ) {
                                         ?>
 
-                                        <li> <a href="<?php echo esc_url($webcu_item['url']); ?>" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a><li>   
+                                        <li> <a href="<?php echo esc_url($wtmem_item['url']); ?>" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a><li>   
                                         
                                         <?php } ?>
 
@@ -363,25 +363,25 @@ if ( "right" === $webcu_voltem ){
         endif;
         ?> 
 
-        <div class="webcu-wrapper">
+        <div class="wtmem-wrapper">
 
             <!-- Sidebar -->
-            <aside class="webcu-sidebar">
+            <aside class="wtmem-sidebar">
                 <?php 
                     if ( is_singular('mem_volunteer') ) {
-                        dynamic_sidebar( 'webcu_event_volunteer_sidebar' );
+                        dynamic_sidebar( 'wtmem_event_volunteer_sidebar' );
                     }                        
                 ?>                                    
             </aside>   
 
-            <main class="webcu-content">
+            <main class="wtmem-content">
 
                     <?php
                         if ( have_posts() ) :
                             while ( have_posts() ) : the_post();
                         ?>
-                        <h1 class="webcu-title"><?php the_title(); ?></h1>
-                            <div class="webcu-description">
+                        <h1 class="wtmem-title"><?php the_title(); ?></h1>
+                            <div class="wtmem-description">
                                 <?php the_content(); ?>
                             </div>
                         <?php
@@ -389,16 +389,16 @@ if ( "right" === $webcu_voltem ){
                         endif;
                     ?>
 
-                <h3> <?php echo esc_html__('Photo Gallery:', 'mega-events-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Photo Gallery:', 'momento-event-manager') ?> </h3>     
 
                 <?php 
-                    $webcu_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
-                        if (!empty($webcu_gallery_ids)) {
-                            $webcu_ids = explode(',', $webcu_gallery_ids);
-                            foreach ($webcu_ids as $id) {
-                                $webcu_image = wp_get_attachment_image_src($id, 'thumbnail');
-                            if ($webcu_image) {
-                                echo '<img src="' . esc_url($webcu_image[0]) . '" />';
+                    $wtmem_gallery_ids = get_post_meta($post->ID, '_volenteer_gallery_ids', true);
+                        if (!empty($wtmem_gallery_ids)) {
+                            $wtmem_ids = explode(',', $wtmem_gallery_ids);
+                            foreach ($wtmem_ids as $id) {
+                                $wtmem_image = wp_get_attachment_image_src($id, 'thumbnail');
+                            if ($wtmem_image) {
+                                echo '<img src="' . esc_url($wtmem_image[0]) . '" />';
                         
                             }
                         }
@@ -406,22 +406,22 @@ if ( "right" === $webcu_voltem ){
                 ?>
                 <br>
                 <br>    
-                <h3> <?php echo esc_html__('Video Gallery:', 'mega-events-manager') ?> </h3>     
+                <h3> <?php echo esc_html__('Video Gallery:', 'momento-event-manager') ?> </h3>     
                 
                 <?php
-                $webcu_ownvideo = get_post_meta($post->ID, '_webcu_video_type', true);
-                $webcu_youvideo = get_post_meta($post->ID, '_webcu_youtube_url', true);
-                $webcu_vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);   
+                $wtmem_ownvideo = get_post_meta($post->ID, '_wtmem_video_type', true);
+                $wtmem_youvideo = get_post_meta($post->ID, '_wtmem_youtube_url', true);
+                $wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);   
 
-                $webcu_youvideo_embed = str_replace("watch?v=", "embed/", $webcu_youvideo);
+                $wtmem_youvideo_embed = str_replace("watch?v=", "embed/", $wtmem_youvideo);
 
-                $webcu_ext = !empty($webcu_ownvideo) ? strtolower(pathinfo($webcu_ownvideo, PATHINFO_EXTENSION)) : '';
+                $wtmem_ext = !empty($wtmem_ownvideo) ? strtolower(pathinfo($wtmem_ownvideo, PATHINFO_EXTENSION)) : '';
 
-                if ( !empty($webcu_youvideo) && strpos($webcu_youvideo, 'youtube') !== false ) {
+                if ( !empty($wtmem_youvideo) && strpos($wtmem_youvideo, 'youtube') !== false ) {
                 ?>
                 
                 <iframe width="560" height="315" 
-                    src="<?php echo esc_url($webcu_youvideo_embed); ?>" 
+                    src="<?php echo esc_url($wtmem_youvideo_embed); ?>" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -431,17 +431,17 @@ if ( "right" === $webcu_voltem ){
 
             
                 <?php 
-                } elseif ( !empty($webcu_vimeovieo) && is_numeric($webcu_vimeovieo) ) {
+                } elseif ( !empty($wtmem_vimeovieo) && is_numeric($wtmem_vimeovieo) ) {
 
-                $webcu_vimeovieo = get_post_meta($post->ID, '_webcu_vimeo_url', true);
-                $webcu_video_id = preg_replace('/[^0-9]/', '', $webcu_vimeovieo);
-                $webcu_vimeo_embed = "https://player.vimeo.com/video/" . $webcu_video_id;
+                $wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_vimeo_url', true);
+                $wtmem_video_id = preg_replace('/[^0-9]/', '', $wtmem_vimeovieo);
+                $wtmem_vimeo_embed = "https://player.vimeo.com/video/" . $wtmem_video_id;
                 ?>
 
                 <iframe 
                     width="460" 
                     height="315"
-                    src="<?php echo esc_url($webcu_vimeo_embed); ?>" 
+                    src="<?php echo esc_url($wtmem_vimeo_embed); ?>" 
                     frameborder="0" 
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
                     referrerpolicy="strict-origin-when-cross-origin"
@@ -449,31 +449,31 @@ if ( "right" === $webcu_voltem ){
                 ></iframe>
         
                 <?php 
-                    } elseif ( !empty($webcu_ownvideo) && in_array($webcu_ext, ['mp4','webm','ogg']) ) {
+                    } elseif ( !empty($wtmem_ownvideo) && in_array($wtmem_ext, ['mp4','webm','ogg']) ) {
                         
-                    $webcu_ownvideo = get_post_meta($post->ID, '_webcu_video_type', true);
-                    $webcu_ext = strtolower(pathinfo($webcu_ownvideo, PATHINFO_EXTENSION));
+                    $wtmem_ownvideo = get_post_meta($post->ID, '_wtmem_video_type', true);
+                    $wtmem_ext = strtolower(pathinfo($wtmem_ownvideo, PATHINFO_EXTENSION));
                     ?>
                     <video width="560" height="315" controls> 
-                    <source src="<?php echo esc_url($webcu_ownvideo); ?>" type="video/<?php echo $webcu_ext; ?>">
+                    <source src="<?php echo esc_url($wtmem_ownvideo); ?>" type="video/<?php echo $wtmem_ext; ?>">
                     </video> 
 
                 <?php } ?> 
 
                 <?php     
-                $webcu_video_type   = get_post_meta( $post->ID, '_webcu_volun_video_type', true );
-                $webcu_youtube_url  = get_post_meta( $post->ID, '_webcu_volun_youtube_url', true );
-                $webcu_vimeo_url    = get_post_meta( $post->ID, '_webcu_volun_vimeo_url', true );
-                $webcu_video_id     = get_post_meta( $post->ID, '_webcu_volun_own_video_id', true );
-                $webcu_video_url    = $webcu_video_id ? wp_get_attachment_url( $webcu_video_id ) : '';
+                $wtmem_video_type   = get_post_meta( $post->ID, '_wtmem_volun_video_type', true );
+                $wtmem_youtube_url  = get_post_meta( $post->ID, '_wtmem_volun_youtube_url', true );
+                $wtmem_vimeo_url    = get_post_meta( $post->ID, '_wtmem_volun_vimeo_url', true );
+                $wtmem_video_id     = get_post_meta( $post->ID, '_wtmem_volun_own_video_id', true );
+                $wtmem_video_url    = $wtmem_video_id ? wp_get_attachment_url( $wtmem_video_id ) : '';
 
-                $webcu_youvideo_embed = str_replace("watch?v=", "embed/", $webcu_youtube_url);
+                $wtmem_youvideo_embed = str_replace("watch?v=", "embed/", $wtmem_youtube_url);
 
-                if ( 'youtube' === $webcu_video_type ) {
+                if ( 'youtube' === $wtmem_video_type ) {
                 ?>
                 
                 <iframe width="560" height="315" 
-                    src="<?php echo esc_url($webcu_youvideo_embed); ?>" 
+                    src="<?php echo esc_url($wtmem_youvideo_embed); ?>" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -482,17 +482,17 @@ if ( "right" === $webcu_voltem ){
                 </iframe>  
 
                 <?php 
-                    } elseif ( 'vimeo' === $webcu_video_type ) {
+                    } elseif ( 'vimeo' === $wtmem_video_type ) {
 
-                    $$webcu_vimeovieo = get_post_meta($post->ID, '_webcu_volun_vimeo_url', true);
-                    $webcu_video_id = preg_replace('/[^0-9]/', '', $$webcu_vimeovieo);
-                    $webcu_vimeo_embed = "https://player.vimeo.com/video/" . $webcu_video_id;
+                    $$wtmem_vimeovieo = get_post_meta($post->ID, '_wtmem_volun_vimeo_url', true);
+                    $wtmem_video_id = preg_replace('/[^0-9]/', '', $$wtmem_vimeovieo);
+                    $wtmem_vimeo_embed = "https://player.vimeo.com/video/" . $wtmem_video_id;
                     ?>
 
                     <iframe 
                         width="460" 
                         height="315"
-                        src="<?php echo esc_url($webcu_vimeo_embed); ?>" 
+                        src="<?php echo esc_url($wtmem_vimeo_embed); ?>" 
                         frameborder="0" 
                         allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
                         referrerpolicy="strict-origin-when-cross-origin"
@@ -500,13 +500,13 @@ if ( "right" === $webcu_voltem ){
                     ></iframe>
 
                     <?php
-                    } elseif ('webcu_ownvideo' === $webcu_video_type ) {
+                    } elseif ('wtmem_ownvideo' === $wtmem_video_type ) {
                         
-                        $webcu_ownvideo = get_post_meta($post->ID, '_webcu_volun_own_video_id', true);
-                        $webcu_image_url = wp_get_attachment_url( $webcu_ownvideo );  
+                        $wtmem_ownvideo = get_post_meta($post->ID, '_wtmem_volun_own_video_id', true);
+                        $wtmem_image_url = wp_get_attachment_url( $wtmem_ownvideo );  
                         ?>
                         <video width="560" height="315" controls> 
-                        <source src="<?php echo esc_url($webcu_image_url); ?>">
+                        <source src="<?php echo esc_url($wtmem_image_url); ?>">
                         </video> 
 
                 <?php } ?> 

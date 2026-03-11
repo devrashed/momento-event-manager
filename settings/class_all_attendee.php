@@ -1,4 +1,5 @@
 <?php
+namespace Wpcraft\Settings;
 if ( ! class_exists( 'WP_List_Table' ) ) {
     require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
@@ -93,8 +94,8 @@ add_action('admin_menu', function () {
 
     add_submenu_page(
 			'edit.php?post_type=mem_event',
-			__( 'All Attendee', 'mega-events-manager' ),
-			__( 'All Attendee', 'mega-events-manager' ),
+			__( 'All Attendee', 'momento-event-manager' ),
+			__( 'All Attendee', 'momento-event-manager' ),
 			'manage_options',
 			'all-attendee',
 		    'render_mem_attendee_table',

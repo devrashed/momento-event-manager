@@ -4,29 +4,31 @@
  * @package Ultimate_Events_Manager
  */
 
+namespace Wpcraft\Inc;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class UEM_Meta_Boxes {
-	
+class class_mem_meta_boxes {
+
 	/**
 	 * Initialize meta boxes
 	 */
 	public static function init() {
-		add_action( 'add_meta_boxes', array( __CLASS__, 'webcu_add_meta_boxes' ) );
-		add_action( 'save_post', array( __CLASS__, 'webcu_save_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'wtmem_add_meta_boxes' ) );
+		add_action( 'save_post', array( __CLASS__, 'wtmem_save_meta_boxes' ) );
 	}
 	
 	/**
 	 * Add meta boxes
 	*/
-	public static function webcu_add_meta_boxes() {
+	public static function wtmem_add_meta_boxes() {
 		// Event meta boxes
 		add_meta_box(
 			'uem_event_organizers',
-			__( 'Organizers', 'mega-events-manager' ),
-			array( __CLASS__, 'webcu_render_organizers_meta_box' ),
+			__( 'Organizers', 'momento-event-manager' ),
+			array( __CLASS__, 'wtmem_render_organizers_meta_box' ),
 			'mem_event',
 			'side',
 			'default'
@@ -34,8 +36,8 @@ class UEM_Meta_Boxes {
 		
 		add_meta_box(
 			'uem_event_volunteers',
-			__( 'Volunteers', 'mega-events-manager' ),
-			array( __CLASS__, 'webcu_render_volunteers_meta_box' ),
+			__( 'Volunteers', 'momento-event-manager' ),
+			array( __CLASS__, 'wtmem_render_volunteers_meta_box' ),
 			'mem_event',
 			'side',
 			'default'
@@ -43,8 +45,8 @@ class UEM_Meta_Boxes {
 		
 		add_meta_box(
 			'uem_event_sponsors',
-			__( 'Sponsors', 'mega-events-manager' ),
-			array( __CLASS__, 'webcu_render_sponsors_meta_box' ),
+			__( 'Sponsors', 'momento-event-manager' ),
+			array( __CLASS__, 'wtmem_render_sponsors_meta_box' ),
 			'mem_event',
 			'side',
 			'default'
@@ -55,7 +57,7 @@ class UEM_Meta_Boxes {
 	 * Render organizers meta box
 	 */
 
-	public static function webcu_render_organizers_meta_box( $post ) {
+	public static function wtmem_render_organizers_meta_box( $post ) {
 
 		wp_nonce_field( 'uem_save_meta_boxes', 'uem_meta_boxes_nonce' );
 
@@ -74,7 +76,7 @@ class UEM_Meta_Boxes {
 		?>
 
 		<div class="uem-meta-box">
-			<p><strong><?php esc_html_e( 'Select Organizers', 'mega-events-manager' ); ?></strong></p>
+			<p><strong><?php esc_html_e( 'Select Organizers', 'momento-event-manager' ); ?></strong></p>
 
 			<?php if ( $organizers ) : ?>
 				<?php foreach ( $organizers as $organizer ) : ?>
@@ -88,7 +90,7 @@ class UEM_Meta_Boxes {
 					</label>
 				<?php endforeach; ?>
 			<?php else : ?>
-				<p><?php esc_html_e( 'No organizers found.', 'mega-events-manager' ); ?></p>
+				<p><?php esc_html_e( 'No organizers found.', 'momento-event-manager' ); ?></p>
 			<?php endif; ?>
 		</div>
 
@@ -99,7 +101,7 @@ class UEM_Meta_Boxes {
 	 * Render volunteers meta box
 	 */
 
-	public static function webcu_render_volunteers_meta_box( $post ) {
+	public static function wtmem_render_volunteers_meta_box( $post ) {
 
 		wp_nonce_field( 'uem_save_meta_boxes', 'uem_meta_boxes_nonce' );
 
@@ -118,7 +120,7 @@ class UEM_Meta_Boxes {
 		?>
 
 		<div class="uem-meta-box">
-			<p><strong><?php esc_html_e( 'Select Volunteers', 'mega-events-manager' ); ?></strong></p>
+			<p><strong><?php esc_html_e( 'Select Volunteers', 'momento-event-manager' ); ?></strong></p>
 
 			<?php if ( $volunteers ) : ?>
 				<?php foreach ( $volunteers as $volunteer ) : ?>
@@ -132,7 +134,7 @@ class UEM_Meta_Boxes {
 					</label>
 				<?php endforeach; ?>
 			<?php else : ?>
-				<p><?php esc_html_e( 'No volunteers found.', 'mega-events-manager' ); ?></p>
+				<p><?php esc_html_e( 'No volunteers found.', 'momento-event-manager' ); ?></p>
 			<?php endif; ?>
 		</div>
 
@@ -143,7 +145,7 @@ class UEM_Meta_Boxes {
 	/**
 	 * Render sponsors meta box
 	 */
-	public static function webcu_render_sponsors_meta_box( $post ) {	
+	public static function wtmem_render_sponsors_meta_box( $post ) {	
 		wp_nonce_field( 'uem_save_meta_boxes', 'uem_meta_boxes_nonce' );
 		$sponsors = get_posts( array(
 			'post_type'      => 'mem_sponsor',
@@ -159,7 +161,7 @@ class UEM_Meta_Boxes {
 
 		?>
 		<div class="uem-meta-box">
-			<p><strong><?php esc_html_e( 'Select Sponsors', 'mega-events-manager'
+			<p><strong><?php esc_html_e( 'Select Sponsors', 'momento-event-manager'
 				 ); ?></strong></p>
 			<?php if ( $sponsors ) : ?>
 				<?php foreach ( $sponsors as $sponsor ) : ?>
@@ -173,7 +175,7 @@ class UEM_Meta_Boxes {
 					</label>
 				<?php endforeach; ?>
 			<?php else : ?>
-				<p><?php esc_html_e('No sponsors found.', 'mega-events-manager' ); ?></p>
+				<p><?php esc_html_e('No sponsors found.', 'momento-event-manager' ); ?></p>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -182,7 +184,7 @@ class UEM_Meta_Boxes {
 	/**
 	 * Save meta boxes data
 	 */
-	public static function webcu_save_meta_boxes( $post_id ) {
+	public static function wtmem_save_meta_boxes( $post_id ) {
 		// Check if our nonce is set.
 		if ( ! isset( $_POST['uem_meta_boxes_nonce'] ) ) {
 			return;

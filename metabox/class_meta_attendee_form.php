@@ -4,12 +4,13 @@
  *  Webcartisan attending message
  *
  **/
+namespace Wpcraft\Metabox;
 
-class Class_meta_attendee_form {
+class class_meta_attendee_form {
 
     public function __construct() {}
     
-    public function webcu_attendee_form($post) {
+    public function wtmem_attendee_form($post) {
 
         wp_nonce_field('save_event_registration_meta', 'event_registration_meta_nonce');
 
@@ -35,7 +36,7 @@ class Class_meta_attendee_form {
         ];
         ?>
 
-        <div class="webcu_attendee_metabox">
+        <div class="wtmem_attendee_metabox">
             <?php foreach ($atten_fields as $atten_fid => $atten_fdata):
 
                 $atten_saved = $attendee_form['fields'][$atten_fid] ?? [];
@@ -44,21 +45,21 @@ class Class_meta_attendee_form {
                 $label    = $atten_saved['label'] ?? $atten_fdata['label'];
             ?>
 
-            <div class="webcu_regi_field-row">
+            <div class="wtmem_regi_field-row">
 
                 <!-- Enable -->
                 <label> 
-                    <input type="checkbox" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][enabled]" value="1"
+                    <input type="checkbox" name="wtmem_attendee_fields[<?php echo esc_attr($atten_fid); ?>][enabled]" value="1"
                     <?php checked($enabled, 1); ?> />
                     <?php echo esc_html($atten_fdata['label']); ?>
                 </label>
 
                 <!-- Label -->
-                <input type="text" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][label]" value="<?php echo esc_attr($label); ?>" />
+                <input type="text" name="wtmem_attendee_fields[<?php echo esc_attr($atten_fid); ?>][label]" value="<?php echo esc_attr($label); ?>" />
 
                 <!-- Required -->
                 <label>
-                    <input type="checkbox" name="webcu_attendee_fields[<?php echo esc_attr($atten_fid); ?>][required]" value="1"
+                    <input type="checkbox" name="wtmem_attendee_fields[<?php echo esc_attr($atten_fid); ?>][required]" value="1"
                       <?php checked($required, 1); ?> />
                     Required
                 </label>
@@ -69,8 +70,8 @@ class Class_meta_attendee_form {
         <!-- ==== Attendee dynamically row add & Remove ===== -->
         
         <br>
-        <h3><?php echo esc_html__('Custom Attendee Fields', 'mega-events-manager'); ?></h3>
-        <p class="description"><?php echo esc_html__('Add custom fields to your Attendee form', 'mega-events-manager'); ?></p>
+        <h3><?php echo esc_html__('Custom Attendee Fields', 'momento-event-manager'); ?></h3>
+        <p class="description"><?php echo esc_html__('Add custom fields to your Attendee form', 'momento-event-manager'); ?></p>
 
         <br>
         
@@ -82,12 +83,12 @@ class Class_meta_attendee_form {
         <table id="ue-fields-table" class="attendee-fields-table" style="width:100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th><?php echo esc_html__('Field Label', 'mega-events-manager'); ?></th>
-                    <th><?php echo esc_html__('Unique ID', 'mega-events-manager'); ?></th>
-                    <th><?php echo esc_html__('Field Type', 'mega-events-manager'); ?></th>
-                    <th><?php echo esc_html__('Options', 'mega-events-manager'); ?></th>
-                    <th><?php echo esc_html__('Required', 'mega-events-manager'); ?></th>
-                    <th><?php echo esc_html__('Action', 'mega-events-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Label', 'momento-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Unique ID', 'momento-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Field Type', 'momento-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Options', 'momento-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Required', 'momento-event-manager'); ?></th>
+                    <th><?php echo esc_html__('Action', 'momento-event-manager'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -115,8 +116,8 @@ class Class_meta_attendee_form {
                         </td>
                         <td>
                             <select name="ue_field_required[]">
-                                <option value="no" <?php selected($field['required'], 'no'); ?>><?php echo esc_html__('Not Required', 'mega-events-manager'); ?></option>
-                                <option value="yes" <?php selected($field['required'], 'yes'); ?>><?php echo esc_html__('Required', 'mega-events-manager'); ?></option>
+                                <option value="no" <?php selected($field['required'], 'no'); ?>><?php echo esc_html__('Not Required', 'momento-event-manager'); ?></option>
+                                <option value="yes" <?php selected($field['required'], 'yes'); ?>><?php echo esc_html__('Required', 'momento-event-manager'); ?></option>
                             </select>
                         </td>
                         <td><button type="button" id="custom_form_remove-row" class="button button-danger"><span class="dashicons dashicons-no"></span></button></td>
@@ -124,12 +125,12 @@ class Class_meta_attendee_form {
                 <?php endforeach; endif; ?>
             </tbody>
         </table>
-        <button type="button" id="add-field-row" class="button button-primary" style="margin-top:10px;"><?php echo esc_html__('+ Add New Field', 'mega-events-manager'); ?></button>
+        <button type="button" id="add-field-row" class="button button-primary" style="margin-top:10px;"><?php echo esc_html__('+ Add New Field', 'momento-event-manager'); ?></button>
         <?php
     }
 
     
-    public function webcu_save_attendee_form($post_id) {
+    public function wtmem_save_attendee_form($post_id) {
         
         $data = [
             'fields' => [],
@@ -137,8 +138,8 @@ class Class_meta_attendee_form {
         ];
 
         // Save predefined attendee fields
-        if (!empty($_POST['webcu_attendee_fields'])) {
-            $fields = wp_unslash($_POST['webcu_attendee_fields']);
+        if (!empty($_POST['wtmem_attendee_fields'])) {
+            $fields = wp_unslash($_POST['wtmem_attendee_fields']);
 
             foreach ($fields as $fid => $info) {
                 $fid = sanitize_key($fid);

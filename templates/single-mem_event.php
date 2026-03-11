@@ -20,16 +20,16 @@ require_once __DIR__ . '/terms_condiation.php';
 require_once __DIR__ . '/event_associate.php';
 
 $plugin = Ultimate_Events_Manager::get_instance();
-$is_woocommerce = $plugin->webcu_is_woocommerce_enabled() && class_exists( 'WooCommerce' );
+$is_woocommerce = $plugin->wtmem_is_woocommerce_enabled() && class_exists( 'WooCommerce' );
 
-$webcu_memEvent = get_option('webcu_event_management_template');
+$wtmem_memEvent = get_option('wtmem_event_management_template');
 
 /**
  * Get product sold quantity - only counts completed and processing orders.
  * Uses WooCommerce API to be compatible with both legacy and HPOS storage.
  */
-if ( ! function_exists( 'webcu_get_product_sold_qty_product' ) ) {
-	function webcu_get_product_sold_qty_product( $product_id ) {
+if ( ! function_exists( 'wtmem_get_product_sold_qty_product' ) ) {
+	function wtmem_get_product_sold_qty_product( $product_id ) {
 		if ( empty( $product_id ) || ! function_exists( 'wc_get_orders' ) ) {
 			return 0;
 		}
@@ -90,16 +90,16 @@ while ( have_posts() ) :
 	the_post();
 	
 	$event_id = get_the_ID();
-	$tickets = get_post_meta( $event_id, '_webcu_tk_tickets', true );
+	$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
 	
 	if ( ! is_array( $tickets ) ) {
 		$tickets = array();
 	}
 	?>
 	
-	<div class="webcu-container">
-	    <div class="webcu-wrapper">
-			<main class="webcu-content">
+	<div class="wtmem-container">
+	    <div class="wtmem-wrapper">
+			<main class="wtmem-content">
 
 	          <div class="hero_banner_section">
 					<?php
@@ -126,7 +126,7 @@ while ( have_posts() ) :
 					
 					<!-- Video check -->
 					
-					<?php webcu_video_media(); ?>
+					<?php wtmem_video_media(); ?>
 				
 					<!-- FAQ section -->
 
@@ -143,7 +143,7 @@ while ( have_posts() ) :
 
 					<?php 
 
-					$show_gmap = get_post_meta($post->ID, 'webcu_ve_googleMap', true); 
+					$show_gmap = get_post_meta($post->ID, 'wtmem_ve_googleMap', true); 
 						if ( $show_gmap === '1') : 
 					     google_map_location();
 						?>			
@@ -195,7 +195,7 @@ while ( have_posts() ) :
 							<div class="ticket_container">
 						 
 								<div class="item"> 
-									<?php echo esc_html__( 'Ticket Sales Start Date & Time', 'mega-events-manager' ).'<br>';
+									<?php echo esc_html__( 'Ticket Sales Start Date & Time', 'momento-event-manager' ).'<br>';
 
 									foreach ($tickets as $ticket_id => $ticket) {
 										//continue;	
@@ -210,7 +210,7 @@ while ( have_posts() ) :
 								</div>
 								<div class="item">
 
-									<?php echo esc_html__( 'Ticket Sales End Date & Time', 'mega-events-manager' ).'<br>'; 
+									<?php echo esc_html__( 'Ticket Sales End Date & Time', 'momento-event-manager' ).'<br>'; 
 
 										foreach ($tickets as $ticket_id => $ticket) {
 
@@ -224,10 +224,10 @@ while ( have_posts() ) :
 
 								</div>
 								<?php 
-								 if ( get_post_meta( get_the_ID(), 'webcu_setting_seat', true ) == '1' ) :					
+								 if ( get_post_meta( get_the_ID(), 'wtmem_setting_seat', true ) == '1' ) :					
 								?>
 								<div class="item total-ticket"> 
-									<?php echo esc_html__( 'Total Ticket', 'mega-events-manager' ); ?>
+									<?php echo esc_html__( 'Total Ticket', 'momento-event-manager' ); ?>
 									<br>
 										<?php 
 										foreach ( $tickets as $ticket_id => $ticket ) {
@@ -242,7 +242,7 @@ while ( have_posts() ) :
 								</div>
 								<?php 
 								endif; 
-							    if ( get_post_meta( get_the_ID(), 'webcu_setting_attendee', true ) == '1' ) :	
+							    if ( get_post_meta( get_the_ID(), 'wtmem_setting_attendee', true ) == '1' ) :	
 								// Get WooCommerce product IDs from the same meta the admin uses.
 								$wc_products = get_post_meta( get_the_ID(), '_uem_wc_products', true );
 								if ( ! is_array( $wc_products ) ) {
@@ -251,7 +251,7 @@ while ( have_posts() ) :
 								?>		
 								<div class="item tickets-sold"> 
 
-									<?php echo esc_html__( 'Tickets Sold', 'mega-events-manager' ); ?>
+									<?php echo esc_html__( 'Tickets Sold', 'momento-event-manager' ); ?>
 									<br>
 									<?php 
 									   foreach ( $tickets as $ticket_index => $ticket ) {
@@ -260,7 +260,7 @@ while ( have_posts() ) :
 											$product_id  = isset( $wc_products[ $ticket_index ] ) ? (int) $wc_products[ $ticket_index ] : 0;
 											
 											if ( ! empty( $product_id ) ) {
-											$total_sold = webcu_get_product_sold_qty_product( $product_id );
+											$total_sold = wtmem_get_product_sold_qty_product( $product_id );
 
 											echo esc_html( 'sold' ) . ': ' . esc_html( $total_sold ) . '<br>';
 											$availability     = $ticket['capacity'] ?? '';
@@ -276,12 +276,12 @@ while ( have_posts() ) :
 
 								<div class="clear"></div>
 							</div>
-								<h2><?php echo esc_html__( 'Register for this Event', 'mega-events-manager' ); ?></h2>
+								<h2><?php echo esc_html__( 'Register for this Event', 'momento-event-manager' ); ?></h2>
 
 								<?php if ( $is_woocommerce ) : ?>
-									<?php webcu_uem_render_woocommerce_registration( $event_id, $tickets ); ?>
+									<?php wtmem_uem_render_woocommerce_registration( $event_id, $tickets ); ?>
 								<?php else : ?>
-									<?php webcu_uem_render_simple_registration( $event_id, $tickets ); ?>
+									<?php wtmem_uem_render_simple_registration( $event_id, $tickets ); ?>
 								<?php endif; ?>
 	  					</div>
 
@@ -295,13 +295,13 @@ while ( have_posts() ) :
 			</main>
 
 				<?php
-				 if ( "right" === $webcu_memEvent ){
+				 if ( "right" === $wtmem_memEvent ){
 				?>
-					<aside class="webcu-sidebar">
+					<aside class="wtmem-sidebar">
 
 						<?php 
 							if ( is_singular('mem_event') ) {
-								dynamic_sidebar( 'webcu_event_sidebar' );
+								dynamic_sidebar( 'wtmem_event_sidebar' );
 							}                        
 						?>                        
 							
