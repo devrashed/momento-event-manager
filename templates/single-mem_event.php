@@ -112,6 +112,49 @@ while ( have_posts() ) :
 			  
 			  </div> <!-- end the hero section -->
 
+				<!-- Date & Time Section -->
+				<?php
+				$event_dates = get_post_meta( get_the_ID(), 'wtmem_event_dates', true );
+				if ( ! empty( $event_dates ) && ! empty( $event_dates['start_date'] ) ) :
+					$date_format = ! empty( $event_dates['date_format'] ) ? $event_dates['date_format'] : 'F j, Y';
+					$time_format = ! empty( $event_dates['time_format'] ) ? $event_dates['time_format'] : 'g:i a';
+					$show_timezone = ( ! empty( $event_dates['timezone'] ) && $event_dates['timezone'] === 'Yes' );
+				?>
+				<div class="wtmem-event-datetime">
+					<h3><?php echo esc_html__( 'Event Date & Time', 'momento-event-manager' ); ?></h3>
+					<?php foreach ( $event_dates['start_date'] as $index => $start_date ) :
+						if ( empty( $start_date ) ) continue;
+						$start_time = $event_dates['start_time'][ $index ] ?? '';
+						$end_date   = $event_dates['end_date'][ $index ] ?? '';
+						$end_time   = $event_dates['end_time'][ $index ] ?? '';
+					?>
+					<div class="wtmem-datetime-item">
+						<span class="dashicons dashicons-calendar-alt"></span>
+						<span class="wtmem-datetime-start">
+							<?php echo esc_html( date_i18n( $date_format, strtotime( $start_date ) ) ); ?>
+							<?php if ( $start_time ) : ?>
+								<?php echo esc_html__( 'at', 'momento-event-manager' ); ?>
+								<?php echo esc_html( date_i18n( $time_format, strtotime( $start_date . ' ' . $start_time ) ) ); ?>
+							<?php endif; ?>
+						</span>
+						<?php if ( $end_date ) : ?>
+							<span class="wtmem-datetime-separator"> &mdash; </span>
+							<span class="wtmem-datetime-end">
+								<?php echo esc_html( date_i18n( $date_format, strtotime( $end_date ) ) ); ?>
+								<?php if ( $end_time ) : ?>
+									<?php echo esc_html__( 'at', 'momento-event-manager' ); ?>
+									<?php echo esc_html( date_i18n( $time_format, strtotime( $end_date . ' ' . $end_time ) ) ); ?>
+								<?php endif; ?>
+							</span>
+						<?php endif; ?>
+						<?php if ( $show_timezone ) : ?>
+							<span class="wtmem-timezone">(<?php echo esc_html( wp_timezone_string() ); ?>)</span>
+						<?php endif; ?>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<?php endif; ?>
+
 				<div class="uem-event-content">
 
 				  <?php the_content(); ?>

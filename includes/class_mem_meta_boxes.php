@@ -1,7 +1,7 @@
 <?php
 /**
  * Meta Boxes
- * @package Ultimate_Events_Manager
+ * @package momentam_Events_Manager
  */
 
 namespace Wpcraft\Inc;
@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class class_mem_meta_boxes {
-
 	/**
 	 * Initialize meta boxes
 	 */

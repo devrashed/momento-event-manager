@@ -9,33 +9,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class class_mem_post_types {	
+class class_mem_post_types {
+	
 	/**
-	 * Initialize post types
+	 * Constructor - Initialize post types
 	 */
-	public static function init() {
-		self::wtmem_register_post_types();
+	public function __construct() {
+		//$this->wtmem_register_post_types();
+	    $this->wtmem_register_event_post_type();
+		$this->wtmem_register_organizer_post_type();
+		$this->wtmem_register_volunteer_post_type();
+		$this->wtmem_register_sponsor_post_type();
+		$this->wtmem_register_registration_post_type();
+	    add_filter( 'manage_mem_event_posts_columns', [$this, 'wtmem_all_event_columns' ] );
+		add_action( 'manage_mem_event_posts_custom_column', [$this, 'wtmem_show_event_columns_value' ], 10, 2 );
+		add_action( 'admin_post_wtmem_download_attendee_csv', [$this, 'download_attendee_csv' ] );
 	}
 	
 	/**
 	 * Register all custom post types
 	 */
-	public static function wtmem_register_post_types() {
-		self::wtmem_register_event_post_type();
-		self::wtmem_register_organizer_post_type();
-		self::wtmem_register_volunteer_post_type();
-		self::wtmem_register_sponsor_post_type();
-		self::wtmem_register_registration_post_type();
-		add_filter( 'manage_mem_event_posts_columns', [ self::class, 'wtmem_all_event_columns' ] );
-		add_action( 'manage_mem_event_posts_custom_column', [self::class, 'wtmem_show_event_columns_value'], 10, 2 );
 	
-		add_action( 'admin_post_wtmem_download_attendee_csv',  [self::class, 'download_attendee_csv']);
-	}
+	/* public function wtmem_register_post_types() {} */
 	
 	/**
 	 * Register Event post type
 	 */
-	private static function wtmem_register_event_post_type() {
+	private function wtmem_register_event_post_type() {
 		$labels = array(
 			'name'                  => _x( 'Mega Events Manager', 'Post Type General Name', 'momento-event-manager' ),
 			'singular_name'         => _x( 'Mega Events Manager', 'Post Type Singular Name', 'momento-event-manager' ),
@@ -89,11 +89,11 @@ class class_mem_post_types {
 		);
 		
 		register_post_type( 'mem_event', $args );
-		self::wtmem_register_eventCategory_taxonomy();
+		$this->wtmem_register_eventCategory_taxonomy();
 	}
 
 	
-	public static function wtmem_register_eventCategory_taxonomy() {
+	public function wtmem_register_eventCategory_taxonomy() {
         $labels = [
             'name'              => __('Event Category', 'momento-event-manager'),
             'singular_name'     => __('Event Category', 'momento-event-manager'),
@@ -248,7 +248,6 @@ class class_mem_post_types {
 	public static function wtmem_get_order_ids_by_products( array $product_ids ) {
 
 		global $wpdb;
-
 		if ( empty( $product_ids ) ) {
 			return array();
 		}
@@ -297,7 +296,6 @@ class class_mem_post_types {
 		
 		return (int) $total_qty;
 	}
-
 
 	//CSV download
 	public static function download_attendee_csv() {
@@ -473,7 +471,6 @@ class class_mem_post_types {
 	}
 
 	public static function wtmem_show_event_columns_value( $column, $post_id ) {
-
         $dates = get_post_meta($post_id, 'wtmem_event_dates', true );
 
 	
@@ -651,7 +648,6 @@ class class_mem_post_types {
 					CSV Export
 				</a>';
         } 
-
     }
 
 	/**

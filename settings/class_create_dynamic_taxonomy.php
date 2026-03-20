@@ -5,7 +5,7 @@ namespace Wpcraft\Settings;
  * Dynamic Taxonomy Manager for Ultimate Event
  */
 
-class Class_create_dynamic_taxonomy {
+class class_create_dynamic_taxonomy {
 
     private $option_key = 'wtmem_dynamic_taxonomies';
     private $slug;

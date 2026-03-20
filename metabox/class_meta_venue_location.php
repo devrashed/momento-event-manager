@@ -5,12 +5,13 @@ namespace Wpcraft\Metabox;
  *  Webcartisan venu/location
  *
  **/
+use Wpcraft\Metabox\class_mem_country_list;
 
 class class_meta_venue_location { 
     private $country;
 
     public function __construct() {
-        $this->country = new Class_country_list();
+        $this->country = new class_mem_country_list();
     }
 
     public function wtmem_venue_location_field($post) {   

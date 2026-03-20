@@ -2,7 +2,7 @@
 namespace Wpcraft\Metabox;
 /**
  *
- *  Webcartisan registration form metafield class
+ *  Registration form metafield class
  *
  **/
 class class_meta_registration_form {

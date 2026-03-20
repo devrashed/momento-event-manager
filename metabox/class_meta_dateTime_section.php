@@ -13,8 +13,7 @@ class class_meta_datetime_section {
     public function __construct(){}
 
     public function wtmem_meta_datetime_field($post) {
-
-
+        
         $saved_data = get_post_meta($post->ID, $this->meta_key, true);
         ?>
         <div class="wtmem_date_container">
@@ -103,13 +102,10 @@ class class_meta_datetime_section {
                 </select>
             </div>
         </div>        
-    <?php
-
-
-
+     <?php
     }
 
-    public function wtmem_save_meta_dateTime_data($post_id) {
+    public function wtmem_save_meta_datetime_data($post_id) {
         if (!isset($_POST['wtmem_start_date'])) return;
 
         $data = [

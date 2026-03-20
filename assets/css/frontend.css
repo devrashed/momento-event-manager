@@ -356,3 +356,48 @@
 	float: left;
 	box-sizing: border-box;
 }
+
+/* ===== Event Date & Time (frontend) ===== */
+.wtmem-event-datetime {
+	background: #f9f9f9;
+	border: 1px solid #e2e2e2;
+	border-radius: 8px;
+	padding: 20px 24px;
+	margin-bottom: 24px;
+}
+
+.wtmem-event-datetime h3 {
+	margin: 0 0 12px;
+	font-size: 18px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.wtmem-datetime-item {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 8px 0;
+	font-size: 15px;
+	color: #3c434a;
+	border-bottom: 1px solid #ececec;
+}
+
+.wtmem-datetime-item:last-child {
+	border-bottom: none;
+}
+
+.wtmem-datetime-item .dashicons {
+	color: #2271b1;
+	margin-right: 4px;
+}
+
+.wtmem-datetime-separator {
+	color: #999;
+}
+
+.wtmem-timezone {
+	font-size: 13px;
+	color: #888;
+}

@@ -6,6 +6,19 @@
  **/
 
 namespace Wpcraft\Metabox;
+use Wpcraft\Metabox\class_meta_venue_location;
+use Wpcraft\Metabox\class_meta_ticket_price;
+use Wpcraft\Metabox\class_meta_datetime_section;
+use Wpcraft\Metabox\class_meta_settings_sections;
+use Wpcraft\Metabox\Class_meta_richtext_section;
+use Wpcraft\Metabox\class_meta_emails_section;
+use Wpcraft\Metabox\class_meta_registration_form;
+use Wpcraft\Metabox\class_meta_attendee_form;
+use Wpcraft\Metabox\class_meta_faq_section;
+use Wpcraft\Metabox\class_meta_terms_conditions;
+use Wpcraft\Metabox\class_meta_timeline_details;
+use Wpcraft\Metabox\class_meta_event_associate;
+use Wpcraft\Metabox\class_meta_event_media;
 
 class class_event_custom_metabox {
 
@@ -23,13 +36,13 @@ class class_event_custom_metabox {
     private $photogallery;
     private $associate;
     private $media;
+    private $registra;
 
     public function __construct() { 
 
         $this->photogallery = new class_event_meta_photogallery();
 
         add_action('add_meta_boxes', [$this, 'wtmem_event_meta_field']);
-
         add_action('save_post', [$this, 'wtmem_save_event_registration_meta']);
         // Removed sidebar gallery metabox - gallery is now in Media tab.
         // add_action('add_meta_boxes', [$this->photogallery,'wtmem_add_gallery_meta_box']);
@@ -48,8 +61,6 @@ class class_event_custom_metabox {
         );
     }
         
-
-
     public function wtmem_render_event_details_metabox($post) {
         // Nonce for verification when saving
         wp_nonce_field('save_event_registration_meta', 'event_registration_meta_nonce');
@@ -62,15 +73,12 @@ class class_event_custom_metabox {
                         <li data-tab="ticket"> <?php echo esc_html__('Ticket & Pricing', 'momento-event-manager') ?></li>
                         <li data-tab="datetime"> <?php echo esc_html__('Date & Time', 'momento-event-manager') ?> </li>
                         <li data-tab="settings"> <?php echo esc_html__('Settings', 'momento-event-manager') ?>  </li>
-                        <!-- <li data-tab="richtext"> <?php //echo esc_html__('Rich Text', 'momento-event-manager') ?>  </li> -->
                         <li data-tab="emails"> <?php echo esc_html__('Emails', 'momento-event-manager') ?></li>
                         <li data-tab="regis"> <?php echo esc_html__('Registration Form', 'momento-event-manager') ?></li>
                         <li data-tab="attendee_form"> <?php echo esc_html__('Attendee Form', 'momento-event-manager') ?> </li>
                         <li data-tab="faq"> <?php echo esc_html__('F.A.Q', 'momento-event-manager') ?> </li>
                         <li data-tab="media"> <?php echo esc_html__('Media', 'momento-event-manager') ?> </li>
-                        <!-- <li data-tab="timeline_details"> <?php //echo esc_html__('Additional content', 'momento-event-manager') ?></li> -->
                         <li data-tab="terms_conditions"> <?php echo esc_html__('Terms & Conditios', 'momento-event-manager') ?>  </li>
-                        <!-- <li data-tab="event_assot"> <?php //echo esc_html__('Event Associates', 'momento-event-manager') ?>  </li> -->
                     </ul>
                 </div>
 
@@ -81,53 +89,41 @@ class class_event_custom_metabox {
                     <div class="event-tab active" id="venue">
                         <h3><?php echo esc_html__('Venue / Location', 'momento-event-manager'); ?></h3>
                         <?php     
-                            $venuelocation = new Class_meta_venue_location();
+                            $venuelocation = new class_meta_venue_location();
                             $venuelocation->wtmem_venue_location_field($post);
                         ?>   
                     </div>
                     <!-- Ticket Tab -->
                     <div class="event-tab" id="ticket">
                         <h3><?php echo esc_html__('Ticket & Pricing', 'momento-event-manager') ?></h3>
-    
                         <?php 
-                            $ticket = new Class_meta_ticket_price();
+                            $ticket = new class_meta_ticket_price();
                             $ticket->wtmem_ticket_price_sections($post);  
                         ?>
                     </div>
-
                     <!-- Date & Time Tab -->
                     <div class="event-tab" id="datetime">
                        <h3><?php echo esc_html__('Events Date & Time', 'momento-event-manager') ?></h3>        
                         <?php
-                           $datetime = new Class_meta_dateTime_section();
-                           $datetime->wtmem_meta_dateTime_field($post);
+                           $datetime = new class_meta_datetime_section();
+                           $datetime->wtmem_meta_datetime_field($post);                                          
                         ?>
                     </div>
                     <!-- Settings Tab -->
                     <div class="event-tab" id="settings">
                         <h3><?php echo esc_html__('Events Settings:', 'momento-event-manager') ?></h3>         
                         <?php                         
-                            $settings = new Class_meta_settings_sections();
+                            $settings = new class_meta_settings_sections();
                             $settings->wtmem_settings_sections($post);
                         ?>
                     </div>  
-
-                    <!-- Rich Text -->
-                    <!-- <div class="event-tab" id="richtext">
-                         <h3><?php //echo esc_html__('Events Rich Texts for SEO & Google Schema Text :', 'momento-event-manager') ?></h3>
-                         <?php 
-                           /*  $richtext = new Class_meta_richtext_section();
-                            $richtext->wtmem_richtext_fields($post); */
-                         ?>
-                    </div>   -->
-             
                     <!-- Emails -->
                     <div class="event-tab" id="emails">
                         <h3><?php echo esc_html__('Emails', 'momento-event-manager') ?></h3>
                         <?php 
-                            $reminder = new Class_meta_emails_section(); 
+                            $reminder = new class_meta_emails_section(); 
                             $reminder->wtmem_meta_emails_field($post);
-                         ?>    
+                        ?>    
                     </div> 
 
                     <!-- Registration Form -->
@@ -135,7 +131,7 @@ class class_event_custom_metabox {
                     <div class="event-tab" id="regis">
                         <h3><?php echo esc_html__('Registration Form', 'momento-event-manager') ?></h3>
                         <?php 
-                            $registra = new Class_meta_registration_form(); 
+                            $registra = new class_meta_registration_form(); 
                             $registra->wtmem_meta_registration_form_field($post);
                          ?>    
                     </div>
@@ -144,7 +140,7 @@ class class_event_custom_metabox {
                     <div class="event-tab" id="attendee_form">
                         <h3><?php echo esc_html__('Attendee Form', 'momento-event-manager') ?></h3>
                         <?php
-                            $attendeeform = new Class_meta_attendee_form();
+                            $attendeeform = new class_meta_attendee_form();
                             $attendeeform->wtmem_attendee_form($post);                                    
                         ?> 
                     </div>
@@ -152,7 +148,7 @@ class class_event_custom_metabox {
                     <div class="event-tab" id="faq">
                         <h3><?php echo esc_html__('F.A.Q', 'momento-event-manager') ?></h3>
                          <?php 
-                            $faq = new Class_meta_faq_section();
+                            $faq = new class_meta_faq_section();
                             $faq->wtmem_faq_fields($post);
                          ?>
                     </div>
@@ -169,7 +165,7 @@ class class_event_custom_metabox {
                     <!-- terms_conditions -->
                     <div class="event-tab" id="terms_conditions">
                         <?php
-                            $termscondition = new Class_meta_terms_conditions();
+                            $termscondition = new class_meta_terms_conditions();
                             $termscondition->wtmem_terms_condition_field($post);
                         ?>     
                     </div>
@@ -177,7 +173,7 @@ class class_event_custom_metabox {
                     <!-- media -->
                     <div class="event-tab" id="media">
                         <?php
-                            $media = new Class_meta_event_media();
+                            $media = new class_meta_event_media();
                             $media->wtmem_event_media_meta_field($post);
                         ?>     
                     </div>
@@ -187,11 +183,12 @@ class class_event_custom_metabox {
                     <!-- <div class="event-tab" id="event_assot">
                          <h3><?php echo esc_html__('Event Associates', 'momento-event-manager') ?></h3>
                         <?php
-                            $associate = new Class_meta_event_associate();
+                            $associate = new class_meta_event_associate();
                             $associate->wtmem_event_associate_meta_field($post);
                         ?>     
-                    </div> --> 
-            </div>
+                    </div> -->
+                </div> <!-- .event-content -->
+            </div> <!-- .event-metabox-wrapper -->
         <?php
     }
 
@@ -227,8 +224,8 @@ class class_event_custom_metabox {
 
         /* === Registration Form ===== */
 
-        $attendeeform = new class_meta_registration_form();   
-        $attendeeform->wtmem_save_regitype_form($post_id);   
+        $registra = new class_meta_registration_form();   
+        $registra->wtmem_save_regitype_form($post_id);   
 
         /* === Attendee Form ===== */
 
@@ -312,4 +309,3 @@ class class_event_custom_metabox {
 
 }
 
-new class_event_custom_metabox();

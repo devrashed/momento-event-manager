@@ -7,7 +7,7 @@ namespace Wpcraft\Settings;
  **/
 
 class class_mem_woocommerce_inte {
-
+    
     public function __construct() {
         add_action( 'admin_init', array( $this, 'wtmem_save_woo_integration_settings' ) );
         add_action( 'admin_notices', array( $this, 'wtmem_display_save_notice' ) );

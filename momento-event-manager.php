@@ -24,7 +24,7 @@ use Wpcraft\Metabox\class_organizer_meta_box;
 use Wpcraft\Metabox\class_volunteer_custom_metabox;
 use Wpcraft\Metabox\class_sponser_custom_metabox;
 use Wpcraft\Metabox\class_event_custom_metabox;
-use Wpcraft\Metabox\Class_meta_emails_section;
+use Wpcraft\Metabox\class_meta_emails_section;
 use Wpcraft\Inc\class_mem_post_types;
 use Wpcraft\Inc\class_mem_meta_boxes;
 use Wpcraft\Inc\class_mem_registration;
@@ -33,7 +33,6 @@ use Wpcraft\Settings\class_mem_settings;
 use Wpcraft\Settings\Class_mem_event_template;
 use Wpcraft\Widget\class_event_manager_widget;
 use Wpcraft\Inc\class_mem_registration_shortcode;
-
 
 /**
  * Main plugin class
@@ -66,38 +65,23 @@ class momento_event_manager {
 	 * Constructor
 	 */
 	private function __construct() {
-		$this->init();
 		$this->wtmem_define_constants();
-		new Wpcraft\Inc\class_mem_post_types();
-		new Wpcraft\Inc\class_mem_meta_boxes();
+		$this->init();
+		new class_event_custom_metabox();
 	}
 	/**
 	* Initialize plugin
 	*/
 	private function init() {
-		// Load plugin files
-		//$this->wtmem_load_dependencies();
 	
 		// Initialize components
 		add_action( 'init', array( $this, 'wtmem_load_textdomain' ) );
-		//add_action( 'init', array( class_Post_Types::class, 'init' ), 5 );
-		//add_action( 'init', array( UEM_Meta_Boxes::class, 'init' ) );
+		// Register post types and meta boxes on init hook (priority 5 to run early)
+		add_action( 'init', array( $this, 'wtmem_register_post_types' ), 5 );
+		add_action( 'init', array( $this, 'wtmem_register_meta_boxes' ), 10 );
+		
 		add_action( 'admin_init', array( class_mem_settings::class, 'init' ) );
 		add_action( 'admin_menu', array( class_mem_settings::class, 'add_settings_page' ) );
-		// organizer
-		//new class_organizer_meta_box();
-		// volenteers
-		//new class_volunteer_custom_metabox();
-		//sponser
-		//new class_sponser_custom_metabox();
-        //event metabox
-		// new class_event_custom_metabox();
-		//event template
-		//new Class_mem_event_template();
-		//event widget
-		//new class_event_manager_widget();
-		//registration shortcode
-		// new class_mem_registration_shortcode();
 
 		$this->emailsend = new Class_meta_emails_section();
 
@@ -112,7 +96,7 @@ class momento_event_manager {
 
 		}
 		// Initialize non-WooCommerce registration
-		add_action( 'wp', array( UEM_Registration::class, 'init' ) );
+		add_action( 'wp', array( class_mem_registration::class, 'init' ) );
 		
 		// Enqueue assets
 		add_action( 'wp_enqueue_scripts', array( $this, 'wtmem_enqueue_frontend_assets' ) );
@@ -126,53 +110,26 @@ class momento_event_manager {
         add_action('wp_ajax_nopriv_wtmem_send_email_now', [$this->emailsend, 'wtmem_send_email_now_handler']);
 		
 	}
+
+	/**
+	 * Register custom post types
+	 */
+	public function wtmem_register_post_types() {
+		new class_mem_post_types();
+	}
+
+	/**
+	 * Register meta boxes
+	 */
+	public function wtmem_register_meta_boxes() {
+		class_mem_meta_boxes::init();
+	}
 	
 	/**
 	 * Load plugin dependencies
 	 */
 
-	private function wtmem_load_dependencies() {
-
-		//require_once MEM_PLUGIN_DIR . 'includes/class-uem-post-types.php';
-		//require_once MEM_PLUGIN_DIR . 'settings/class-uem-settings.php';
-		/* require_once MEM_PLUGIN_DIR . 'settings/class-uem-create-dynamic-taxonomy.php';
-		require_once MEM_PLUGIN_DIR . 'settings/class-uem-currency-setting.php';
-		require_once MEM_PLUGIN_DIR . 'settings/class-uem-woocommerce-inte.php';
-		require_once MEM_PLUGIN_DIR . 'settings/class-mem-event-template.php';
-		require_once MEM_PLUGIN_DIR . 'settings/class-google-map.php';
-		require_once MEM_PLUGIN_DIR . 'settings/class_all_attendee.php'; */
-
-		//require_once MEM_PLUGIN_DIR . 'metabox/class-uem-organizer-metabox.php';
-		/* require_once MEM_PLUGIN_DIR . 'metabox/class-uem-volenteers-metabox.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-uem-sponsers-metabox.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-uem-country-list.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-event-metabox.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_attendee_form.php';  
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_emails_section.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_dateTime_section.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_faq_section.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_registration_form.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_terms_conditions.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_ticket_price.php'; 
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_timeline_details.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_venue_location.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_event_associate.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-event-meta-photogallery.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class_meta_settings_sections.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-event-meta-photogallery.php';
-		require_once MEM_PLUGIN_DIR . 'metabox/class-event-meta-photogallery.php';
-	    require_once MEM_PLUGIN_DIR . 'metabox/class_meta_event_media.php';
-
-		require_once MEM_PLUGIN_DIR . 'widget/class_event_manager_widget.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-meta-boxes.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-woocommerce.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-registration.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-ajax.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-template-loader.php';
-		require_once MEM_PLUGIN_DIR . 'includes/uem-template-functions.php';
-		require_once MEM_PLUGIN_DIR . 'includes/class-uem-shortcode.php'; */
-
-	}
+	private function wtmem_load_dependencies() {}
 
 	public function wtmem_define_constants()
 	{ 
@@ -198,17 +155,16 @@ class momento_event_manager {
 	 */
 	public function wtmem_is_woocommerce_enabled() {
 		return get_option( 'uem_registration_method', 'woocommerce' ) === 'woocommerce';
-	}
-	
+	}	
 	/**
 	 * Enqueue frontend assets
-	 */
+	*/
 	public function wtmem_enqueue_frontend_assets() {
 		if ( is_singular( 'mem_event' ) || is_singular( 'mem_sponsor' )  || is_singular( 'mem_organizer' )  || is_singular( 'mem_volunteer' ) || is_page_template( 'mem-thank-you.php' ) ) {
-			wp_enqueue_style( 'mem-frontend', MEM_PLUGIN_DIR . 'assets/css/frontend.css', array(), MEM_VERSION );
-			wp_enqueue_style( 'mem-template-css', MEM_PLUGIN_DIR . 'assets/css/template.css', array(), MEM_VERSION );
+			wp_enqueue_style( 'mem-frontend', MEM_PLUGIN_URL . 'assets/css/frontend.css', array(), MEM_VERSION );
+			wp_enqueue_style( 'mem-template-css', MEM_PLUGIN_URL . 'assets/css/template.css', array(), MEM_VERSION );
 
-			wp_enqueue_script( 'mem-frontend', MEM_PLUGIN_DIR . 'assets/js/frontend.js', array( 'jquery' ), MEM_VERSION, true );
+			wp_enqueue_script( 'mem-frontend', MEM_PLUGIN_URL . 'assets/js/frontend.js', array( 'jquery' ), MEM_VERSION, true );
 
 			wp_localize_script( 'mem-frontend', 'uemData', array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
@@ -259,6 +215,7 @@ class momento_event_manager {
 	 * @param string $template
 	 * @return string
 	 */
+
 	public function wtmem_load_event_template( $template ) {
 
 		if ( is_singular( 'mem_event' ) ) {
@@ -296,7 +253,6 @@ class momento_event_manager {
 
   	 return $template;
 	}
-	
 	/**
 	 * Load thank you template
 	 *
@@ -335,14 +291,12 @@ function wtmem_uem_activate() {
 	}
 	
 	// Flush rewrite rules
-	flush_rewrite_rules();
-	
+	flush_rewrite_rules();	
 	// Set default options
 	if ( ! get_option( 'uem_registration_method' ) ) {
 		update_option( 'uem_registration_method', 'woocommerce' );
 	}
 }
-
 /**
  * Deactivation hook
  */

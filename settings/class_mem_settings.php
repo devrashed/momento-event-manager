@@ -6,6 +6,13 @@
  * @package mega_Events_Manager
  */
 namespace Wpcraft\Settings;
+use Wpcraft\Settings\class_mem_woocommerce_inte;
+use Wpcraft\Settings\Class_create_dynamic_taxonomy;
+use Wpcraft\Settings\Class_currency_setting;
+use Wpcraft\Settings\class_google_map;
+use Wpcraft\Settings\Class_mem_event_template;
+use Wpcraft\Settings\class_event_custom_metabox;
+use Wpcraft\Settings\class_mem_create_dynamic_taxonomy;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -90,20 +97,20 @@ class class_mem_settings {
 						<div id="van-tab-woointe" class="van-tab" style="<?php echo $tab === 'woointe' ? '' : 'display:none;'; ?>">
                             <h2><?php esc_html_e( 'Woocommerce Integration', 'momento-event-manager' ); ?></h2>   
                              <?php 
-							    $wooIntegration = new Class_uem_woocommerce_inte();
+							    $wooIntegration = new class_mem_woocommerce_inte();
 							 	$wooIntegration->wtmem_woo_inte_page()
 							 ?>
                         </div>
 
     					<div id="van-tab-woointe" class="van-tab" style="<?php echo $tab === 'registration' ? '' : 'display:none;'; ?>">
                             <h2><?php esc_html_e( 'Registration Method', 'momento-event-manager' ); ?></h2>   
-                            <?php self::wtmem_render_settings_page()?>
+                            <?php self::wtmem_render_settings_page() ?>
                         </div>
 
 					    <div id="van-tab-dytx" class="van-tab" style="<?php echo $tab === 'dytx' ? '' : 'display:none;'; ?>">
                             <h2><?php esc_html_e( 'Dynamic Taxonomy', 'momento-event-manager' ); ?></h2>   
                             <?php 
-								$taxonomy = new Class_create_dynamic_taxonomy();
+								$taxonomy = new class_create_dynamic_taxonomy();
 								$taxonomy->wtmem_taxonomy_settings_page();
 							?>
                         </div>
@@ -111,9 +118,8 @@ class class_mem_settings {
                         <div id="van-tab-currency" class="van-tab" style="<?php echo $tab === 'currency' ? '' : 'display:none;'; ?>">
                              <h2><?php esc_html_e( 'Currency Options', 'momento-event-manager' ); ?></h2>   
                              <?php 
-							    $currency = new Class_currency_setting();
+							    $currency = new class_mem_currency_setting();
 								$currency->wtmem_event_currency_fields();
-
 							 ?>
                         </div>
 
@@ -121,19 +127,18 @@ class class_mem_settings {
 						<div id="van-tab-mapg" class="van-tab" style="<?php echo $tab === 'mapg' ? '' : 'display:none;'; ?>">	
 							<h2><?php esc_html_e( 'Google Map Integration', 'momento-event-manager' ); ?></h2>  							
 								<?php 
-								$google = new class_google_map();
-								$google->wtmem_google_map_integration();
+									$google = new class_google_map();
+									$google->wtmem_google_map_integration();
 								?>
 						</div>
 								
 						
 						<div id="van-tab-template" class="van-tab" style="<?php echo $tab === 'template' ? '' : 'display:none;'; ?>">								
 								<?php 
-								$temp = new Class_mem_event_template();
-								$temp->wtmem_event_web_template(); 
+									$temp = new class_mem_event_template();
+									$temp->wtmem_event_web_template(); 
 								?>
 						</div>
-
 						
                     </section>
             </div>
@@ -147,15 +152,13 @@ class class_mem_settings {
 	public static function wtmem_render_settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
-		}
-		
+		}		
 		// Save settings
 		if ( isset( $_POST['uem_save_settings'] ) && check_admin_referer( 'uem_settings_nonce' ) ) {
 			$registration_method = isset( $_POST['uem_registration_method'] ) ? sanitize_text_field( $_POST['uem_registration_method'] ) : 'woocommerce';
 			update_option( 'uem_registration_method', $registration_method );
 			echo '<div class="notice notice-success"><p>' . __( 'Settings saved successfully!', 'momento-event-manager' ) . '</p></div>';
 		}
-		
 		$registration_method = get_option( 'uem_registration_method', 'woocommerce' );
 		$woocommerce_active = class_exists( 'WooCommerce' );
 		?>
@@ -201,21 +204,4 @@ class class_mem_settings {
 		</div>
 		<?php
 	}
-
-
-
-
-
-
-
-
-
-
 }
-
-// Instantiate Google Map class globally to ensure save handler is always registered
-/* if (class_exists('Class_uem_google_map')) {
-    new Class_uem_google_map();
-}
-UEM_Settings::init(); */
-

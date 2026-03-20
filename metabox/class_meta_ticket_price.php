@@ -2,10 +2,9 @@
 namespace Wpcraft\Metabox;
 /**
  *
- *  Webartisan setting section
+ *  wpcraft event manager plugin
  *
  **/
-
 class class_meta_ticket_price{ 
         
     public function wtmem_ticket_price_sections($post) {  
@@ -18,8 +17,7 @@ class class_meta_ticket_price{
             // Set defaults
             if ($registration_enabled === '') {
                 $registration_enabled = '1';
-            }
-            
+            }            
             // Separate regular and extra tickets from combined data
             $tickets = array();
             $extras = array();
@@ -56,11 +54,9 @@ class class_meta_ticket_price{
               </div>
               <input type="hidden" id="wtmem_tk_registration_enabled" name="wtmem_tk_registration_enabled" value="<?php echo esc_attr($registration_enabled); ?>" >
             </div>
-          </div>
-          
-
+        </div>
+        
           <!-- Ticket Type & Price Settings -->
-
 
           <div id="wtmem_tk_registrationSection" style="<?php echo esc_attr($section_style); ?>">
             <h2 class="wtmem_tk_section-title"><?php echo esc_html__('Ticket Type List :', 'ultimate-event-manager') ?></h2>
@@ -87,7 +83,6 @@ class class_meta_ticket_price{
 
                   <th class="wtmem_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Date', 'ultimate-event-manager') ?></th>
                   <th class="wtmem_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><?php echo esc_html__('Sale End Time', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Qty Box', 'ultimate-event-manager') ?></th>
                   <th><?php echo esc_html__('Action ', 'ultimate-event-manager') ?></th>
                 </tr>
               </thead>
@@ -108,12 +103,6 @@ class class_meta_ticket_price{
 
                       <td class="wtmem_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="date" name="wtmem_tk_regular_tickets[<?php echo esc_attr($key); ?>][sale_end_date]" value="<?php echo esc_attr(isset($ticket['sale_end_date']) ? $ticket['sale_end_date'] : ''); ?>"></td>
                       <td class="wtmem_tk_advanced" style="<?php echo esc_attr($advanced_column_style); ?>"><input type="time" name="wtmem_tk_regular_tickets[<?php echo esc_attr($key); ?>][sale_end_time]" value="<?php echo esc_attr(isset($ticket['sale_end_time']) ? $ticket['sale_end_time'] : ''); ?>"></td>
-                      <td>
-                        <select name="wtmem_tk_regular_tickets[<?php echo esc_attr($key); ?>][qty_box]">
-                          <option value="Input Box" <?php selected($ticket['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'ultimate-event-manager') ?></option>
-                          <option value="Dropdown" <?php selected($ticket['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'ultimate-event-manager') ?></option>
-                        </select>
-                      </td>
                       <td class="wtmem_tk_action-icons">
                         <button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_tk_remove-row" title="Remove">✖</button>
                         <button type="button" class="wtmem_tk_btn wtmem_tk_btn-outline wtmem_tk_btn-small wtmem_tk_move-row" title="Drag Top">☰</button>
@@ -123,77 +112,12 @@ class class_meta_ticket_price{
                 <?php endif; ?>
               </tbody>
             </table>
-
-
-
-            <!-- Extra service Area -->          
-            
+                
             <div style="margin-bottom:18px">
               <button type="button" id="wtmem_tk_addTicket" class="wtmem_tk_btn wtmem_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add New Ticket Type', 'ultimate-event-manager') ?></button>
             </div>
-            
-            <h3><?php echo esc_html__('Extra service Area :', 'ultimate-event-manager') ?></h3>
-            <div class="wtmem_tk_info-bar"><i class="fa fa-info-circle"></i> <?php echo esc_html__('Extra Service as Product that you can sell and it is not included on event package ', 'ultimate-event-manager') ?></div>
-            
-            <table class="wtmem_tk_extra-table" id="wtmem_tk_extraTable">
-              <thead>
-                <tr>
-                  <th><?php echo esc_html__('Name', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Price', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Available Qty', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Qty Box', 'ultimate-event-manager') ?></th>
-                  <th><?php echo esc_html__('Action', 'ultimate-event-manager') ?></th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if (!empty($extras)) : ?>
-                  <?php foreach ($extras as $key => $extra) : ?>
-                    <tr>
-                      <td><input type="text" name="wtmem_tk_extra_tickets[<?php echo esc_attr($key); ?>][name]" value="<?php echo esc_attr($extra['name']); ?>" placeholder="Name" /></td>
-                      <td><input type="number" name="wtmem_tk_extra_tickets[<?php echo esc_attr($key); ?>][price]" value="<?php echo esc_attr($extra['price']); ?>" placeholder="Price" /></td>
-                      <td><input type="number" name="wtmem_tk_extra_tickets[<?php echo esc_attr($key); ?>][available_qty]" value="<?php echo esc_attr($extra['available_qty']); ?>" placeholder="Available Qty" /></td>
-                      <td>
-                        <select name="wtmem_tk_extra_tickets[<?php echo esc_attr($key); ?>][qty_box]">
-                          <option value="Input Box" <?php selected($extra['qty_box'], 'Input Box'); ?>><?php echo esc_html__('Input Box', 'ultimate-event-manager') ?></option>
-                          <option value="Dropdown" <?php selected($extra['qty_box'], 'Dropdown'); ?>><?php echo esc_html__('Dropdown', 'ultimate-event-manager') ?></option>
-                        </select>
-                      </td>
-                      <td><button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_tk_remove_extra_row"> ✖</button></td>
-                    </tr>
-                  <?php endforeach; ?>
-                <?php else : ?>
-                  <tr class="wtmem_tk_empty-row"><td colspan="5"> <?php echo esc_html__('No extra service added yet.', 'ultimate-event-manager') ?></td></tr>
-                <?php endif; ?>
-              </tbody>
-            </table>
-            
-            <div style="margin-bottom:18px">
-              <button type="button" id="wtmem_tk_addExtra" class="wtmem_tk_btn wtmem_tk_btn-primary"><span class="dashicons dashicons-plus"></span><?php echo esc_html__('Add Extra Price', 'ultimate-event-manager') ?></button>
-            </div>
-            
-            <div class="wtmem_tk_links-list">
-              <div>
-                 ⚙️<?php echo esc_html__( 'Setup Event Common QTY of All Ticket Types — get', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Global QTY Addon', 'ultimate-event-manager' ); ?></a>
-                </div>
-
-                <div>
-                  🔖<?php echo esc_html__( 'Special Price Option for each user type or membership — get', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Membership Pricing Addon', 'ultimate-event-manager' ); ?></a>
-                </div>
-
-                <div>
-                 🔢<?php echo esc_html__( 'Set maximum/minimum quantity buying option with', 'ultimate-event-manager' ); ?>
-                    <a href="#"><?php echo esc_html__( 'Max/Min Qty Addon', 'ultimate-event-manager' ); ?></a>
-                </div>
-
-            </div>
-            
-            <div style="text-align:right;color:#999;font-size:11px;margin-top:12px"><?php echo esc_html__( '#WC:', 'ultimate-event-manager' ); ?><?php echo esc_html($post->ID); ?></div>
-          </div>
+         </div>
         </div>
-    
-  
         <?php
       }
 
@@ -231,40 +155,18 @@ class class_meta_ticket_price{
                         'sale_start_time'=> isset($ticket['sale_start_time']) ? sanitize_text_field($ticket['sale_start_time']) : '',
                         'sale_end_date'=> isset($ticket['sale_end_date']) ? sanitize_text_field($ticket['sale_end_date']) : '',
                         'sale_end_time'=> isset($ticket['sale_end_time']) ? sanitize_text_field($ticket['sale_end_time']) : '',
-                        'qty_box'      => sanitize_text_field($ticket['qty_box']),
                     );
                 }
             }
             $all_tickets['regular_tickets'] = $regular_tickets;
         }
-        
-        // Process extra tickets
-        if (isset($_POST['wtmem_tk_extra_tickets']) && is_array($_POST['wtmem_tk_extra_tickets'])) {
-            $raw_extras = wp_unslash($_POST['wtmem_tk_extra_tickets']);
-            $extra_tickets = array();
-            
-            foreach ($raw_extras as $key => $extra) {
-                if (!empty($extra['name'])) { // Only save if name is not empty
-                    $extra_tickets[$key] = array(
-                        'name' => sanitize_text_field($extra['name']),
-                        'price' => floatval($extra['price']),
-                        'available_qty' => intval($extra['available_qty']),
-                        'qty_box' => sanitize_text_field($extra['qty_box'])
-                    );
-                }
-            }
-            $all_tickets['extra_tickets'] = $extra_tickets;
-        }
-        
         // Save combined data
         if (!empty($all_tickets)) {
             update_post_meta($post_id, '_wtmem_tk_tickets', $all_tickets);
         } else {
             update_post_meta($post_id, '_wtmem_tk_tickets', array(
                 'regular_tickets' => array(),
-                'extra_tickets' => array()
             ));
         }
       }
-
 }

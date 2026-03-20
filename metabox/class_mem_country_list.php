@@ -6,7 +6,7 @@
  **/
 namespace Wpcraft\Metabox;
 
-class class_country_list {
+class class_mem_country_list {
 
     public function wtmem_get_country_list() {
         return [
@@ -216,9 +216,6 @@ class class_country_list {
             "Zimbabwe"
         ];
     }
-
-
-
    // event manaegr
     public function wtmem_event_manaegr_country_dropdown($selected_country = '') {
 

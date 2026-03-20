@@ -178,12 +178,12 @@ jQuery(function ($) {
 				'<td class="wtmem_tk_advanced"><input type="date" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_end_date]"></td>' +
 				'<td class="wtmem_tk_advanced"><input type="time" name="wtmem_tk_regular_tickets[' + timestamp + '][sale_end_time]"></td>' +
 
-				'<td>' +
+				/* '<td>' +
 					'<select name="wtmem_tk_regular_tickets[' + timestamp + '][qty_box]">' +
 						'<option value="Input Box">Input Box</option>' +
 						'<option value="Dropdown">Dropdown</option>' +
 					'</select>' +
-				'</td>' +
+				'</td>' + */
 
 				'<td class="wtmem_tk_action-icons">' +
 					'<button type="button" class="wtmem_tk_btn wtmem_tk_btn-danger wtmem_tk_btn-small wtmem_tk_remove-row">✖</button>' +
@@ -1424,6 +1424,11 @@ jQuery(document).ready(function ($) {
 document.addEventListener("DOMContentLoaded", function () {
 	const fieldType = document.getElementById("wtmem_regi_field_type");
 	const optionBox = document.getElementById("wtmem_regi_option_box");
+
+	// Only run if elements exist
+	if (!fieldType || !optionBox) {
+		return;
+	}
 
 	function toggleOptions() {
 		const value = fieldType.value;
