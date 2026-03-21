@@ -20,8 +20,10 @@ class class_mem_meta_boxes {
 	}
 	
 	/**
-	 * Add meta boxes
-	*/
+	* 
+	* Add meta boxes
+	*
+	**/
 	public static function wtmem_add_meta_boxes() {
 		// Event meta boxes
 		add_meta_box(

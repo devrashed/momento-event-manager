@@ -19,10 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/includes/uem-template-functions.php';
 
-use Wpcraft\Metabox\class_organizer_meta_box;
-use Wpcraft\Metabox\class_volunteer_custom_metabox;
-use Wpcraft\Metabox\class_sponser_custom_metabox;
+use Wpcraft\Metabox\class_mem_organizer_metabox;
+use Wpcraft\Metabox\class_mem_volenteers_metabox;
+use Wpcraft\Metabox\class_mem_sponser_custom_metabox;
 use Wpcraft\Metabox\class_event_custom_metabox;
 use Wpcraft\Metabox\class_meta_emails_section;
 use Wpcraft\Inc\class_mem_post_types;
@@ -68,6 +69,9 @@ class momento_event_manager {
 		$this->wtmem_define_constants();
 		$this->init();
 		new class_event_custom_metabox();
+	    new class_mem_organizer_metabox();
+		new class_mem_sponser_custom_metabox();
+		new class_mem_volenteers_metabox();
 	}
 	/**
 	* Initialize plugin
@@ -129,7 +133,7 @@ class momento_event_manager {
 	 * Load plugin dependencies
 	 */
 
-	private function wtmem_load_dependencies() {}
+	/* private function wtmem_load_dependencies() {} */
 
 	public function wtmem_define_constants()
 	{ 
@@ -219,7 +223,7 @@ class momento_event_manager {
 	public function wtmem_load_event_template( $template ) {
 
 		if ( is_singular( 'mem_event' ) ) {
-			$template = UEM_PLUGIN_DIR . 'templates/single-mem_event.php';
+			$template = plugin_dir_path( __FILE__ ) . 'templates/single-mem_event.php';
 			if ( file_exists( $template ) ) {
 				return $template;
 			}

@@ -2,7 +2,7 @@
 /**
  * Thank You Page Template
  *
- * @package Ultimate_Events_Manager
+ * @package momento_event_manager
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,8 +33,8 @@ $ticket_quantities = get_post_meta( $registration_id, '_uem_ticket_quantities', 
 $attendees = get_post_meta( $registration_id, '_uem_attendees', true );
 $registration_date = get_post_meta( $registration_id, '_uem_registration_date', true );
 
-$plugin = Ultimate_Events_Manager::get_instance();
-$is_woocommerce = $plugin->is_woocommerce_enabled() && class_exists( 'WooCommerce' );
+$plugin = momento_event_manager::get_instance();
+$is_woocommerce = $plugin->wtmem_is_woocommerce_enabled() && class_exists( 'WooCommerce' );
 
 // If WooCommerce, try to get order data
 $order_id = null;

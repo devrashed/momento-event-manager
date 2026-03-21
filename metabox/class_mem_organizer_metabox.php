@@ -4,20 +4,32 @@
  *  Organizer metabox
  *
  **/
+
 namespace Wpcraft\Metabox;
 
-class class_organizer_meta_box{
+use Wpcraft\Metabox\class_mem_country_list;
+
+class class_mem_organizer_metabox{
+
     private $country;
 
     public function __construct() { 
 
-     $this->country = new class_country_list();
-      
+      $this->country = new class_mem_country_list();
+
       add_action('add_meta_boxes', [$this,'wtmem_event_organizer_meta_field']);
       add_action('add_meta_boxes', [$this,'wtmem_event_organizer_gallery_meta_box']); 
       add_action('save_post',  [$this,'wtmem_save_social_media_meta']);
       add_action('save_post',  [$this,'wtmem_save_organizer_gallery']);   
       add_filter('post_type_labels_event_organizer', [$this,'wtmem_rename_organizer_featured_image']);
+
+      // Add custom columns
+      add_filter('manage_mem_organizer_posts_columns', [$this, 'wtmem_add_organizer_columns']);
+      add_action('manage_mem_organizer_posts_custom_column', [$this, 'wtmem_display_organizer_column_values'], 10, 2);
+
+      // Make columns sortable
+      add_filter('manage_edit-mem_organizer_sortable_columns', [$this, 'wtmem_organizer_sortable_columns']);
+      add_filter('pre_get_posts', [$this, 'wtmem_organizer_orderby_meta']);
     } 
      
 
@@ -394,6 +406,111 @@ class class_organizer_meta_box{
             );
         } 
     } 
+
+    /**
+     * Add custom columns to organizer list
+     */
+    public function wtmem_add_organizer_columns($columns) {
+        $new_columns = [];
+        foreach ($columns as $key => $label) {
+            $new_columns[$key] = $label;
+            // Insert custom columns after title
+            if ($key === 'title') {
+                $new_columns['organizer_owner_name']  = __('Owner Name',   'momento-event-manager');
+                $new_columns['organizer_designation'] = __('Designation',  'momento-event-manager');
+                $new_columns['organizer_email']       = __('Email',        'momento-event-manager');
+                $new_columns['organizer_phone']       = __('Phone',        'momento-event-manager');
+                $new_columns['organizer_city']        = __('City',         'momento-event-manager');
+                $new_columns['organizer_state']       = __('State',        'momento-event-manager');
+            }
+        }
+        return $new_columns;
+    }
+
+    /**
+     * Display custom column values
+     */
+    public function wtmem_display_organizer_column_values($column, $post_id) {
+        switch ($column) {
+            case 'organizer_owner_name':
+                $owner_name = get_post_meta($post_id, 'wtmem_orga_name', true);
+                echo !empty($owner_name) ? esc_html($owner_name) : '—';
+                break;
+
+            case 'organizer_designation':
+                $designation = get_post_meta($post_id, 'wtmem_orga_desig', true);
+                echo !empty($designation) ? esc_html($designation) : '—';
+                break;
+
+            case 'organizer_email':
+                $email = get_post_meta($post_id, 'wtmem_orga_email', true);
+                if (!empty($email)) {
+                    echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
+                } else {
+                    echo '—';
+                }
+                break;
+
+            case 'organizer_phone':
+                $phone = get_post_meta($post_id, 'wtmem_orga_phone', true);
+                echo !empty($phone) ? esc_html($phone) : '—';
+                break;
+
+            case 'organizer_city':
+                $city = get_post_meta($post_id, 'wtmem_orga_city', true);
+                echo !empty($city) ? esc_html($city) : '—';
+                break;
+
+            case 'organizer_state':
+                $state = get_post_meta($post_id, 'wtmem_orga_state', true);
+                echo !empty($state) ? esc_html($state) : '—';
+                break;
+        }
+    }
+
+    /**
+     * Define sortable columns
+     */
+    public function wtmem_organizer_sortable_columns($columns) {
+        $columns['organizer_owner_name'] = 'wtmem_orga_name';
+        $columns['organizer_designation'] = 'wtmem_orga_desig';
+        $columns['organizer_email'] = 'wtmem_orga_email';
+        $columns['organizer_phone'] = 'wtmem_orga_phone';
+        $columns['organizer_city'] = 'wtmem_orga_city';
+        $columns['organizer_state'] = 'wtmem_orga_state';
+
+        return $columns;
+    }
+
+    /**
+     * Handle sorting by meta values
+     */
+    public function wtmem_organizer_orderby_meta($query) {
+        if (!is_admin() || !$query->is_main_query()) {
+            return;
+        }
+
+        // Guard: only apply to the mem_organizer post type
+        if ($query->get('post_type') !== 'mem_organizer') {
+            return;
+        }
+
+        $orderby = $query->get('orderby');
+
+        $sortable_keys = [
+            'wtmem_orga_name',
+            'wtmem_orga_desig',
+            'wtmem_orga_email',
+            'wtmem_orga_phone',
+            'wtmem_orga_city',
+            'wtmem_orga_state',
+        ];
+
+        if (in_array($orderby, $sortable_keys, true)) {
+            $query->set('meta_key', $orderby);
+            $query->set('orderby', 'meta_value');
+        }
+    }
 }
 
-new class_organizer_meta_box();
+//new class_mem_organizer_metabox();

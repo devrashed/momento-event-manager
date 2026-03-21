@@ -1813,6 +1813,62 @@ jQuery(document).ready(function ($) {
 });
 
 
+//===== Sponsor Photo Gallery ======
+
+jQuery(document).ready(function ($) {
+	var sponserMediaUploader;
+
+	jQuery('#sponser_add_gallery_images').on('click', function (e) {
+		e.preventDefault();
+		if (sponserMediaUploader) {
+			sponserMediaUploader.open();
+			return;
+		}
+		sponserMediaUploader = wp.media({
+			title: 'Select Gallery Images',
+			button: {
+				text: 'Add to Gallery'
+			},
+			multiple: true
+		});
+
+		sponserMediaUploader.on('select', function () {
+			var attachments = sponserMediaUploader.state().get('selection').toJSON();
+			var ids = jQuery('#sponser_gallery_ids').val();
+			var idsArray = ids ? ids.split(',') : [];
+
+			attachments.forEach(function (attachment) {
+				if (idsArray.indexOf(attachment.id.toString()) === -1) {
+					idsArray.push(attachment.id);
+
+					var imgHtml = '<div class="sponser-gallery-item" data-id="' + attachment.id + '">';
+					imgHtml += '<img src="' + attachment.sizes.thumbnail.url + '" />';
+					imgHtml += '<span class="sponser-remove-image" title="Remove">&times;</span>';
+					imgHtml += '</div>';
+
+					jQuery('#sponser-gallery-images').append(imgHtml);
+				}
+			});
+
+			jQuery('#sponser_gallery_ids').val(idsArray.join(','));
+		});
+
+		sponserMediaUploader.open();
+	});
+
+	jQuery('#sponser-gallery-images').on('click', '.sponser-remove-image', function () {
+		var item = jQuery(this).parent();
+		var id = item.data('id').toString();
+		var ids = jQuery('#sponser_gallery_ids').val().split(',');
+
+		ids = ids.filter(function (val) {
+			return val !== id;
+		});
+
+		jQuery('#sponser_gallery_ids').val(ids.join(','));
+		item.remove();
+	});
+});
 
 
 /* ===== volenteer ======*/

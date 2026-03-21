@@ -19,7 +19,7 @@ require_once __DIR__ . '/single_photogallery.php';
 require_once __DIR__ . '/terms_condiation.php';
 require_once __DIR__ . '/event_associate.php';
 
-$plugin = Ultimate_Events_Manager::get_instance();
+$plugin = momento_event_manager::get_instance();
 $is_woocommerce = $plugin->wtmem_is_woocommerce_enabled() && class_exists( 'WooCommerce' );
 
 $wtmem_memEvent = get_option('wtmem_event_management_template');
@@ -90,11 +90,15 @@ while ( have_posts() ) :
 	the_post();
 	
 	$event_id = get_the_ID();
-	$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
+	$tickets_data = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
 	
-	if ( ! is_array( $tickets ) ) {
-		$tickets = array();
+	if ( ! is_array( $tickets_data ) ) {
+		$tickets_data = array();
 	}
+
+	$tickets = isset( $tickets_data['regular_tickets'] ) && is_array( $tickets_data['regular_tickets'] ) 
+		? $tickets_data['regular_tickets'] 
+		: array();
 	?>
 	
 	<div class="wtmem-container">
@@ -207,11 +211,10 @@ while ( have_posts() ) :
 					$show_registration = false;
 				    foreach ($tickets as $ticket_id => $ticket): 
 
-				   
-					echo $sale_start_date = $ticket['sale_start_date'];
-					echo $sale_end_date   = $ticket['sale_end_date'];
-					echo $sale_start_time = $ticket['sale_start_time'];
-					echo $sale_end_time   = $ticket['sale_end_time'];
+					$sale_start_date = $ticket['sale_start_date'] ?? '';
+					$sale_end_date   = $ticket['sale_end_date'] ?? '';
+					$sale_start_time = $ticket['sale_start_time'] ?? '';
+					$sale_end_time   = $ticket['sale_end_time'] ?? '';
 
 					
 					

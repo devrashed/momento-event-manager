@@ -6,16 +6,26 @@ namespace Wpcraft\Metabox;
  *
  **/
 
+
 class class_mem_volenteers_metabox{
 
         private $country;
         public function __construct() { 
-        $this->country = new class_country_list();
+
+        $this->country = new class_mem_country_list();
 
         add_action('add_meta_boxes', [$this,'wtmem_event_volunteer_meta_field']); 
         add_action('add_meta_boxes', [$this,'wtmem_event_volunteer_gallery_meta_box']); 
         add_action('save_post',  [$this,'wtmem_volunteer_social_media_meta']);
         add_action('save_post',  [$this,'save_volenteer_gallery_meta']);
+
+        // Add custom columns
+        add_filter('manage_mem_volunteer_posts_columns', [$this, 'wtmem_add_volunteer_columns']);
+        add_action('manage_mem_volunteer_posts_custom_column', [$this, 'wtmem_display_volunteer_column_values'], 10, 2);
+
+        // Make columns sortable
+        add_filter('manage_edit-mem_volunteer_sortable_columns', [$this, 'wtmem_volunteer_sortable_columns']);
+        add_filter('pre_get_posts', [$this, 'wtmem_volunteer_orderby_meta']);
     } 
      
         public function wtmem_event_volunteer_meta_field() {
@@ -402,9 +412,111 @@ class class_mem_volenteers_metabox{
         }
     }
 
+    /**
+     * Add custom columns to volunteer list
+     */
+    public function wtmem_add_volunteer_columns($columns) {
+        $new_columns = [];
+        foreach ($columns as $key => $label) {
+            $new_columns[$key] = $label;
+            // Insert custom columns after title
+            if ($key === 'title') {
+                $new_columns['volunteer_owner_name']  = __('Owner Name',   'momento-event-manager');
+                $new_columns['volunteer_designation'] = __('Designation',  'momento-event-manager');
+                $new_columns['volunteer_email']       = __('Email',        'momento-event-manager');
+                $new_columns['volunteer_phone']       = __('Phone',        'momento-event-manager');
+                $new_columns['volunteer_city']        = __('City',         'momento-event-manager');
+                $new_columns['volunteer_state']       = __('State',        'momento-event-manager');
+            }
+        }
+        return $new_columns;
+    }
 
+    /**
+     * Display custom column values
+     */
+    public function wtmem_display_volunteer_column_values($column, $post_id) {
+        switch ($column) {
+            case 'volunteer_owner_name':
+                $owner_name = get_post_meta($post_id, 'wtmem_volun_name', true);
+                echo !empty($owner_name) ? esc_html($owner_name) : '—';
+                break;
+
+            case 'volunteer_designation':
+                $designation = get_post_meta($post_id, 'wtmem_spon_desig', true);
+                echo !empty($designation) ? esc_html($designation) : '—';
+                break;
+
+            case 'volunteer_email':
+                $email = get_post_meta($post_id, 'wtmem_volun_email', true);
+                if (!empty($email)) {
+                    echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
+                } else {
+                    echo '—';
+                }
+                break;
+
+            case 'volunteer_phone':
+                $phone = get_post_meta($post_id, 'wtmem_volun_phone', true);
+                echo !empty($phone) ? esc_html($phone) : '—';
+                break;
+
+            case 'volunteer_city':
+                $city = get_post_meta($post_id, 'wtmem_volun_city', true);
+                echo !empty($city) ? esc_html($city) : '—';
+                break;
+
+            case 'volunteer_state':
+                $state = get_post_meta($post_id, 'wtmem_volun_state', true);
+                echo !empty($state) ? esc_html($state) : '—';
+                break;
+        }
+    }
+
+    /**
+     * Define sortable columns
+     */
+    public function wtmem_volunteer_sortable_columns($columns) {
+        $columns['volunteer_owner_name'] = 'wtmem_volun_name';
+        $columns['volunteer_designation'] = 'wtmem_spon_desig';
+        $columns['volunteer_email'] = 'wtmem_volun_email';
+        $columns['volunteer_phone'] = 'wtmem_volun_phone';
+        $columns['volunteer_city'] = 'wtmem_volun_city';
+        $columns['volunteer_state'] = 'wtmem_volun_state';
+
+        return $columns;
+    }
+
+    /**
+     * Handle sorting by meta values
+     */
+    public function wtmem_volunteer_orderby_meta($query) {
+        if (!is_admin() || !$query->is_main_query()) {
+            return;
+        }
+
+        // Guard: only apply to the mem_volunteer post type
+        if ($query->get('post_type') !== 'mem_volunteer') {
+            return;
+        }
+
+        $orderby = $query->get('orderby');
+
+        $sortable_keys = [
+            'wtmem_volun_name',
+            'wtmem_spon_desig',
+            'wtmem_volun_email',
+            'wtmem_volun_phone',
+            'wtmem_volun_city',
+            'wtmem_volun_state',
+        ];
+
+        if (in_array($orderby, $sortable_keys, true)) {
+            $query->set('meta_key', $orderby);
+            $query->set('orderby', 'meta_value');
+        }
+    }
 
 
 }
 
-new class_volunteer_custom_metabox();

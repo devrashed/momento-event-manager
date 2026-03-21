@@ -6,29 +6,35 @@ namespace Wpcraft\Metabox;
  *
  **/
 
-class class_sponser_custom_metabox{
+class class_mem_sponser_custom_metabox{
      private $country;
 
     public function __construct() { 
 
-      $this->country = new class_country_list();
-
-      //add_action('init', [$this, 'wtmem_register_event_sponsers'], 5);           
+      $this->country = new class_mem_country_list();
+       
       add_action('add_meta_boxes', [$this,'wtmem_event_sponsers_meta_field']); 
-      add_action('add_meta_boxes', [$this,'wtmem_Sponsor_gallery_meta_box']);
+      add_action('add_meta_boxes', [$this,'wtmem_sponsor_gallery_meta_box']);
       add_action('save_post',  [$this,'wtmem_sponser_social_media_meta']);
       add_action('save_post',  [$this,'save_sponser_gallery_meta']); 
       add_filter( 'post_type_labels_event_sponsers', [$this,'wtmem_rename_event_sponser_featured_image']);
-    } 
+
+       // Add custom columns
+      add_filter('manage_mem_sponsor_posts_columns', [$this, 'wtmem_add_sponsor_columns']);
+      add_action('manage_mem_sponsor_posts_custom_column', [$this, 'wtmem_display_sponsor_column_values'], 10, 2);
+      
+      // Make columns sortable
+      add_filter('manage_edit-mem_sponsor_sortable_columns', [$this, 'wtmem_sponsor_sortable_columns']);
+      add_filter('pre_get_posts', [$this, 'wtmem_sponsor_orderby_meta']);
+    }
+
 
     public function wtmem_rename_event_sponser_featured_image($labels){
-
         $labels->featured_image = 'Logo / Personal Image';
         $labels->set_featured_image = 'Set Personal Image';
         $labels->remove_featured_image = 'Remove Personal Image';
         $labels->use_featured_image = 'Use as Personal Image';
         return $labels;
-
     }
 
     public function wtmem_event_sponsers_meta_field() {
@@ -42,7 +48,7 @@ class class_sponser_custom_metabox{
         );
     }    
 
-    public function wtmem_Sponsor_gallery_meta_box() {
+    public function wtmem_sponsor_gallery_meta_box() {
         add_meta_box(
             'wtmem_sponser_gallery',
             'Sponsor Photo Gallery',
@@ -277,6 +283,7 @@ class class_sponser_custom_metabox{
     <?php 
     }
 
+
     public function wtmem_sponser_social_media_meta($post_id) {
         // Verify nonce
         if (!isset($_POST['wtmem_social_media_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wtmem_social_media_nonce'])), 'wtmem_save_social_media')) {
@@ -288,8 +295,8 @@ class class_sponser_custom_metabox{
         if (!current_user_can('edit_post', $post_id)) return;
 
 
-        $fields = [
-                    'wtmem_spon_name', 'wtmem_spon_street', 'wtmem_spon_street', 'wtmem_sponser_late', 'wtmem_sponser_long', 'wtmem_spon_city', 'wtmem_spon_state',
+       $fields = [
+                    'wtmem_spon_name', 'wtmem_spon_desig', 'wtmem_spon_street', 'wtmem_sponser_late', 'wtmem_sponser_long', 'wtmem_spon_city', 'wtmem_spon_state',
                     'wtmem_spon_postcode', 'wtmem_spon_country', 'wtmem_spon_phone', 'wtmem_spon_email',
                     'wtmem_spon_website', 'wtmem_spon_comment'
                 ];
@@ -394,7 +401,111 @@ class class_sponser_custom_metabox{
                 sanitize_text_field(wp_unslash($_POST['sponser_gallery_ids']))
             );
         }
-    }    
-}
+    }
+    
+    /**
+     * Add custom columns to sponsor list
+     */
+    public function wtmem_add_sponsor_columns($columns) {
+        $new_columns = [];
+        foreach ($columns as $key => $label) {
+            $new_columns[$key] = $label;
+            // Insert custom columns after title
+            if ($key === 'title') {
+                $new_columns['sponsor_owner_name']  = __('Owner Name',   'momento-event-manager');
+                $new_columns['sponsor_designation'] = __('Designation',  'momento-event-manager');
+                $new_columns['sponsor_email']       = __('Email',        'momento-event-manager');
+                $new_columns['sponsor_phone']       = __('Phone',        'momento-event-manager');
+                $new_columns['sponsor_city']        = __('City',         'momento-event-manager');
+                $new_columns['sponsor_state']       = __('State',        'momento-event-manager');
+            }
+        }
+        return $new_columns;
+    }
 
-new class_sponser_custom_metabox();
+    /**
+     * Display custom column values
+     */
+    public function wtmem_display_sponsor_column_values($column, $post_id) {
+        switch ($column) {
+            case 'sponsor_owner_name':
+                $owner_name = get_post_meta($post_id, 'wtmem_spon_name', true);
+                echo !empty($owner_name) ? esc_html($owner_name) : '—';
+                break;
+
+            case 'sponsor_designation':
+                $designation = get_post_meta($post_id, 'wtmem_spon_desig', true);
+                echo !empty($designation) ? esc_html($designation) : '—';
+                break;
+
+            case 'sponsor_email':
+                $email = get_post_meta($post_id, 'wtmem_spon_email', true);
+                if (!empty($email)) {
+                    echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
+                } else {
+                    echo '—';
+                }
+                break;
+
+            case 'sponsor_phone':
+                $phone = get_post_meta($post_id, 'wtmem_spon_phone', true);
+                echo !empty($phone) ? esc_html($phone) : '—';
+                break;
+                
+            case 'sponsor_city':
+                $city = get_post_meta($post_id, 'wtmem_spon_city', true);
+                echo !empty($city) ? esc_html($city) : '—';
+                break;
+                
+            case 'sponsor_state':
+                $state = get_post_meta($post_id, 'wtmem_spon_state', true);
+                echo !empty($state) ? esc_html($state) : '—';
+                break;
+        }
+    }
+
+    /**
+     * Define sortable columns
+     */
+    public function wtmem_sponsor_sortable_columns($columns) {
+        $columns['sponsor_owner_name'] = 'wtmem_spon_name';
+        $columns['sponsor_designation'] = 'wtmem_spon_desig';
+        $columns['sponsor_email'] = 'wtmem_spon_email';
+        $columns['sponsor_phone'] = 'wtmem_spon_phone';
+        $columns['sponsor_city'] = 'wtmem_spon_city';
+        $columns['sponsor_state'] = 'wtmem_spon_state';
+        
+        return $columns;
+    }
+
+    /**
+     * Handle sorting by meta values
+     */
+
+    public function wtmem_sponsor_orderby_meta($query) {
+        if (!is_admin() || !$query->is_main_query()) {
+            return;
+        }
+
+        // Guard: only apply to the mem_sponsor post type
+        if ($query->get('post_type') !== 'mem_sponsor') {
+            return;
+        }
+
+        $orderby = $query->get('orderby');
+
+        $sortable_keys = [
+            'wtmem_spon_name',
+            'wtmem_spon_desig',
+            'wtmem_spon_email',
+            'wtmem_spon_phone',
+            'wtmem_spon_city',
+            'wtmem_spon_state',
+        ];
+
+        if (in_array($orderby, $sortable_keys, true)) {
+            $query->set('meta_key', $orderby);
+            $query->set('orderby', 'meta_value');
+        }
+    }
+}
