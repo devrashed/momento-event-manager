@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Render WooCommerce registration
  */
+
 function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 		return;
@@ -34,10 +35,6 @@ function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 				<tbody>
 					<?php 
 					foreach ( $tickets as $index => $ticket ):
-
-						echo "<pre>";
-						print_r($ticket);
-						echo "</pre>";
 
 						$cart_item_key = '';
 						$cart_quantity = 0;
@@ -98,6 +95,7 @@ function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 		<div class="uem-checkout-form">
 			<?php
 			// Display checkout form even with empty cart
+			
 			if ( function_exists( 'WC' ) && WC()->cart ) {
 				// Calculate totals (even if cart is empty)
 				WC()->cart->calculate_totals();
@@ -110,6 +108,8 @@ function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 				wc_get_template( 'checkout/form-checkout.php', array( 'checkout' => $checkout ) );
 				echo '</div>';
 			}
+
+
 			?>
 		</div>
 	</div>
@@ -119,6 +119,7 @@ function wtmem_uem_render_woocommerce_registration( $event_id, $tickets ) {
 /**
  * Render simple registration form
  */
+
 function wtmem_uem_render_simple_registration( $event_id, $tickets ) {
 	?>
 	<div class="uem-simple-registration">

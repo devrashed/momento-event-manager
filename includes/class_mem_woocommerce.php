@@ -30,7 +30,7 @@ class class_mem_woocommerce {
 		$initialized = true;
 		
 		// Create/update products when event is saved
-		add_action( 'save_post_uem_event', array( __CLASS__, 'wtmem_create_ticket_products' ), 20, 2 );
+		add_action( 'save_post_mem_event', array( __CLASS__, 'wtmem_create_ticket_products' ), 20, 2 );
 		
 		// Delete products when event is deleted
 		add_action( 'before_delete_post', array( __CLASS__, 'wtmem_delete_ticket_products' ) );
@@ -38,8 +38,14 @@ class class_mem_woocommerce {
 		// Clear cart and add tickets when viewing event
 		add_action( 'template_redirect', array( __CLASS__, 'wtmem_handle_event_page' ) );
 		
+		// Tell WooCommerce the event page is a checkout page (enables payment gateways & order review)
+		add_filter( 'woocommerce_is_checkout', array( __CLASS__, 'wtmem_force_is_checkout' ) );
+		
 		// Prevent redirect on empty cart for event pages
 		add_filter( 'woocommerce_checkout_redirect_empty_cart', array( __CLASS__, 'wtmem_prevent_empty_cart_redirect' ), 10, 1 );
+
+		// Also prevent the "cart is empty" notice from hiding the checkout form
+		add_filter( 'woocommerce_checkout_update_order_review_expired', array( __CLASS__, 'wtmem_prevent_checkout_expired' ) );
 		
 		// Display attendee fields section after billing form
 		add_action( 'woocommerce_after_checkout_billing_form', array( __CLASS__, 'wtmem_display_attendee_fields_section' ), 10 );
@@ -70,7 +76,7 @@ class class_mem_woocommerce {
 	 */
 	public static function wtmem_delete_ticket_products( $post_id ) {
 		// Only process event posts
-		if ( get_post_type( $post_id ) !== 'uem_event' ) {
+		if ( get_post_type( $post_id ) !== 'mem_event' ) {
 			return;
 		}
 		
@@ -110,11 +116,16 @@ class class_mem_woocommerce {
 		
 		// Get tickets
 		//$tickets = get_post_meta( $post_id, '_uem_tickets', true );
-		$tickets = get_post_meta( $post_id, '_wtmem_tk_tickets', true );
+		$tickets_data = get_post_meta( $post_id, '_wtmem_tk_tickets', true );
 
-		if ( ! is_array( $tickets ) ) {
-			$tickets = array();
+		if ( ! is_array( $tickets_data ) ) {
+			$tickets_data = array();
 		}
+		
+		// Extract regular tickets from nested structure
+		$tickets = isset( $tickets_data['regular_tickets'] ) && is_array( $tickets_data['regular_tickets'] )
+			? $tickets_data['regular_tickets']
+			: $tickets_data;
 		
 		// Get existing product IDs
 		$existing_products = array();
@@ -170,7 +181,7 @@ class class_mem_woocommerce {
 		}
 		
 		// Create new product
-		$product = new WC_Product_Simple();
+		$product = new \WC_Product_Simple();
 		$product->set_name( $product_name );
 		$product->set_price( $ticket['price'] );
 		$product->set_regular_price( $ticket['price'] );
@@ -196,7 +207,7 @@ class class_mem_woocommerce {
 	 * Handle event page - clear cart and add tickets
 	 */
 	public static function wtmem_handle_event_page() {
-		if ( ! is_singular( 'uem_event' ) ) {
+		if ( ! is_singular( 'mem_event' ) ) {
 			return;
 		}
 		
@@ -209,8 +220,17 @@ class class_mem_woocommerce {
 		
 		// Get event tickets
 		//$tickets = get_post_meta( $post->ID, '_uem_tickets', true );
-		$tickets = get_post_meta( $post->ID, '_wtmem_tk_tickets', true );
-		if ( ! is_array( $tickets ) || empty( $tickets ) ) {
+		$tickets_data = get_post_meta( $post->ID, '_wtmem_tk_tickets', true );
+		if ( ! is_array( $tickets_data ) || empty( $tickets_data ) ) {
+			return;
+		}
+		
+		// Extract regular tickets from nested structure
+		$tickets = isset( $tickets_data['regular_tickets'] ) && is_array( $tickets_data['regular_tickets'] )
+			? $tickets_data['regular_tickets']
+			: $tickets_data;
+		
+		if ( empty( $tickets ) ) {
 			return;
 		}
 		
@@ -251,10 +271,21 @@ class class_mem_woocommerce {
 	 * Prevent redirect on empty cart for event pages
 	 */
 	public static function wtmem_prevent_empty_cart_redirect( $redirect ) {
-		if ( is_singular( 'uem_event' ) ) {
+		if ( is_singular( 'mem_event' ) ) {
 			return false;
 		}
 		return $redirect;
+	}
+
+	/**
+	 * Tell WooCommerce the event page is a checkout page
+	 * This ensures payment gateways, order review, and subtotals are rendered.
+	 */
+	public static function wtmem_force_is_checkout( $is_checkout ) {
+		if ( is_singular( 'mem_event' ) ) {
+			return true;
+		}
+		return $is_checkout;
 	}
 	
 	public static function wtmem_display_attendee_fields_section() {
@@ -1614,8 +1645,18 @@ class class_mem_woocommerce {
 			
 			// Get tickets
 			//$tickets = get_post_meta( $event_id, '_uem_tickets', true );
-			$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
-			if ( ! is_array( $tickets ) || ! isset( $tickets[ $ticket_index ] ) ) {
+			$tickets_data = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
+			if ( ! is_array( $tickets_data ) ) {
+				wp_send_json_error( array( 'message' => __( 'Ticket data not found.', 'ultimate-events-manager' ) ) );
+				return;
+			}
+			
+			// Extract regular tickets from nested structure
+			$tickets = isset( $tickets_data['regular_tickets'] ) && is_array( $tickets_data['regular_tickets'] )
+				? $tickets_data['regular_tickets']
+				: $tickets_data;
+			
+			if ( ! isset( $tickets[ $ticket_index ] ) ) {
 				wp_send_json_error( array( 'message' => __( 'Ticket not found.', 'ultimate-events-manager' ) ) );
 				return;
 			}
@@ -1715,7 +1756,7 @@ class class_mem_woocommerce {
 			// Clear checkout fields cache to ensure attendee fields are regenerated
 			$checkout = WC()->checkout();
 			if ( $checkout ) {
-				$reflection = new ReflectionClass( $checkout );
+				$reflection = new \ReflectionClass( $checkout );
 				$property = $reflection->getProperty( 'fields' );
 				$property->setAccessible( true );
 				$property->setValue( $checkout, null );

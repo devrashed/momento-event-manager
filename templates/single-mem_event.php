@@ -215,9 +215,7 @@ while ( have_posts() ) :
 					$sale_end_date   = $ticket['sale_end_date'] ?? '';
 					$sale_start_time = $ticket['sale_start_time'] ?? '';
 					$sale_end_time   = $ticket['sale_end_time'] ?? '';
-
-					
-					
+	
 					// Current date and time
 					$current_date = date('Y-m-d');
 					$current_time = date('H:i:s');

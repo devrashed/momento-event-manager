@@ -181,14 +181,24 @@ class momento_event_manager {
 			// Enqueue WooCommerce scripts if needed
 			if ( $this->wtmem_is_woocommerce_enabled() && class_exists( 'WooCommerce' ) && is_singular( 'mem_event' ) ) {
 				if ( function_exists( 'WC' ) ) {
-					WC()->frontend_includes();
-					if ( is_checkout() || is_cart() ) {
-						// These are already loaded, but ensure they're available
-					} else {
-						// Load checkout scripts on event page
-						wp_enqueue_script( 'wc-checkout' );
-						wp_enqueue_script( 'wc-cart' );
-					}
+					WC()->frontend_includes();					
+					// Load checkout scripts on event page
+					wp_enqueue_script( 'wc-checkout' );
+					wp_enqueue_script( 'wc-cart' );
+					
+					// Ensure WooCommerce checkout params are localized so payment gateways work
+					/* wp_localize_script( 'wc-checkout', 'wc_checkout_params', array(
+						'ajax_url'                  => WC()->ajax_url(),
+						'wc_ajax_url'               => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
+						'update_order_review_nonce'  => wp_create_nonce( 'update-order-review' ),
+						'apply_coupon_nonce'         => wp_create_nonce( 'apply-coupon' ),
+						'remove_coupon_nonce'        => wp_create_nonce( 'remove-coupon' ),
+						'option_guest_checkout'      => get_option( 'woocommerce_enable_guest_checkout' ),
+						'checkout_url'               => \WC_AJAX::get_endpoint( 'checkout' ),
+						'is_checkout'                => true,
+						'debug_mode'                 => defined( 'WP_DEBUG' ) && WP_DEBUG,
+						'i18n_checkout_error'        => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+					) ); */
 				}
 			}
 		}
