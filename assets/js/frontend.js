@@ -996,18 +996,7 @@
 	});
 
 
-
-
-
-
-
-
-
-
 	/* === End the generated script ====*/
-
-
-
 
 	/**
 	 * Validate simple registration form

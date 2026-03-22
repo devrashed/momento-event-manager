@@ -72,6 +72,7 @@ class momento_event_manager {
 	    new class_mem_organizer_metabox();
 		new class_mem_sponser_custom_metabox();
 		new class_mem_volenteers_metabox();
+		register_activation_hook(__FILE__, [$this, 'wtmem_db_activate']); //create the db 
 	}
 	/**
 	* Initialize plugin
@@ -114,6 +115,30 @@ class momento_event_manager {
         add_action('wp_ajax_nopriv_wtmem_send_email_now', [$this->emailsend, 'wtmem_send_email_now_handler']);
 		
 	}
+
+	public function wtmem_db_activate() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'wtmem_registrations';
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+			event_id BIGINT UNSIGNED,
+			registration_field VARCHAR(100),
+			quantity INT,
+			price DECIMAL(10,2),
+			subtotal_amount DECIMAL(10,2),
+			payment_status VARCHAR(50) DEFAULT 'pending',
+			order_status VARCHAR(50) DEFAULT 'pending',
+			created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (id)
+		) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );		
+	}
+
 
 	/**
 	 * Register custom post types

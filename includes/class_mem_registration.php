@@ -18,8 +18,7 @@ class class_mem_registration {
 	 */
 	public static function init() {
 		// Handle form submission
-		add_action( 'wp', array( __CLASS__, 'wtmem_handle_registration_submission' ) );
-		
+		add_action( 'wp', array( __CLASS__, 'wtmem_handle_registration_submission' ) );		
 		// AJAX handler for registration
 		add_action( 'wp_ajax_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
 		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
@@ -83,11 +82,55 @@ class class_mem_registration {
 	 * Create registration
 	 */
 	private static function wtmem_create_registration( $event_id, $data ) {
-		// Get registration data
-		$name = isset( $data['uem_registration_name'] ) ? sanitize_text_field( $data['uem_registration_name'] ) : '';
-		$phone = isset( $data['uem_registration_phone'] ) ? sanitize_text_field( $data['uem_registration_phone'] ) : '';
-		$email = isset( $data['uem_registration_email'] ) ? sanitize_email( $data['uem_registration_email'] ) : '';
-		$address = isset( $data['uem_registration_address'] ) ? sanitize_textarea_field( $data['uem_registration_address'] ) : '';
+		// Get registration form settings
+		$regi_data = get_post_meta( $event_id, 'registration_form_data_types', true );
+		if ( ! is_array( $regi_data ) ) {
+			$regi_data = array();
+		}
+		$predefined_fields = isset( $regi_data['predefined_fields'] ) ? $regi_data['predefined_fields'] : array();
+		$custom_fields     = isset( $regi_data['custom_fields'] ) ? $regi_data['custom_fields'] : array();
+
+		// Collect predefined field values
+		$predefined_values = array();
+		foreach ( $predefined_fields as $field_id => $field_settings ) {
+			if ( empty( $field_settings['enabled'] ) ) {
+				continue;
+			}
+			$key = 'uem_regi_' . $field_id;
+			if ( isset( $data[ $key ] ) ) {
+				if ( 'email_address' === $field_id ) {
+					$predefined_values[ $field_id ] = sanitize_email( $data[ $key ] );
+				} elseif ( 'address' === $field_id ) {
+					$predefined_values[ $field_id ] = sanitize_textarea_field( $data[ $key ] );
+				} elseif ( 'website' === $field_id ) {
+					$predefined_values[ $field_id ] = esc_url_raw( $data[ $key ] );
+				} else {
+					$predefined_values[ $field_id ] = sanitize_text_field( $data[ $key ] );
+				}
+			}
+		}
+
+		// Collect custom field values
+		$custom_values = array();
+		foreach ( $custom_fields as $cf_id => $cf ) {
+			$key = 'uem_custom_' . $cf_id;
+			if ( isset( $data[ $key ] ) ) {
+				if ( is_array( $data[ $key ] ) ) {
+					$custom_values[ $cf_id ] = array_map( 'sanitize_text_field', $data[ $key ] );
+				} else {
+					$custom_values[ $cf_id ] = sanitize_text_field( $data[ $key ] );
+				}
+			}
+		}
+
+		// Backward compatible: map common fields
+		$name  = ! empty( $predefined_values['firstname'] ) ? $predefined_values['firstname'] : '';
+		if ( ! empty( $predefined_values['lastname'] ) ) {
+			$name .= ( $name ? ' ' : '' ) . $predefined_values['lastname'];
+		}
+		$phone   = isset( $predefined_values['phone_number'] ) ? $predefined_values['phone_number'] : '';
+		$email   = isset( $predefined_values['email_address'] ) ? $predefined_values['email_address'] : '';
+		$address = isset( $predefined_values['address'] ) ? $predefined_values['address'] : '';
 		
 		// Get ticket quantities
 		$tickets = get_post_meta( $event_id, '_wtmem_tk_tickets', true );
@@ -148,6 +191,8 @@ class class_mem_registration {
 		update_post_meta( $registration_id, '_uem_ticket_quantities', $ticket_quantities );
 		update_post_meta( $registration_id, '_uem_attendees', $attendees );
 		update_post_meta( $registration_id, '_uem_registration_date', current_time( 'mysql' ) );
+		update_post_meta( $registration_id, '_uem_predefined_fields', $predefined_values );
+		update_post_meta( $registration_id, '_uem_custom_fields', $custom_values );
 		
 		return $registration_id;
 	}
