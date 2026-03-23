@@ -100,8 +100,12 @@ class momento_event_manager {
 			add_action( 'init', array( class_mem_woocommerce::class, 'init' ), 5 );
 
 		}
-		// Initialize non-WooCommerce registration
+		// Initialize non-WooCommerce registration (form submission handler on 'wp' hook)
 		add_action( 'wp', array( class_mem_registration::class, 'init' ) );
+		
+		// Register registration AJAX handlers directly (admin-ajax.php does NOT fire 'wp' hook)
+		add_action( 'wp_ajax_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) );
+		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) );
 		
 		// Enqueue assets
 		add_action( 'wp_enqueue_scripts', array( $this, 'wtmem_enqueue_frontend_assets' ) );
@@ -125,7 +129,7 @@ class momento_event_manager {
 		$sql = "CREATE TABLE $table_name (
 			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 			event_id BIGINT UNSIGNED,
-			registration_field VARCHAR(100),
+			registration_field LONGTEXT,
 			quantity INT,
 			price DECIMAL(10,2),
 			subtotal_amount DECIMAL(10,2),

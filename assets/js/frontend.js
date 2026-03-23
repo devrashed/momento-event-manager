@@ -331,28 +331,21 @@
 	 */
 	function handleSimpleRegistration() {
 		// Update totals when quantity changes
-		$(document).on('change', '.uem-ticket-quantity', function () {
+		jQuery(document).on('change', '.uem-ticket-quantity', function () {
 			updateSimpleRegistrationTotals();
-			updateAttendeeFields();
+			//updateAttendeeFields();
 		});
 
 		// Form submission
-		$('#uem-registration-form').on('submit', function (e) {
-			var form = $(this);
-
-			// Validate
-			if (!validateSimpleRegistrationForm()) {
-				e.preventDefault();
-				return false;
-			}
-
+		jQuery('#uem-registration-form').on('submit', function (e) {
+			var form = jQuery(this);
 			// Submit via AJAX
 			e.preventDefault();
 
 			var formData = form.serialize();
 			formData += '&action=uem_submit_registration&nonce=' + uemData.nonce;
 
-			$.ajax({
+			jQuery.ajax({
 				url: uemData.ajaxUrl,
 				type: 'POST',
 				data: formData,
