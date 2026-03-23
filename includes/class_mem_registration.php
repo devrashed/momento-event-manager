@@ -21,16 +21,23 @@ class class_mem_registration {
 	/**
 	 * Initialize registration
 	 */
-	public static function init() {
+	/* public static function init() {
 		// Handle form submission
 		add_action( 'wp', array( __CLASS__, 'wtmem_handle_registration_submission' ) );		
 		// AJAX handler for registration
 		add_action( 'wp_ajax_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
 		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( __CLASS__, 'wtmem_ajax_submit_registration' ) );
+	} */
 
+    public function __construct() {
+		// Handle form submission
+		add_action( 'wp', array( $this, 'wtmem_handle_registration_submission' ) );
+		// AJAX handler for registration
+		add_action( 'wp_ajax_uem_submit_registration', array( $this, 'wtmem_ajax_submit_registration' ) );
+		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( $this, 'wtmem_ajax_submit_registration' ) );		
 
 	}
-	
+
 	/**
 	 * Handle registration submission (non-AJAX fallback)
 	 */

@@ -72,6 +72,7 @@ class momento_event_manager {
 	    new class_mem_organizer_metabox();
 		new class_mem_sponser_custom_metabox();
 		new class_mem_volenteers_metabox();
+		new class_mem_registration();
 		register_activation_hook(__FILE__, [$this, 'wtmem_db_activate']); //create the db 
 	}
 	/**
@@ -101,11 +102,11 @@ class momento_event_manager {
 
 		}
 		// Initialize non-WooCommerce registration (form submission handler on 'wp' hook)
-		add_action( 'wp', array( class_mem_registration::class, 'init' ) );
+		//add_action( 'wp', array( class_mem_registration::class, 'init' ) );
 		
 		// Register registration AJAX handlers directly (admin-ajax.php does NOT fire 'wp' hook)
-		add_action( 'wp_ajax_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) );
-		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) );
+		/* add_action( 'wp_ajax_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) );
+		add_action( 'wp_ajax_nopriv_uem_submit_registration', array( class_mem_registration::class, 'wtmem_ajax_submit_registration' ) ); */
 		
 		// Enqueue assets
 		add_action( 'wp_enqueue_scripts', array( $this, 'wtmem_enqueue_frontend_assets' ) );
